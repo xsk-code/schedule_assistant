@@ -18,6 +18,7 @@ const EXAMPLES = [
 
 export function TaskInput({ onSubmit, disabled = false, loading = false, initialValue }: TaskInputProps) {
   const [task, setTask] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
     if (initialValue) {
@@ -38,47 +39,77 @@ export function TaskInput({ onSubmit, disabled = false, loading = false, initial
 
   const isTooShort = task.length > 0 && task.length < APP_CONFIG.MIN_TASK_LENGTH;
   const isTooLong = task.length > APP_CONFIG.MAX_TASK_LENGTH;
+  const charCount = task.length;
+  const charProgress = Math.min(charCount / APP_CONFIG.MAX_TASK_LENGTH, 1);
 
   return (
-    <Card className="w-full">
+    <Card className="animate-slide-up" padding="lg">
       <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-lg font-semibold text-gray-800 mb-2">
-            请输入您想要分析的任务
+        <div className="mb-6">
+          <label className="block mb-2">
+            <span className="text-display text-xl font-semibold text-stone-800">
+              描述你的任务
+            </span>
+            <p className="text-sm text-stone-500 mt-1">
+              越详细，分析越精准
+            </p>
           </label>
-          <textarea
-            value={task}
-            onChange={(e) => setTask(e.target.value)}
-            placeholder="例如：规划新产品从需求调研到上线的完整 roadmap"
-            disabled={disabled || loading}
-            rows={4}
-            className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none transition-colors ${
-              isTooShort || isTooLong
-                ? 'border-red-300 focus:ring-red-500'
-                : 'border-gray-300 focus:ring-indigo-500'
-            } ${disabled || loading ? 'bg-gray-100 cursor-not-allowed' : 'bg-white'}`}
-          />
-          <div className="flex justify-between mt-2">
-            <div className="text-sm">
+          
+          <div className="relative">
+            <textarea
+              value={task}
+              onChange={(e) => setTask(e.target.value)}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              placeholder="例如：规划新产品从需求调研到上线的完整 roadmap"
+              disabled={disabled || loading}
+              rows={5}
+              className={`
+                w-full px-5 py-4 rounded-xl border-2 resize-none transition-all duration-300
+                ${isFocused ? 'border-stone-900 ring-4 ring-stone-900/5' : 'border-stone-200'}
+                ${isTooShort || isTooLong ? 'border-red-400' : ''}
+                ${disabled || loading ? 'bg-stone-100 cursor-not-allowed' : 'bg-white'}
+              `}
+            />
+            
+            <div className="absolute bottom-3 right-3 flex items-center gap-3">
+              <span className={`text-xs font-medium ${isTooLong ? 'text-red-500' : 'text-stone-400'}`}>
+                {charCount.toLocaleString()}
+              </span>
+              <div className="w-16 h-1 bg-stone-200 rounded-full overflow-hidden">
+                <div 
+                  className={`h-full transition-all duration-300 rounded-full ${
+                    isTooLong ? 'bg-red-500' : charProgress > 0.8 ? 'bg-amber-500' : 'bg-stone-900'
+                  }`}
+                  style={{ width: `${charProgress * 100}%` }}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-3 flex items-center justify-between">
+            <div className="flex items-center gap-2">
               {isTooShort && (
-                <span className="text-red-500">
+                <span className="text-sm text-red-500 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
                   请输入至少 {APP_CONFIG.MIN_TASK_LENGTH} 个字
                 </span>
               )}
               {isTooLong && (
-                <span className="text-red-500">
+                <span className="text-sm text-red-500 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
                   已超过 {APP_CONFIG.MAX_TASK_LENGTH} 字限制
                 </span>
               )}
             </div>
-            <span className={`text-sm ${task.length > APP_CONFIG.MAX_TASK_LENGTH ? 'text-red-500' : 'text-gray-500'}`}>
-              {task.length}/{APP_CONFIG.MAX_TASK_LENGTH}
+            <span className="text-xs text-stone-400">
+              / {APP_CONFIG.MAX_TASK_LENGTH.toLocaleString()}
             </span>
           </div>
         </div>
 
-        <div className="mb-4">
-          <p className="text-sm text-gray-500 mb-2">常用示例：</p>
+        <div className="mb-6">
+          <p className="text-xs text-stone-400 uppercase tracking-wider mb-3">参考示例</p>
           <div className="flex flex-wrap gap-2">
             {EXAMPLES.map((example, index) => (
               <button
@@ -86,22 +117,30 @@ export function TaskInput({ onSubmit, disabled = false, loading = false, initial
                 type="button"
                 onClick={() => handleExampleClick(example)}
                 disabled={disabled || loading}
-                className="px-3 py-1.5 text-sm bg-indigo-50 text-indigo-600 rounded-full hover:bg-indigo-100 transition-colors disabled:bg-gray-100 disabled:text-gray-400"
+                className={`
+                  px-4 py-2 text-sm rounded-full border transition-all duration-200
+                  ${task === example 
+                    ? 'bg-stone-900 text-white border-stone-900' 
+                    : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400 hover:text-stone-800'
+                  }
+                  ${disabled || loading ? 'opacity-50 cursor-not-allowed' : ''}
+                `}
               >
-                {example.length > 20 ? example.slice(0, 20) + '...' : example}
+                {example.length > 18 ? example.slice(0, 18) + '...' : example}
               </button>
             ))}
           </div>
         </div>
 
-        <div className="flex justify-center">
+        <div className="flex justify-center pt-2">
           <Button
             type="submit"
             size="lg"
             loading={loading}
             disabled={disabled || task.trim().length < APP_CONFIG.MIN_TASK_LENGTH || task.length > APP_CONFIG.MAX_TASK_LENGTH}
+            className="min-w-48"
           >
-            🔮 开始分析
+            {loading ? '分析中...' : '开始分析'}
           </Button>
         </div>
       </form>

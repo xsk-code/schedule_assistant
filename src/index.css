@@ -1,27 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-lu: #10B981;
+  --color-quan: #F59E0B;
+  --color-ke: #3B82F6;
+  --color-ji: #EF4444;
+  --color-bg: #FAFAF9;
+  --color-surface: #FFFFFF;
+  --color-text: #1C1917;
+  --color-text-muted: #78716C;
+  --color-border: #E7E5E4;
+  --color-accent: #1C1917;
+}
+
 @layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply text-gray-800 bg-gray-50;
+    font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: #1C1917;
+    color: #FAFAF9;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2;
+    @apply inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200;
+    @apply bg-stone-900 text-white;
+    @apply hover:bg-stone-800 active:bg-stone-950;
+    @apply focus:outline-none focus:ring-2 focus:ring-stone-900 focus:ring-offset-2 focus:ring-offset-stone-50;
+    @apply disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-stone-900;
   }
 
   .btn-secondary {
-    @apply px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+    @apply inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200;
+    @apply bg-white text-stone-800 border border-stone-300;
+    @apply hover:bg-stone-50 active:bg-stone-100;
+    @apply focus:outline-none focus:ring-2 focus:ring-stone-400 focus:ring-offset-2 focus:ring-offset-white;
+    @apply disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200;
+    @apply bg-transparent text-stone-600;
+    @apply hover:bg-stone-100 active:bg-stone-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-stone-300;
   }
 
   .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-200;
+    @apply bg-white rounded-2xl border border-stone-200;
+    box-shadow: 0 1px 3px rgba(28, 25, 23, 0.04), 0 1px 2px rgba(28, 25, 23, 0.03);
+  }
+
+  .card-hover {
+    @apply transition-all duration-300;
+    @apply hover:border-stone-300 hover:shadow-md;
   }
 
   .input-field {
-    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent;
+    @apply w-full px-4 py-3 rounded-xl border border-stone-300;
+    @apply bg-white;
+    @apply transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-stone-900 focus:border-transparent;
+    @apply placeholder:text-stone-400;
   }
+
+  .text-display {
+    font-family: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out forwards;
+  }
+
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.sihua-dimension-lu {
+  background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+  border-color: #6EE7B7;
+}
+
+.sihua-dimension-quan {
+  background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+  border-color: #FCD34D;
+}
+
+.sihua-dimension-ke {
+  background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
+  border-color: #93C5FD;
+}
+
+.sihua-dimension-ji {
+  background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+  border-color: #FCA5A5;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
