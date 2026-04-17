@@ -50,6 +50,7 @@ export function getConfig(): AppConfig {
     apiKey: '',
     apiKeyValid: null,
     theme: 'light',
+    model: APP_CONFIG.DEFAULT_MODEL,
   };
   
   if (!data) return defaultConfig;

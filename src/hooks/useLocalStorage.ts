@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getApiKey, setApiKey, clearApiKey, getHistory, addHistory, removeHistory, clearHistory, getConfig, setConfig } from '../services/storageService';
+import { APP_CONFIG } from '../constants/appConfig';
 import type { HistoryRecord, AppConfig } from '../types';
 
 export function useLocalStorage() {
@@ -9,6 +10,7 @@ export function useLocalStorage() {
     apiKey: '',
     apiKeyValid: null,
     theme: 'light',
+    model: APP_CONFIG.DEFAULT_MODEL,
   });
 
   useEffect(() => {

@@ -5,7 +5,8 @@ import { APP_CONFIG } from '../constants/appConfig';
 export async function analyzeTask(
   task: string,
   sihuaInfo: SihuaInfo,
-  apiKey: string
+  apiKey: string,
+  model: string = APP_CONFIG.DEFAULT_MODEL
 ): Promise<AnalysisResult> {
   const prompt = buildAnalysisPrompt(task, sihuaInfo);
   
@@ -20,7 +21,7 @@ export async function analyzeTask(
         'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: APP_CONFIG.DEFAULT_MODEL,
+        model,
         messages: [
           {
             role: 'user',
