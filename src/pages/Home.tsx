@@ -9,12 +9,13 @@ import type { HistoryRecord } from '../types';
 
 interface HomePageProps {
   apiKey: string;
+  model?: string;
   onSaveHistory: (record: HistoryRecord) => void;
   initialTask?: string | null;
   onClearReuseTask?: () => void;
 }
 
-export function HomePage({ apiKey, onSaveHistory, initialTask, onClearReuseTask }: HomePageProps) {
+export function HomePage({ apiKey, model, onSaveHistory, initialTask, onClearReuseTask }: HomePageProps) {
   const { sihuaInfo, loading: sihuaLoading, error: sihuaError } = useSihua();
   const { result, loading: analysisLoading, error: analysisError, analyze, clearResult } = useAIAnalysis();
   const [currentTask, setCurrentTask] = useState('');
@@ -34,7 +35,7 @@ export function HomePage({ apiKey, onSaveHistory, initialTask, onClearReuseTask 
 
     setCurrentTask(task);
     try {
-      await analyze(task, sihuaInfo, apiKey);
+      await analyze(task, sihuaInfo, apiKey, model);
     } catch {
     }
   };

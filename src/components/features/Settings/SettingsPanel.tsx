@@ -1,18 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card } from '../../common/Card';
 import { Button } from '../../common/Button';
 import { testApiKey } from '../../../services/aiService';
+import { AVAILABLE_MODELS } from '../../../constants/appConfig';
 
 interface SettingsPanelProps {
   currentApiKey: string;
+  currentModel: string;
   onSaveApiKey: (key: string) => void;
   onClearApiKey: () => void;
+  onSaveModel: (model: string) => void;
 }
 
-export function SettingsPanel({ currentApiKey, onSaveApiKey, onClearApiKey }: SettingsPanelProps) {
+export function SettingsPanel({ currentApiKey, currentModel, onSaveApiKey, onClearApiKey, onSaveModel }: SettingsPanelProps) {
   const [apiKey, setApiKey] = useState(currentApiKey);
+  const [model, setModel] = useState(currentModel);
   const [testing, setTesting] = useState(false);
   const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null);
+
+  useEffect(() => {
+    setApiKey(currentApiKey);
+  }, [currentApiKey]);
+
+  useEffect(() => {
+    setModel(currentModel);
+  }, [currentModel]);
 
   const handleTest = async () => {
     if (!apiKey.trim()) {
@@ -38,8 +50,11 @@ export function SettingsPanel({ currentApiKey, onSaveApiKey, onClearApiKey }: Se
   };
 
   const handleSave = () => {
-    onSaveApiKey(apiKey.trim());
-    setTestResult({ success: true, message: '✅ 已保存' });
+    if (apiKey.trim()) {
+      onSaveApiKey(apiKey.trim());
+    }
+    onSaveModel(model);
+    setTestResult({ success: true, message: '✅ 已保存设置' });
   };
 
   const handleClear = () => {
@@ -70,6 +85,26 @@ export function SettingsPanel({ currentApiKey, onSaveApiKey, onClearApiKey }: Se
             />
           </div>
 
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              AI 模型
+            </label>
+            <select
+              value={model}
+              onChange={(e) => setModel(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white"
+            >
+              {AVAILABLE_MODELS.map((m) => (
+                <option key={m.value} value={m.value}>
+                  {m.label}
+                </option>
+              ))}
+            </select>
+            <p className="text-xs text-gray-500 mt-1">
+              {AVAILABLE_MODELS.find((m) => m.value === model)?.description}
+            </p>
+          </div>
+
           {testResult && (
             <div className={`p-3 rounded-lg ${
               testResult.success ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'
@@ -82,7 +117,7 @@ export function SettingsPanel({ currentApiKey, onSaveApiKey, onClearApiKey }: Se
             <Button variant="secondary" onClick={handleTest} loading={testing}>
               测试连接
             </Button>
-            <Button onClick={handleSave} disabled={!apiKey.trim()}>
+            <Button onClick={handleSave}>
               保存
             </Button>
             {currentApiKey && (
