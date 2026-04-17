@@ -1,0 +1,2 @@
+# schedule_assistant
+根据紫微四化对任务进行更好地拆分和安排的AI行动助手
