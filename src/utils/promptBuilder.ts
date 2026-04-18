@@ -1,14 +1,35 @@
-import type { SihuaInfo } from '../types';
+import type { SihuaInfo, CollectedItem } from '../types';
 import { STAR_MEANINGS } from '../constants/starMeanings';
 import { SIHUA_DIMENSION_MEANINGS } from '../constants/sihuaRules';
 
-export function buildAnalysisPrompt(task: string, sihuaInfo: SihuaInfo): string {
+export function buildAnalysisPrompt(
+  task: string,
+  sihuaInfo: SihuaInfo,
+  collectedInfo: CollectedItem[] = []
+): string {
   const { sihua, dayGan, dayGanZhi } = sihuaInfo;
   
   const luMeaning = STAR_MEANINGS[sihua.lu] || '';
   const quanMeaning = STAR_MEANINGS[sihua.quan] || '';
   const keMeaning = STAR_MEANINGS[sihua.ke] || '';
   const jiMeaning = STAR_MEANINGS[sihua.ji] || '';
+
+  let collectedInfoSection = '';
+  if (collectedInfo.length > 0) {
+    const collectedInfoText = collectedInfo.map((item, index) =>
+      `问题 ${index + 1}：${item.question}\n回答：${item.answer}`
+    ).join('\n\n');
+    
+    collectedInfoSection = `
+【已收集的补充信息】
+通过多轮对话，用户提供了以下补充信息：
+
+${collectedInfoText}
+
+【重要提示】
+请在分析任务时，充分考虑以上补充信息，生成更精准、更有针对性的任务拆分方案。
+`;
+  }
 
   return `【系统角色】
 你是一位精通紫微斗数四化能量的任务管理专家，名叫"四化节奏师"。你的专长是将复杂任务拆解为最小可执行步骤，并结合当日的禄权科忌四星能量，给出个性化的行动建议。
@@ -32,7 +53,7 @@ export function buildAnalysisPrompt(task: string, sihuaInfo: SihuaInfo): string 
 4. 忌星维度：今日需要特别注意的风险点，要谨慎或避免
 
 【分析任务】
-用户任务：${task}
+用户任务：${task}${collectedInfoSection}
 
 【输出格式要求（严格JSON格式）】
 {

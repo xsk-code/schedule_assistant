@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { analyzeTask } from '../services/aiService';
-import type { SihuaInfo, AnalysisResult } from '../types';
+import type { SihuaInfo, AnalysisResult, CollectedItem } from '../types';
 
 export function useAIAnalysis() {
   const [result, setResult] = useState<AnalysisResult | null>(null);
@@ -11,14 +11,15 @@ export function useAIAnalysis() {
     task: string,
     sihuaInfo: SihuaInfo,
     apiKey: string,
-    model?: string
+    model?: string,
+    collectedInfo: CollectedItem[] = []
   ) => {
     setLoading(true);
     setError(null);
     setResult(null);
 
     try {
-      const analysisResult = await analyzeTask(task, sihuaInfo, apiKey, model);
+      const analysisResult = await analyzeTask(task, sihuaInfo, apiKey, model, collectedInfo);
       setResult(analysisResult);
       return analysisResult;
     } catch (e) {

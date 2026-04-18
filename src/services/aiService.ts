@@ -1,4 +1,4 @@
-import type { SihuaInfo, AnalysisResult, ActionStep, DimensionAnalysis, JiDimensionAnalysis } from '../types';
+import type { SihuaInfo, AnalysisResult, ActionStep, DimensionAnalysis, JiDimensionAnalysis, CollectedItem } from '../types';
 import { buildAnalysisPrompt } from '../utils/promptBuilder';
 import { APP_CONFIG } from '../constants/appConfig';
 
@@ -9,7 +9,7 @@ export interface APIError {
   originalError?: unknown;
 }
 
-function createAPIError(
+export function createAPIError(
   type: APIError['type'],
   message: string,
   status?: number,
@@ -22,7 +22,7 @@ function createAPIError(
   return error;
 }
 
-function logError(type: string, details: Record<string, unknown>) {
+export function logError(type: string, details: Record<string, unknown>) {
   console.group(`🔴 [API Error] ${type}`);
   Object.entries(details).forEach(([key, value]) => {
     console.log(`  ${key}:`, value);
@@ -196,7 +196,8 @@ export async function analyzeTask(
   task: string,
   sihuaInfo: SihuaInfo,
   apiKey: string,
-  model: string = APP_CONFIG.DEFAULT_MODEL
+  model: string = APP_CONFIG.DEFAULT_MODEL,
+  collectedInfo: CollectedItem[] = []
 ): Promise<AnalysisResult> {
   const url = `${APP_CONFIG.API_BASE_URL}/chat/completions`;
   
@@ -204,9 +205,10 @@ export async function analyzeTask(
   console.log('  URL:', url);
   console.log('  Model:', model);
   console.log('  Task length:', task.length);
+  console.log('  Collected info count:', collectedInfo.length);
   console.groupEnd();
 
-  const prompt = buildAnalysisPrompt(task, sihuaInfo);
+  const prompt = buildAnalysisPrompt(task, sihuaInfo, collectedInfo);
   
   const controller = new AbortController();
   const timeoutId = setTimeout(() => {
