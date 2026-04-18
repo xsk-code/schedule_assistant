@@ -43,107 +43,111 @@ export function TaskInput({ onSubmit, disabled = false, loading = false, initial
   const charProgress = Math.min(charCount / APP_CONFIG.MAX_TASK_LENGTH, 1);
 
   return (
-    <Card className="animate-slide-up" padding="lg">
-      <form onSubmit={handleSubmit}>
-        <div className="mb-6">
-          <label className="block mb-2">
-            <span className="text-display text-xl font-semibold text-stone-800">
-              描述你的任务
-            </span>
-            <p className="text-sm text-stone-500 mt-1">
-              越详细，分析越精准
-            </p>
-          </label>
-          
-          <div className="relative">
-            <textarea
-              value={task}
-              onChange={(e) => setTask(e.target.value)}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              placeholder="例如：规划新产品从需求调研到上线的完整 roadmap"
-              disabled={disabled || loading}
-              rows={5}
-              className={`
-                w-full px-5 py-4 rounded-xl border-2 resize-none transition-all duration-300
-                ${isFocused ? 'border-stone-900 ring-4 ring-stone-900/5' : 'border-stone-200'}
-                ${isTooShort || isTooLong ? 'border-red-400' : ''}
-                ${disabled || loading ? 'bg-stone-100 cursor-not-allowed' : 'bg-white'}
-              `}
-            />
-            
-            <div className="absolute bottom-3 right-3 flex items-center gap-3">
-              <span className={`text-xs font-medium ${isTooLong ? 'text-red-500' : 'text-stone-400'}`}>
-                {charCount.toLocaleString()}
+    <div className="relative">
+      <div className="absolute -top-4 -left-4 -right-4 h-32 bg-gradient-to-b from-stone-100/50 to-transparent pointer-events-none" />
+      
+      <Card className="relative" padding="lg">
+        <form onSubmit={handleSubmit}>
+          <div className="mb-5">
+            <label className="block mb-3">
+              <span className="text-display text-2xl font-bold text-stone-900 tracking-tight">
+                任务拆分
               </span>
-              <div className="w-16 h-1 bg-stone-200 rounded-full overflow-hidden">
-                <div 
-                  className={`h-full transition-all duration-300 rounded-full ${
-                    isTooLong ? 'bg-red-500' : charProgress > 0.8 ? 'bg-amber-500' : 'bg-stone-900'
-                  }`}
-                  style={{ width: `${charProgress * 100}%` }}
-                />
+              <p className="text-sm text-stone-500 mt-1.5">
+                输入你的任务，AI 将结合今日四化为你规划最优行动路径
+              </p>
+            </label>
+            
+            <div className="relative">
+              <textarea
+                value={task}
+                onChange={(e) => setTask(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                placeholder="描述你想要完成的任务..."
+                disabled={disabled || loading}
+                rows={6}
+                className={`
+                  w-full px-5 py-4 rounded-2xl border-2 resize-none transition-all duration-300
+                  ${isFocused ? 'border-stone-900 ring-4 ring-stone-900/5' : 'border-stone-200'}
+                  ${isTooShort || isTooLong ? 'border-red-400' : ''}
+                  ${disabled || loading ? 'bg-stone-100 cursor-not-allowed' : 'bg-white'}
+                `}
+              />
+              
+              <div className="absolute bottom-4 right-4 flex items-center gap-3">
+                <span className={`text-xs font-medium ${isTooLong ? 'text-red-500' : 'text-stone-400'}`}>
+                  {charCount.toLocaleString()}
+                </span>
+                <div className="w-20 h-1 bg-stone-200 rounded-full overflow-hidden">
+                  <div 
+                    className={`h-full transition-all duration-300 rounded-full ${
+                      isTooLong ? 'bg-red-500' : charProgress > 0.8 ? 'bg-amber-500' : 'bg-stone-900'
+                    }`}
+                    style={{ width: `${charProgress * 100}%` }}
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="mt-3 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              {isTooShort && (
-                <span className="text-sm text-red-500 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                  请输入至少 {APP_CONFIG.MIN_TASK_LENGTH} 个字
-                </span>
-              )}
-              {isTooLong && (
-                <span className="text-sm text-red-500 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                  已超过 {APP_CONFIG.MAX_TASK_LENGTH} 字限制
-                </span>
-              )}
+            <div className="mt-3 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                {isTooShort && (
+                  <span className="text-sm text-red-500 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                    请输入至少 {APP_CONFIG.MIN_TASK_LENGTH} 个字
+                  </span>
+                )}
+                {isTooLong && (
+                  <span className="text-sm text-red-500 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                    已超过 {APP_CONFIG.MAX_TASK_LENGTH} 字限制
+                  </span>
+                )}
+              </div>
+              <span className="text-xs text-stone-400">
+                / {APP_CONFIG.MAX_TASK_LENGTH.toLocaleString()}
+              </span>
             </div>
-            <span className="text-xs text-stone-400">
-              / {APP_CONFIG.MAX_TASK_LENGTH.toLocaleString()}
-            </span>
           </div>
-        </div>
 
-        <div className="mb-6">
-          <p className="text-xs text-stone-400 uppercase tracking-wider mb-3">参考示例</p>
-          <div className="flex flex-wrap gap-2">
-            {EXAMPLES.map((example, index) => (
-              <button
-                key={index}
-                type="button"
-                onClick={() => handleExampleClick(example)}
-                disabled={disabled || loading}
-                className={`
-                  px-4 py-2 text-sm rounded-full border transition-all duration-200
-                  ${task === example 
-                    ? 'bg-stone-900 text-white border-stone-900' 
-                    : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400 hover:text-stone-800'
-                  }
-                  ${disabled || loading ? 'opacity-50 cursor-not-allowed' : ''}
-                `}
-              >
-                {example.length > 18 ? example.slice(0, 18) + '...' : example}
-              </button>
-            ))}
+          <div className="mb-5">
+            <p className="text-xs text-stone-400 uppercase tracking-wider mb-2.5">参考示例</p>
+            <div className="flex flex-wrap gap-2">
+              {EXAMPLES.map((example, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => handleExampleClick(example)}
+                  disabled={disabled || loading}
+                  className={`
+                    px-3 py-2 text-sm rounded-xl border transition-all duration-200
+                    ${task === example 
+                      ? 'bg-stone-900 text-white border-stone-900' 
+                      : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400 hover:text-stone-800'
+                    }
+                    ${disabled || loading ? 'opacity-50 cursor-not-allowed' : ''}
+                  `}
+                >
+                  {example.length > 20 ? example.slice(0, 20) + '...' : example}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="flex justify-center pt-2">
-          <Button
-            type="submit"
-            size="lg"
-            loading={loading}
-            disabled={disabled || task.trim().length < APP_CONFIG.MIN_TASK_LENGTH || task.length > APP_CONFIG.MAX_TASK_LENGTH}
-            className="min-w-48"
-          >
-            {loading ? '分析中...' : '开始分析'}
-          </Button>
-        </div>
-      </form>
-    </Card>
+          <div className="flex justify-center pt-1">
+            <Button
+              type="submit"
+              size="lg"
+              loading={loading}
+              disabled={disabled || task.trim().length < APP_CONFIG.MIN_TASK_LENGTH || task.length > APP_CONFIG.MAX_TASK_LENGTH}
+              className="min-w-56 text-base"
+            >
+              {loading ? '分析中...' : '开始智能拆分'}
+            </Button>
+          </div>
+        </form>
+      </Card>
+    </div>
   );
 }

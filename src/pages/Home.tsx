@@ -19,6 +19,7 @@ export function HomePage({ apiKey, model, onSaveHistory, initialTask, onClearReu
   const { sihuaInfo, loading: sihuaLoading, error: sihuaError } = useSihua();
   const { result, loading: analysisLoading, error: analysisError, analyze, clearResult } = useAIAnalysis();
   const [currentTask, setCurrentTask] = useState('');
+  const [showSihua, setShowSihua] = useState(false);
 
   useEffect(() => {
     if (initialTask) {
@@ -85,43 +86,66 @@ export function HomePage({ apiKey, model, onSaveHistory, initialTask, onClearReu
 
   return (
     <div className="space-y-8">
-      <SihuaCard
-        sihuaInfo={sihuaInfo}
-        loading={sihuaLoading}
-        error={sihuaError}
-      />
+      <div className="animate-slide-up">
+        <TaskInput
+          onSubmit={handleAnalyze}
+          loading={analysisLoading}
+          disabled={!sihuaInfo}
+          initialValue={initialTask || undefined}
+        />
+      </div>
 
-      {!result ? (
-        <>
-          <TaskInput
-            onSubmit={handleAnalyze}
-            loading={analysisLoading}
-            disabled={!sihuaInfo}
-            initialValue={initialTask || undefined}
-          />
+      {!apiKey.trim() && sihuaInfo && (
+        <div className="animate-slide-up stagger-1 bg-amber-50 border border-amber-200 rounded-xl p-4">
+          <p className="text-amber-700 text-sm">
+            ⚠️ 请先在 <strong>设置</strong> 中配置 API Key 才能开始分析
+          </p>
+        </div>
+      )}
 
-          {analysisError && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-              <p className="text-red-700">❌ {analysisError}</p>
+      {analysisError && (
+        <div className="animate-slide-up bg-red-50 border border-red-200 rounded-xl p-4">
+          <p className="text-red-700 text-sm">分析失败：{analysisError}</p>
+        </div>
+      )}
+
+      {!result && !analysisLoading && (
+        <div className="animate-fade-in">
+          <button
+            onClick={() => setShowSihua(!showSihua)}
+            className="w-full flex items-center justify-between px-4 py-3 bg-stone-100 hover:bg-stone-150 rounded-xl transition-colors group"
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-stone-600 text-sm">今日四化能量</span>
+              <span className="text-xs text-stone-400">
+                {sihuaInfo?.dayGanZhi || '加载中...'}
+              </span>
+            </div>
+            <span className={`text-stone-400 text-sm transition-transform duration-300 ${showSihua ? 'rotate-180' : ''}`}>
+              ▾
+            </span>
+          </button>
+          
+          {showSihua && (
+            <div className="mt-3 animate-slide-up">
+              <SihuaCard
+                sihuaInfo={sihuaInfo}
+                loading={sihuaLoading}
+                error={sihuaError}
+              />
             </div>
           )}
+        </div>
+      )}
 
-          {!apiKey.trim() && sihuaInfo && (
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-              <p className="text-amber-700">
-                ⚠️ 请先在 <strong>设置</strong> 中配置 API Key 才能开始分析
-              </p>
-            </div>
-          )}
-        </>
-      ) : (
+      {result && (
         <>
-          <div className="text-center mb-6">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">
-              🔮 分析结果
+          <div className="text-center mb-4">
+            <h2 className="text-display text-xl font-semibold text-stone-800">
+              分析结果
             </h2>
-            <p className="text-sm text-gray-500 truncate max-w-lg mx-auto">
-              任务：{currentTask}
+            <p className="text-sm text-stone-500 mt-1 truncate max-w-lg mx-auto">
+              {currentTask}
             </p>
           </div>
 
@@ -135,9 +159,9 @@ export function HomePage({ apiKey, model, onSaveHistory, initialTask, onClearReu
       )}
 
       {analysisLoading && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-8 shadow-xl">
-            <Loading size="lg" text="AI 正在分析您的任务，请稍候..." />
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-8 shadow-xl max-w-sm w-full mx-4 animate-scale-in">
+            <Loading size="lg" text="AI 正在分析您的任务..." />
           </div>
         </div>
       )}
