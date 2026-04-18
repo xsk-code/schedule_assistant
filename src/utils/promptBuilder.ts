@@ -37,12 +37,12 @@ export function buildAnalysisPrompt(task: string, sihuaInfo: SihuaInfo): string 
 【输出格式要求（严格JSON格式）】
 {
   "summary": "一句话总结这个任务的核心",
-  "best_entry": {
+  "bestEntry": {
     "dimension": "lu",
     "reason": "为什么从这个维度入手",
     "suggestion": "具体的切入点建议"
   },
-  "four_dimensions": {
+  "fourDimensions": {
     "lu": {
       "star": "${sihua.lu}",
       "analysis": "禄星维度的详细分析",
@@ -65,25 +65,25 @@ export function buildAnalysisPrompt(task: string, sihuaInfo: SihuaInfo): string 
       "avoid": ["建议避免的行动1", "建议避免的行动2"]
     }
   },
-  "action_path": [
+  "actionPath": [
     {
       "step": 1,
       "title": "步骤标题",
       "description": "具体内容",
       "dimension": "lu",
       "priority": "高",
-      "time_estimate": "30分钟"
+      "timeEstimate": "30分钟"
     }
   ],
-  "overall_advice": "综合建议"
+  "overallAdvice": "综合建议"
 }
 
 【重要要求】
 1. 输出必须是严格的JSON格式，不要有任何额外的文字说明
-2. action_path 中的步骤必须是最小可执行单元，每个步骤都能独立完成
+2. actionPath 中的步骤必须是最小可执行单元，每个步骤都能独立完成
 3. priority 只能是 "高"、"中"、"低" 三者之一
 4. dimension 只能是 "lu"、"quan"、"ke"、"ji" 四者之一
-5. best_entry.dimension 只能是 "lu"、"quan"、"ke" 三者之一（忌不适合作为切入点）
+5. bestEntry.dimension 只能是 "lu"、"quan"、"ke" 三者之一（忌不适合作为切入点）
 6. 分析要结合当日具体的星曜，而不是泛泛而谈
 7. 最少给出3个步骤，最多不超过8个步骤`;
 }
