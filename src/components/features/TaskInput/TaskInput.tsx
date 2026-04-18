@@ -110,7 +110,6 @@ export function TaskInput({
         currentQuestion={conversation.currentQuestion}
         loading={conversation.loading}
         error={conversation.error}
-        summary={conversation.summary}
         onAnswer={handleConversationAnswer}
         onSkip={handleConversationSkip}
         onFinish={handleConversationFinish}

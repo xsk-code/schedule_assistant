@@ -9,7 +9,6 @@ interface ConversationViewProps {
   currentQuestion: AIQuestion | null;
   loading: boolean;
   error: string | null;
-  summary: string | null;
   onAnswer: (answer: string) => void;
   onSkip: () => void;
   onFinish: () => void;
@@ -126,37 +125,14 @@ function ErrorMessage({ message, onRetry }: { message: string; onRetry: () => vo
 }
 
 function ConversationComplete({
-  summary,
   onFinish,
   onReset,
 }: {
-  summary: string | null;
   onFinish: () => void;
   onReset: () => void;
 }) {
   return (
     <Card padding="lg" className="bg-stone-50/50">
-      <div className="text-center mb-6">
-        <div className="w-16 h-16 rounded-2xl bg-stone-200 flex items-center justify-center mx-auto mb-4">
-          <span className="text-2xl">✨</span>
-        </div>
-        <h3 className="text-lg font-semibold text-stone-900 mb-2">
-          对话已完成
-        </h3>
-        <p className="text-sm text-stone-500">
-          已收集足够信息，准备生成任务拆分方案
-        </p>
-      </div>
-
-      {summary && (
-        <div className="mb-6 p-4 bg-white rounded-xl border border-stone-200">
-          <p className="text-sm font-medium text-stone-500 mb-2">AI 理解</p>
-          <p className="text-base text-stone-900 leading-relaxed">
-            {summary}
-          </p>
-        </div>
-      )}
-
       <div className="flex gap-4">
         <Button variant="secondary" onClick={onReset} className="flex-1">
           重新开始
@@ -174,7 +150,6 @@ export function ConversationView({
   currentQuestion,
   loading,
   error,
-  summary,
   onAnswer,
   onSkip,
   onFinish,
@@ -238,7 +213,6 @@ export function ConversationView({
 
         {!loading && !error && isComplete && (
           <ConversationComplete
-            summary={summary}
             onFinish={onFinish}
             onReset={onReset}
           />

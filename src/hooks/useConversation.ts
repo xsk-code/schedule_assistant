@@ -107,7 +107,7 @@ export function useConversation(): UseConversationReturn {
 
     if (nextRound > context.maxRounds) {
       setCurrentQuestion(null);
-      setSummary('已达到最大轮次限制');
+      setSummary(null);
       setContext((prev) => ({
         ...prev,
         collectedInfo: newCollectedInfo,
