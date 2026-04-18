@@ -105,17 +105,12 @@ export function useConversation(): UseConversationReturn {
     const newCollectedInfo = [...context.collectedInfo, collectedItem];
     const nextRound = context.currentRound + 1;
 
-    setContext((prev) => ({
-      ...prev,
-      collectedInfo: newCollectedInfo,
-      currentRound: nextRound,
-    }));
-
     if (nextRound > context.maxRounds) {
       setCurrentQuestion(null);
       setSummary('已达到最大轮次限制');
       setContext((prev) => ({
         ...prev,
+        collectedInfo: newCollectedInfo,
         isComplete: true,
       }));
       setLoading(false);
@@ -131,14 +126,33 @@ export function useConversation(): UseConversationReturn {
         model
       );
 
-      handleAIResponse(response, question);
+      if (response.needsMoreInfo && response.question && response.options) {
+        setCurrentQuestion({
+          question: response.question,
+          options: response.options,
+          hint: response.reasoning,
+        });
+        setContext((prev) => ({
+          ...prev,
+          collectedInfo: newCollectedInfo,
+          currentRound: nextRound,
+        }));
+      } else {
+        setCurrentQuestion(null);
+        setSummary(response.summary || null);
+        setContext((prev) => ({
+          ...prev,
+          collectedInfo: newCollectedInfo,
+          isComplete: true,
+        }));
+      }
     } catch (e) {
       const errorMessage = e instanceof Error ? e.message : '处理回答失败';
       setError(errorMessage);
     } finally {
       setLoading(false);
     }
-  }, [context, apiKey, model, handleAIResponse]);
+  }, [context, apiKey, model]);
 
   const answerQuestion = useCallback(async (answer: string) => {
     if (!currentQuestion) return;
