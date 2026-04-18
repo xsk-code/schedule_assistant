@@ -58,7 +58,7 @@ ${collectedInfoText}
 2. options 数组必须包含 4 个选项，最后一个必须是"其他"
 3. 问题要聚焦于任务的关键维度：时间、资源、预期效果、优先级等
 4. 你最多可以提出 ${maxRounds} 个问题来澄清任务。当你认为信息足够时，可以提前返回 needsMoreInfo: false
-}
+`;
 
 function validateAIResponse(data: unknown): AIResponse {
   console.group('🔍 [Conversation Validation] 开始验证 AI 响应格式');
