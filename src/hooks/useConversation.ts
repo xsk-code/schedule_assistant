@@ -40,10 +40,6 @@ export function useConversation(): UseConversationReturn {
         options: response.options,
         hint: response.reasoning,
       });
-      setContext((prev) => ({
-        ...prev,
-        currentRound: prev.currentRound + 1,
-      }));
     } else {
       setCurrentQuestion(null);
       setSummary(response.summary || null);
@@ -107,13 +103,13 @@ export function useConversation(): UseConversationReturn {
     };
 
     const newCollectedInfo = [...context.collectedInfo, collectedItem];
+    const nextRound = context.currentRound + 1;
 
     setContext((prev) => ({
       ...prev,
       collectedInfo: newCollectedInfo,
+      currentRound: nextRound,
     }));
-
-    const nextRound = context.currentRound + 1;
 
     if (nextRound > context.maxRounds) {
       setCurrentQuestion(null);
