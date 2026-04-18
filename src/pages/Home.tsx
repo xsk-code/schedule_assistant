@@ -5,7 +5,7 @@ import { ResultDisplay } from '../components/features/ResultDisplay/ResultDispla
 import { Loading } from '../components/common/Loading';
 import { useSihua } from '../hooks/useSihua';
 import { useAIAnalysis } from '../hooks/useAIAnalysis';
-import type { HistoryRecord } from '../types';
+import type { HistoryRecord, CollectedItem } from '../types';
 
 interface HomePageProps {
   apiKey: string;
@@ -19,6 +19,7 @@ export function HomePage({ apiKey, model, onSaveHistory, initialTask, onClearReu
   const { sihuaInfo, loading: sihuaLoading, error: sihuaError } = useSihua();
   const { result, loading: analysisLoading, error: analysisError, analyze, clearResult } = useAIAnalysis();
   const [currentTask, setCurrentTask] = useState('');
+  const [, setCollectedInfo] = useState<CollectedItem[]>([]);
   const [showSihua, setShowSihua] = useState(false);
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export function HomePage({ apiKey, model, onSaveHistory, initialTask, onClearReu
     }
   }, [initialTask]);
 
-  const handleAnalyze = async (task: string) => {
+  const handleAnalyze = async (task: string, info: CollectedItem[] = []) => {
     if (!sihuaInfo) return;
     if (!apiKey.trim()) {
       alert('请先在设置中配置 API Key');
@@ -35,10 +36,15 @@ export function HomePage({ apiKey, model, onSaveHistory, initialTask, onClearReu
     }
 
     setCurrentTask(task);
+    setCollectedInfo(info);
     try {
-      await analyze(task, sihuaInfo, apiKey, model);
+      await analyze(task, sihuaInfo, apiKey, model, info);
     } catch {
     }
+  };
+
+  const handleThinkingComplete = (task: string, info: CollectedItem[]) => {
+    handleAnalyze(task, info);
   };
 
   const handleSave = () => {
@@ -88,10 +94,13 @@ export function HomePage({ apiKey, model, onSaveHistory, initialTask, onClearReu
     <div className="space-y-8">
       <div className="animate-slide-up">
         <TaskInput
-          onSubmit={handleAnalyze}
+          onSubmit={(task) => handleAnalyze(task)}
+          onThinkingComplete={handleThinkingComplete}
           loading={analysisLoading}
           disabled={!sihuaInfo}
           initialValue={initialTask || undefined}
+          apiKey={apiKey}
+          model={model}
         />
       </div>
 

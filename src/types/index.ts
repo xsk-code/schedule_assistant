@@ -76,3 +76,34 @@ export interface AppConfig {
   theme: 'light' | 'dark';
   model: string;
 }
+
+export interface CollectedItem {
+  question: string;
+  answer: string;
+  timestamp: number;
+}
+
+export interface AIQuestion {
+  question: string;
+  options: string[];
+  hint?: string;
+}
+
+export interface AIResponse {
+  needsMoreInfo: boolean;
+  question?: string;
+  options?: string[];
+  reasoning?: string;
+  summary?: string;
+}
+
+export interface ConversationContext {
+  originalTask: string;
+  collectedInfo: CollectedItem[];
+  currentRound: number;
+  isComplete: boolean;
+  isGenerating: boolean;
+  maxRounds: number;
+}
+
+export type TaskMode = 'simple' | 'thinking';
