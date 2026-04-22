@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { SihuaCard } from '../components/features/SihuaCard/SihuaCard';
 import { TaskInput } from '../components/features/TaskInput/TaskInput';
 import { ResultDisplay } from '../components/features/ResultDisplay/ResultDisplay';
-import { Loading } from '../components/common/Loading';
 import { useSihua } from '../hooks/useSihua';
 import { useAIAnalysis } from '../hooks/useAIAnalysis';
 import type { HistoryRecord, CollectedItem } from '../types';
@@ -13,9 +12,10 @@ interface HomePageProps {
   onSaveHistory: (record: HistoryRecord) => void;
   initialTask?: string | null;
   onClearReuseTask?: () => void;
+  onLoadingChange?: (loading: boolean) => void;
 }
 
-export function HomePage({ apiKey, model, onSaveHistory, initialTask, onClearReuseTask }: HomePageProps) {
+export function HomePage({ apiKey, model, onSaveHistory, initialTask, onClearReuseTask, onLoadingChange }: HomePageProps) {
   const { sihuaInfo, loading: sihuaLoading, error: sihuaError } = useSihua();
   const { result, loading: analysisLoading, error: analysisError, analyze, clearResult } = useAIAnalysis();
   const [currentTask, setCurrentTask] = useState('');
@@ -27,6 +27,12 @@ export function HomePage({ apiKey, model, onSaveHistory, initialTask, onClearReu
       setCurrentTask(initialTask);
     }
   }, [initialTask]);
+
+  useEffect(() => {
+    if (onLoadingChange) {
+      onLoadingChange(analysisLoading);
+    }
+  }, [analysisLoading, onLoadingChange]);
 
   const handleAnalyze = async (task: string, info: CollectedItem[] = []) => {
     if (!sihuaInfo) return;
@@ -165,14 +171,6 @@ export function HomePage({ apiKey, model, onSaveHistory, initialTask, onClearReu
             onReanalyze={handleReanalyze}
           />
         </>
-      )}
-
-      {analysisLoading && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[100]">
-          <div className="bg-white rounded-2xl p-8 shadow-xl max-w-sm w-full mx-4 animate-scale-in">
-            <Loading size="lg" text="AI 正在分析您的任务..." />
-          </div>
-        </div>
       )}
     </div>
   );
