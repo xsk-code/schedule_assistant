@@ -168,7 +168,7 @@ export function HomePage({ apiKey, model, onSaveHistory, initialTask, onClearReu
       )}
 
       {analysisLoading && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[100]">
           <div className="bg-white rounded-2xl p-8 shadow-xl max-w-sm w-full mx-4 animate-scale-in">
             <Loading size="lg" text="AI 正在分析您的任务..." />
           </div>
