@@ -14,7 +14,7 @@ export interface SihuaInfo {
 
 export interface AnalysisResult {
   summary: string;
-  bestEntry: {
+  bestEntry?: {
     dimension: 'lu' | 'quan' | 'ke';
     reason: string;
     suggestion: string;
@@ -26,7 +26,7 @@ export interface AnalysisResult {
     ji: JiDimensionAnalysis;
   };
   actionPath: ActionStep[];
-  overallAdvice: string;
+  overallAdvice?: string;
 }
 
 export interface DimensionAnalysis {

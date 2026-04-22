@@ -58,11 +58,6 @@ ${collectedInfoText}
 【输出格式要求（严格JSON格式）】
 {
   "summary": "一句话总结这个任务的核心",
-  "bestEntry": {
-    "dimension": "lu",
-    "reason": "为什么从这个维度入手",
-    "suggestion": "具体的切入点建议"
-  },
   "fourDimensions": {
     "lu": {
       "star": "${sihua.lu}",
@@ -95,8 +90,7 @@ ${collectedInfoText}
       "priority": "高",
       "timeEstimate": "30分钟"
     }
-  ],
-  "overallAdvice": "综合建议"
+  ]
 }
 
 【重要要求】
@@ -104,7 +98,8 @@ ${collectedInfoText}
 2. actionPath 中的步骤必须是最小可执行单元，每个步骤都能独立完成
 3. priority 只能是 "高"、"中"、"低" 三者之一
 4. dimension 只能是 "lu"、"quan"、"ke"、"ji" 四者之一
-5. bestEntry.dimension 只能是 "lu"、"quan"、"ke" 三者之一（忌不适合作为切入点）
-6. 分析要结合当日具体的星曜，而不是泛泛而谈
-7. 最少给出3个步骤，最多不超过8个步骤`;
+5. actionPath 的步骤顺序即推荐执行顺序，第一个步骤必须对应最佳切入点的维度（禄/权/科之一）
+6. 忌维度的步骤必须排在最后
+7. 分析要结合当日具体的星曜，而不是泛泛而谈
+8. 最少给出3个步骤，最多不超过8个步骤`;
 }

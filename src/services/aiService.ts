@@ -143,34 +143,40 @@ function validateAnalysisResult(data: unknown): AnalysisResult {
   try {
     const obj = validateObject(data, 'root');
     
-    console.log('检查字段...');
-    console.log('  summary:', obj.summary);
-    console.log('  bestEntry:', obj.bestEntry || obj.best_entry);
-    console.log('  fourDimensions:', obj.fourDimensions || obj.four_dimensions);
-    console.log('  actionPath:', obj.actionPath || obj.action_path);
-    console.log('  overallAdvice:', obj.overallAdvice || obj.overall_advice);
-    
-    const bestEntryData = obj.bestEntry || obj.best_entry;
-    const bestEntryObj = validateObject(bestEntryData, 'bestEntry');
-    
-    const bestEntryDimension = validateString(bestEntryObj.dimension, 'bestEntry.dimension');
-    if (!['lu', 'quan', 'ke'].includes(bestEntryDimension)) {
-      throw new Error(`bestEntry.dimension 期望是 "lu"、"quan" 或 "ke"，但得到 "${bestEntryDimension}"`);
-    }
-    
     const fourDimensionsData = obj.fourDimensions || obj.four_dimensions;
     const fourDimensionsObj = validateObject(fourDimensionsData, 'fourDimensions');
     
     const actionPathData = obj.actionPath || obj.action_path;
     const actionPathArray = validateArray(actionPathData, 'actionPath');
+
+    let bestEntry: AnalysisResult['bestEntry'] = undefined;
+    const bestEntryData = obj.bestEntry || obj.best_entry;
+    if (bestEntryData) {
+      try {
+        const bestEntryObj = validateObject(bestEntryData, 'bestEntry');
+        const bestEntryDimension = validateString(bestEntryObj.dimension, 'bestEntry.dimension');
+        if (['lu', 'quan', 'ke'].includes(bestEntryDimension)) {
+          bestEntry = {
+            dimension: bestEntryDimension as 'lu' | 'quan' | 'ke',
+            reason: validateString(bestEntryObj.reason, 'bestEntry.reason'),
+            suggestion: validateString(bestEntryObj.suggestion, 'bestEntry.suggestion'),
+          };
+        }
+      } catch {
+        console.log('⚠️ bestEntry 验证失败，跳过（兼容旧数据）');
+      }
+    }
+
+    let overallAdvice: string | undefined = undefined;
+    try {
+      overallAdvice = validateString(obj.overallAdvice || obj.overall_advice, 'overallAdvice');
+    } catch {
+      console.log('⚠️ overallAdvice 缺失，跳过（兼容旧数据）');
+    }
     
     const result: AnalysisResult = {
       summary: validateString(obj.summary, 'summary'),
-      bestEntry: {
-        dimension: bestEntryDimension as 'lu' | 'quan' | 'ke',
-        reason: validateString(bestEntryObj.reason, 'bestEntry.reason'),
-        suggestion: validateString(bestEntryObj.suggestion, 'bestEntry.suggestion'),
-      },
+      bestEntry,
       fourDimensions: {
         lu: validateDimensionAnalysis(fourDimensionsObj.lu, 'lu'),
         quan: validateDimensionAnalysis(fourDimensionsObj.quan, 'quan'),
@@ -178,7 +184,7 @@ function validateAnalysisResult(data: unknown): AnalysisResult {
         ji: validateJiDimensionAnalysis(fourDimensionsObj.ji),
       },
       actionPath: actionPathArray.map((item, idx) => validateActionStep(item, idx)),
-      overallAdvice: validateString(obj.overallAdvice || obj.overall_advice, 'overallAdvice'),
+      overallAdvice,
     };
     
     console.log('✅ [Data Validation] 验证成功');
