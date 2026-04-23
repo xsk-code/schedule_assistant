@@ -25,7 +25,6 @@
     "@tarojs/react": "4.0.5",
     "@tarojs/runtime": "4.0.5",
     "@tarojs/shared": "4.0.5",
-    "@tarojs/webpack5-runner": "^4.2.0",
     "lunar-javascript": "^1.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -33,13 +32,18 @@
   },
   "devDependencies": {
     "@babel/core": "^7.21.3",
+    "@babel/preset-env": "^7.29.2",
+    "@babel/preset-react": "^7.28.5",
+    "@babel/preset-typescript": "^7.28.5",
     "@tarojs/cli": "4.0.5",
+    "@tarojs/webpack5-runner": "^4.0.5",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.0.0",
-    "weapp-tailwindcss": "^3.6.6"
+    "weapp-tailwindcss": "^3.6.6",
+    "webpack": "^5.91.0"
   }
 }
