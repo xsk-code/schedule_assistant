@@ -1,6 +1,6 @@
 .sihua-bar {
   padding: 0 32rpx;
-  margin-bottom: 40rpx;
+  margin-bottom: 48rpx;
 }
 
 .sihua-bar-loading {
@@ -13,7 +13,7 @@
 .sihua-bar-date {
   display: flex;
   align-items: baseline;
-  margin-bottom: 16rpx;
+  margin-bottom: 24rpx;
 }
 
 .sihua-bar-date-title {
@@ -33,13 +33,16 @@
 .sihua-bar-items {
   display: flex;
   flex-wrap: wrap;
-  gap: 24rpx;
+  gap: 32rpx;
 }
 
 .sihua-item {
   display: flex;
   align-items: center;
-  padding-left: 8rpx;
+  padding-left: 12rpx;
+  padding-right: 8rpx;
+  padding-top: 8rpx;
+  padding-bottom: 8rpx;
   border-left: 2rpx solid transparent;
 }
 
@@ -64,7 +67,7 @@
 }
 
 .sihua-item-name {
-  font-size: 24rpx;
+  font-size: 26rpx;
   color: #78716C;
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
