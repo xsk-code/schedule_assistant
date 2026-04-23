@@ -1,13 +1,11 @@
 .task-input {
-  background-color: #FFFFFF;
-  border-radius: 16rpx;
-  padding: 32rpx;
-  margin-bottom: 24rpx;
+  padding: 0 32rpx;
+  margin-bottom: 40rpx;
 }
 
 .task-input-area {
   background-color: #FAFAF9;
-  border-radius: 12rpx;
+  border-radius: 20rpx;
   padding: 24rpx;
   margin-bottom: 24rpx;
   min-height: 160rpx;
@@ -17,12 +15,14 @@
   width: 100%;
   min-height: 112rpx;
   font-size: 28rpx;
-  line-height: 1.6;
+  line-height: 1.75;
   color: #1C1917;
+  font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .task-input-placeholder {
-  color: #A8A29E;
+  color: #D6D3D1;
+  font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .task-input-mode {
@@ -41,17 +41,20 @@
 }
 
 .task-input-mode-item--active {
-  background-color: #1C1917;
+  background-color: #D97757;
 }
 
 .task-input-mode-icon {
-  font-size: 28rpx;
+  width: 32rpx;
+  height: 32rpx;
   margin-right: 8rpx;
 }
 
 .task-input-mode-text {
   font-size: 24rpx;
-  color: #57534E;
+  color: #78716C;
+  font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
+  font-weight: 500;
 }
 
 .task-input-mode-item--active .task-input-mode-text {
@@ -60,14 +63,15 @@
 
 .task-input-submit {
   width: 100%;
-  background-color: #1C1917;
+  background-color: #D97757;
   color: #FFFFFF;
-  border-radius: 16rpx;
+  border-radius: 24rpx;
   padding: 28rpx;
   font-size: 32rpx;
   font-weight: 500;
   text-align: center;
   border: none;
+  font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
 }
 
 .task-input-submit::after {

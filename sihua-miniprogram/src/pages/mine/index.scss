@@ -5,28 +5,15 @@
 }
 
 .mine-header {
-  display: flex;
-  align-items: center;
-  padding: 48rpx 32rpx;
-  background-color: #FFFFFF;
-  margin-bottom: 24rpx;
+  padding: 64rpx 32rpx 40rpx;
 }
 
 .mine-avatar {
-  width: 112rpx;
-  height: 112rpx;
-  border-radius: 50%;
-  background-color: #1C1917;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 24rpx;
+  display: none;
 }
 
 .mine-avatar-text {
-  font-size: 48rpx;
-  font-weight: 600;
-  color: #FFFFFF;
+  display: none;
 }
 
 .mine-info {
@@ -34,60 +21,59 @@
 }
 
 .mine-name {
-  font-size: 36rpx;
+  font-size: 48rpx;
   font-weight: 700;
   color: #1C1917;
   margin-bottom: 8rpx;
+  font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
+  letter-spacing: -0.03em;
 }
 
 .mine-desc {
-  font-size: 26rpx;
+  font-size: 24rpx;
   color: #A8A29E;
+  font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .mine-stats {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 32rpx;
-  background-color: #FFFFFF;
-  margin-bottom: 24rpx;
+  padding: 0 32rpx;
+  margin-bottom: 40rpx;
 }
 
 .mine-stat-item {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  margin-bottom: 32rpx;
 }
 
 .mine-stat-value {
   font-size: 40rpx;
   font-weight: 700;
   color: #1C1917;
-  margin-bottom: 8rpx;
+  margin-bottom: 4rpx;
+  font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
 }
 
 .mine-stat-label {
   font-size: 24rpx;
   color: #A8A29E;
+  font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .mine-stat-divider {
-  width: 1rpx;
-  height: 60rpx;
-  background-color: #E7E5E4;
+  display: none;
 }
 
 .mine-section {
-  background-color: #FFFFFF;
-  margin-bottom: 24rpx;
   padding: 0 32rpx;
+  margin-bottom: 40rpx;
 }
 
 .mine-section-title {
-  font-size: 26rpx;
+  font-size: 24rpx;
   color: #A8A29E;
-  padding: 24rpx 0 16rpx;
+  padding: 0 0 16rpx;
+  font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .mine-setting-item {
@@ -95,7 +81,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 24rpx 0;
-  border-bottom: 1rpx solid #E7E5E4;
+  border-bottom: 0.5rpx solid rgba(0, 0, 0, 0.06);
 }
 
 .mine-setting-item:last-child {
@@ -113,6 +99,7 @@
 .mine-setting-label {
   font-size: 28rpx;
   color: #1C1917;
+  font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .mine-setting-value {
@@ -132,6 +119,7 @@
   color: #1C1917;
   text-align: right;
   padding: 8rpx 16rpx;
+  font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .mine-setting-input--number {
@@ -139,7 +127,7 @@
 }
 
 .mine-placeholder {
-  color: #A8A29E;
+  color: #D6D3D1;
 }
 
 .mine-setting-arrow {
@@ -157,15 +145,15 @@
   justify-content: center;
   align-items: center;
   padding: 24rpx;
-  border-radius: 16rpx;
+  border-radius: 24rpx;
   margin: 24rpx 0;
   background-color: #FAFAF9;
-  border: 2rpx solid #E7E5E4;
+  border: 2rpx solid rgba(0, 0, 0, 0.06);
 }
 
 .mine-action-btn--primary {
-  background-color: #1C1917;
-  border-color: #1C1917;
+  background-color: #D97757;
+  border-color: #D97757;
 }
 
 .mine-action-btn--disabled {
@@ -175,7 +163,8 @@
 .mine-action-btn-text {
   font-size: 28rpx;
   font-weight: 500;
-  color: #57534E;
+  color: #78716C;
+  font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
 }
 
 .mine-action-btn--primary .mine-action-btn-text {
@@ -185,8 +174,9 @@
 .mine-setting-hint {
   font-size: 22rpx;
   color: #A8A29E;
-  line-height: 1.5;
+  line-height: 1.75;
   padding-bottom: 24rpx;
+  font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .mine-footer {
@@ -195,9 +185,11 @@
   align-items: center;
   padding: 32rpx;
   gap: 8rpx;
+  margin-top: 40rpx;
 }
 
 .mine-footer-text {
   font-size: 22rpx;
   color: #A8A29E;
+  font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }

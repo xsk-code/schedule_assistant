@@ -5,32 +5,43 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        brand: {
+          DEFAULT: '#D97757',
+          light: '#F5E6DE',
+          dark: '#B85A3A'
+        },
         bg: '#FAFAF9',
         surface: '#FFFFFF',
-        border: '#E7E5E4',
+        border: 'rgba(0, 0, 0, 0.06)',
         text: {
           1: '#1C1917',
-          2: '#57534E',
+          2: '#78716C',
           3: '#A8A29E',
           4: '#D6D3D1'
         },
         sihua: {
-          lu: '#4A7C59',
-          quan: '#92703A',
-          ke: '#4A6B8A',
-          ji: '#9B4A4A'
+          lu: '#6B9E7A',
+          quan: '#C49A5C',
+          ke: '#7BA3C4',
+          ji: '#C47A7A'
         }
       },
       borderRadius: {
+        '2xl': '24rpx',
+        xl: '20rpx',
         card: '16rpx'
       },
       spacing: {
         xs: '8rpx',
         sm: '16rpx',
         md: '24rpx',
-        lg: '32rpx',
-        xl: '48rpx',
-        '2xl': '64rpx'
+        lg: '40rpx',
+        xl: '56rpx',
+        '2xl': '80rpx'
+      },
+      fontFamily: {
+        sans: ['ui-sans-serif', '-apple-system', 'PingFang SC', 'sans-serif'],
+        serif: ['ui-serif', 'Georgia', 'PingFang SC', 'Noto Serif SC', 'serif']
       }
     }
   },
