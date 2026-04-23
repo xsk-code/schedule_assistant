@@ -1,0 +1,100 @@
+.conversation-panel {
+  background-color: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+}
+
+.conversation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32rpx;
+}
+
+.conversation-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.conversation-progress-text {
+  font-size: 24rpx;
+  color: #A8A29E;
+}
+
+.conversation-progress-dots {
+  display: flex;
+  gap: 8rpx;
+}
+
+.conversation-progress-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background-color: #D6D3D1;
+}
+
+.conversation-progress-dot--active {
+  background-color: #1C1917;
+}
+
+.conversation-skip {
+  padding: 12rpx 24rpx;
+  border-radius: 24rpx;
+  background-color: #FAFAF9;
+}
+
+.conversation-skip-text {
+  font-size: 24rpx;
+  color: #57534E;
+}
+
+.conversation-question {
+  margin-bottom: 32rpx;
+}
+
+.conversation-bubble {
+  background-color: #1C1917;
+  border-radius: 24rpx 24rpx 24rpx 8rpx;
+  padding: 24rpx;
+  display: inline-block;
+  max-width: 85%;
+}
+
+.conversation-bubble-text {
+  font-size: 28rpx;
+  color: #FFFFFF;
+  line-height: 1.6;
+}
+
+.conversation-hint {
+  font-size: 22rpx;
+  color: #A8A29E;
+  margin-top: 12rpx;
+  padding-left: 12rpx;
+}
+
+.conversation-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.conversation-option {
+  background-color: #FAFAF9;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  border: 2rpx solid #E7E5E4;
+  transition: all 0.2s ease;
+}
+
+.conversation-option:active {
+  background-color: #E7E5E4;
+}
+
+.conversation-option-text {
+  font-size: 28rpx;
+  color: #1C1917;
+  line-height: 1.5;
+}

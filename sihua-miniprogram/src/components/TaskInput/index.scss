@@ -1,0 +1,84 @@
+.task-input {
+  background-color: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+}
+
+.task-input-area {
+  background-color: #FAFAF9;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  margin-bottom: 24rpx;
+  min-height: 160rpx;
+}
+
+.task-input-textarea {
+  width: 100%;
+  min-height: 112rpx;
+  font-size: 28rpx;
+  line-height: 1.6;
+  color: #1C1917;
+}
+
+.task-input-placeholder {
+  color: #A8A29E;
+}
+
+.task-input-mode {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 32rpx;
+}
+
+.task-input-mode-item {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 24rpx;
+  border-radius: 24rpx;
+  background-color: #FAFAF9;
+  transition: all 0.2s ease;
+}
+
+.task-input-mode-item--active {
+  background-color: #1C1917;
+}
+
+.task-input-mode-icon {
+  font-size: 28rpx;
+  margin-right: 8rpx;
+}
+
+.task-input-mode-text {
+  font-size: 24rpx;
+  color: #57534E;
+}
+
+.task-input-mode-item--active .task-input-mode-text {
+  color: #FFFFFF;
+}
+
+.task-input-submit {
+  width: 100%;
+  background-color: #1C1917;
+  color: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  text-align: center;
+  border: none;
+}
+
+.task-input-submit::after {
+  border: none;
+}
+
+.task-input-submit--loading {
+  opacity: 0.7;
+}
+
+.task-input-submit[disabled] {
+  background-color: #D6D3D1;
+  color: #A8A29E;
+}
