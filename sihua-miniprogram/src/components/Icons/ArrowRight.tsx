@@ -1,4 +1,4 @@
-import { View } from '@tarojs/components';
+import { View, Image } from '@tarojs/components';
 
 interface IconProps {
   size?: number;
@@ -6,25 +6,20 @@ interface IconProps {
   className?: string;
 }
 
-const ArrowRight: React.FC<IconProps> = ({ size = 32, color = 'currentColor', className = '' }) => {
+const ArrowRight: React.FC<IconProps> = ({ size = 32, color = '#78716C', className = '' }) => {
+  const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`;
+  const base64Svg = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgContent)))}`;
+
   return (
     <View 
       className={`icon-arrow-right ${className}`}
-      style={{ width: `${size}rpx`, height: `${size}rpx` }}
+      style={{ width: `${size}rpx`, height: `${size}rpx`, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
     >
-      <svg 
-        width="100%" 
-        height="100%" 
-        viewBox="0 0 24 24" 
-        fill="none" 
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M5 12h14" />
-        <path d="m12 5 7 7-7 7" />
-      </svg>
+      <Image 
+        src={base64Svg} 
+        style={{ width: `${size}rpx`, height: `${size}rpx` }} 
+        mode="aspectFit"
+      />
     </View>
   );
 };

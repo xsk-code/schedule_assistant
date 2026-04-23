@@ -1,4 +1,4 @@
-import { View } from '@tarojs/components';
+import { View, Image } from '@tarojs/components';
 
 interface IconProps {
   size?: number;
@@ -6,26 +6,20 @@ interface IconProps {
   className?: string;
 }
 
-const Lightbulb: React.FC<IconProps> = ({ size = 32, color = 'currentColor', className = '' }) => {
+const Lightbulb: React.FC<IconProps> = ({ size = 32, color = '#A8A29E', className = '' }) => {
+  const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>`;
+  const base64Svg = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgContent)))}`;
+
   return (
     <View 
       className={`icon-lightbulb ${className}`}
-      style={{ width: `${size}rpx`, height: `${size}rpx` }}
+      style={{ width: `${size}rpx`, height: `${size}rpx`, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
     >
-      <svg 
-        width="100%" 
-        height="100%" 
-        viewBox="0 0 24 24" 
-        fill="none" 
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
-        <path d="M9 18h6" />
-        <path d="M10 22h4" />
-      </svg>
+      <Image 
+        src={base64Svg} 
+        style={{ width: `${size}rpx`, height: `${size}rpx` }} 
+        mode="aspectFit"
+      />
     </View>
   );
 };

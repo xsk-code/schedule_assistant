@@ -1,4 +1,4 @@
-import { View } from '@tarojs/components';
+import { View, Image } from '@tarojs/components';
 
 interface IconProps {
   size?: number;
@@ -6,26 +6,20 @@ interface IconProps {
   className?: string;
 }
 
-const XCircle: React.FC<IconProps> = ({ size = 32, color = 'currentColor', className = '' }) => {
+const XCircle: React.FC<IconProps> = ({ size = 32, color = '#C47A7A', className = '' }) => {
+  const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>`;
+  const base64Svg = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgContent)))}`;
+
   return (
     <View 
       className={`icon-x-circle ${className}`}
-      style={{ width: `${size}rpx`, height: `${size}rpx` }}
+      style={{ width: `${size}rpx`, height: `${size}rpx`, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
     >
-      <svg 
-        width="100%" 
-        height="100%" 
-        viewBox="0 0 24 24" 
-        fill="none" 
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <circle cx="12" cy="12" r="10" />
-        <path d="m15 9-6 6" />
-        <path d="m9 9 6 6" />
-      </svg>
+      <Image 
+        src={base64Svg} 
+        style={{ width: `${size}rpx`, height: `${size}rpx` }} 
+        mode="aspectFit"
+      />
     </View>
   );
 };
