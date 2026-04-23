@@ -97,7 +97,7 @@ export function SihuaCard({ sihuaInfo, loading = false, error = null }: SihuaCar
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {(['lu', 'quan', 'ke', 'ji'] as const).map((dimension, index) => {
               const config = DIMENSION_CONFIG[dimension];
               const star = sihua[dimension];
@@ -107,7 +107,7 @@ export function SihuaCard({ sihuaInfo, loading = false, error = null }: SihuaCar
                 <div
                   key={dimension}
                   className={`
-                    relative rounded-xl p-4 
+                    relative rounded-xl p-5 
                     bg-gradient-to-br ${config.gradient}
                     border ${config.border}
                     transition-all duration-300
@@ -116,7 +116,7 @@ export function SihuaCard({ sihuaInfo, loading = false, error = null }: SihuaCar
                   `}
                   style={{ animationDelay: `${index * 0.1}s`, opacity: 0 }}
                 >
-                  <div className="flex items-start justify-between mb-2">
+                  <div className="flex items-start justify-between mb-3">
                     <div className={`${config.label} text-white text-xs font-medium px-2 py-0.5 rounded-full`}>
                       {config.symbol} {name}
                     </div>
@@ -127,7 +127,7 @@ export function SihuaCard({ sihuaInfo, loading = false, error = null }: SihuaCar
                     {star}
                   </div>
                   
-                  <div className="mt-2 h-1 rounded-full bg-white/60 overflow-hidden">
+                  <div className="mt-3 h-1.5 rounded-full bg-white/60 overflow-hidden">
                     <div 
                       className={`h-full ${config.border.replace('border', 'bg')}`}
                       style={{ width: '60%' }}
