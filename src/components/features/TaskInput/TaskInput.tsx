@@ -124,24 +124,24 @@ export function TaskInput({
 
       <Card className="relative" padding="lg">
         <form onSubmit={handleSubmit}>
-          <div className="mb-5">
-            <div className="flex items-center justify-between mb-3">
+          <div className="mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 gap-4">
               <label className="block">
-                <span className="text-display text-2xl font-bold text-stone-900 tracking-tight">
+                <span className="text-display text-3xl font-bold text-stone-900 tracking-tight">
                   任务拆分
                 </span>
-                <p className="text-sm text-stone-500 mt-1.5">
+                <p className="text-base text-stone-500 mt-3 leading-relaxed max-w-md">
                   输入你的任务，AI 将结合今日四化为你规划最优行动路径
                 </p>
               </label>
 
-              <div className="flex items-center gap-1 p-1 bg-stone-100 rounded-xl">
+              <div className="flex items-center gap-2 p-1.5 bg-stone-100 rounded-xl">
                 <button
                   type="button"
                   onClick={() => handleModeChange('simple')}
                   disabled={disabled || loading}
                   className={`
-                    px-3 py-1.5 text-sm font-medium rounded-lg transition-all duration-200
+                    px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200
                     ${mode === 'simple'
                       ? 'bg-white text-stone-900 shadow-sm'
                       : 'text-stone-500 hover:text-stone-700'
@@ -156,7 +156,7 @@ export function TaskInput({
                   onClick={() => handleModeChange('thinking')}
                   disabled={disabled || loading}
                   className={`
-                    px-3 py-1.5 text-sm font-medium rounded-lg transition-all duration-200
+                    px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200
                     ${mode === 'thinking'
                       ? 'bg-white text-stone-900 shadow-sm'
                       : 'text-stone-500 hover:text-stone-700'
@@ -222,9 +222,9 @@ export function TaskInput({
             </div>
           </div>
 
-          <div className="mb-5">
-            <p className="text-xs text-stone-400 uppercase tracking-wider mb-2.5">参考示例</p>
-            <div className="flex flex-wrap gap-2">
+          <div className="mb-8">
+            <p className="text-sm text-stone-400 mb-4">参考示例</p>
+            <div className="flex flex-wrap gap-3">
               {EXAMPLES.map((example, index) => (
                 <button
                   key={index}
@@ -232,7 +232,7 @@ export function TaskInput({
                   onClick={() => handleExampleClick(example)}
                   disabled={disabled || loading}
                   className={`
-                    px-3 py-2 text-sm rounded-xl border transition-all duration-200
+                    px-4 py-3 text-sm rounded-xl border transition-all duration-200
                     ${task === example
                       ? 'bg-stone-900 text-white border-stone-900'
                       : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400 hover:text-stone-800'
@@ -240,19 +240,19 @@ export function TaskInput({
                     ${disabled || loading ? 'opacity-50 cursor-not-allowed' : ''}
                   `}
                 >
-                  {example.length > 20 ? example.slice(0, 20) + '...' : example}
+                  {example.length > 25 ? example.slice(0, 25) + '...' : example}
                 </button>
               ))}
             </div>
           </div>
 
           {mode === 'thinking' && (
-            <div className="mb-5 p-4 bg-stone-50 rounded-xl border border-stone-200">
-              <div className="flex items-start gap-3">
-                <span className="text-lg">💡</span>
+            <div className="mb-8 p-5 bg-stone-50 rounded-xl border border-stone-200">
+              <div className="flex items-start gap-4">
+                <span className="text-xl">💡</span>
                 <div>
-                  <p className="text-sm font-medium text-stone-900 mb-1">思考模式已启用</p>
-                  <p className="text-sm text-stone-600">
+                  <p className="text-base font-medium text-stone-900 mb-2">思考模式已启用</p>
+                  <p className="text-sm text-stone-600 leading-relaxed">
                     AI 将通过多轮追问深入了解你的需求，生成更精准的任务拆分方案。
                   </p>
                 </div>
@@ -260,13 +260,13 @@ export function TaskInput({
             </div>
           )}
 
-          <div className="flex justify-center pt-1">
+          <div className="flex justify-center pt-4">
             <Button
               type="submit"
               size="lg"
               loading={loading}
               disabled={disabled || task.trim().length < APP_CONFIG.MIN_TASK_LENGTH || task.length > APP_CONFIG.MAX_TASK_LENGTH}
-              className="min-w-56 text-base"
+              className="min-w-64 text-base py-3.5"
             >
               {loading ? '分析中...' : mode === 'thinking' ? '开始深入分析' : '开始智能拆分'}
             </Button>

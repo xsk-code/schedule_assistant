@@ -5,21 +5,22 @@
 }
 
 .home-header {
-  padding: 64rpx 32rpx 40rpx;
+  padding: 80rpx 32rpx 64rpx;
 }
 
 .home-title {
-  font-size: 48rpx;
+  font-size: 56rpx;
   font-weight: 700;
   color: #1C1917;
-  margin-bottom: 8rpx;
+  margin-bottom: 16rpx;
   font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
   letter-spacing: -0.03em;
 }
 
 .home-subtitle {
-  font-size: 24rpx;
+  font-size: 28rpx;
   color: #A8A29E;
+  line-height: 1.6;
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 

@@ -209,12 +209,12 @@ export function ResultDisplay({ result, onCopy, onSave, onReanalyze }: ResultDis
   const reminderItems = todoItems.filter((s) => s.dimension === 'ji');
 
   return (
-    <div className="space-y-4 w-full">
+    <div className="space-y-6 w-full">
       <Card className="animate-scale-in" padding="lg">
-        <h3 className="text-display text-lg font-semibold text-stone-800 mb-1">
+        <h3 className="text-display text-xl font-semibold text-stone-800 mb-3">
           今日待办
         </h3>
-        <p className="text-sm text-stone-400 mb-4">
+        <p className="text-sm text-stone-400 mb-6 leading-relaxed">
           {result.summary}
         </p>
 
@@ -229,7 +229,7 @@ export function ResultDisplay({ result, onCopy, onSave, onReanalyze }: ResultDis
           ))}
           {reminderItems.length > 0 && (
             <>
-              <div className="py-2">
+              <div className="py-4">
                 <span className="text-xs text-stone-400 font-medium">提醒</span>
               </div>
               {reminderItems.map((step) => (
@@ -249,7 +249,7 @@ export function ResultDisplay({ result, onCopy, onSave, onReanalyze }: ResultDis
         <SihuaInsight result={result} />
       </div>
 
-      <div className="flex flex-wrap justify-center gap-3 pt-2">
+      <div className="flex flex-wrap justify-center gap-4 pt-2">
         {onReanalyze && (
           <Button variant="secondary" onClick={onReanalyze}>
             重新分析
