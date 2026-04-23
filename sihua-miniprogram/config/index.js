@@ -14,7 +14,9 @@ const config = {
   plugins: [
     '@tarojs/plugin-framework-react'
   ],
-  defineConstants: {},
+  defineConstants: {
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production')
+  },
   copy: {
     patterns: [],
     options: {}
