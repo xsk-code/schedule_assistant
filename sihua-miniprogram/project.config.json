@@ -37,5 +37,6 @@
   "libVersion": "3.5.1",
   "appid": "wxtest12345678",
   "projectname": "sihua-miniprogram",
-  "condition": {}
+  "condition": {},
+  "miniprogramRoot": "dist/"
 }

@@ -31,12 +31,26 @@
     "minifyWXSS": true,
     "showES6CompileOption": false,
     "minifyWXML": true,
-    "lazyload": true
+    "lazyload": true,
+    "compileWorklet": false,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "useCompilerPlugins": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
   },
   "compileType": "miniprogram",
   "libVersion": "3.5.1",
-  "appid": "wxtest12345678",
+  "appid": "wx5f75d5ee72e6f54e",
   "projectname": "sihua-miniprogram",
   "condition": {},
-  "miniprogramRoot": "./"
+  "miniprogramRoot": "./",
+  "simulatorPluginLibVersion": {},
+  "editorSetting": {}
 }
