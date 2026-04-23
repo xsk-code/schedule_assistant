@@ -8,7 +8,8 @@ interface IconProps {
 
 const ArrowRight: React.FC<IconProps> = ({ size = 32, color = '#78716C', className = '' }) => {
   const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`;
-  const base64Svg = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgContent)))}`;
+  const encodedSvg = encodeURIComponent(svgContent);
+  const base64Svg = `data:image/svg+xml,${encodedSvg}`;
 
   return (
     <View 
