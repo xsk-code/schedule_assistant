@@ -2,6 +2,7 @@ import { View, Text, Button } from '@tarojs/components';
 import './index.scss';
 import type { AIResponse } from '@/types';
 import Loading from '@/components/Loading';
+import { ArrowRight } from '@/components/Icons';
 
 interface ConversationPanelProps {
   question: AIResponse | null;
@@ -50,7 +51,8 @@ const ConversationPanel: React.FC<ConversationPanelProps> = ({
         </View>
         
         <View className='conversation-skip' onClick={onSkip}>
-          <Text className='conversation-skip-text'>跳过 →</Text>
+          <Text className='conversation-skip-text'>跳过</Text>
+          <ArrowRight size={20} color='#78716C' />
         </View>
       </View>
 

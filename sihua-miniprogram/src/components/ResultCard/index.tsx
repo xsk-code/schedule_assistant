@@ -3,6 +3,7 @@ import './index.scss';
 import type { AnalysisResult, ActionStep, DimensionAnalysis, JiDimensionAnalysis } from '@/types';
 import ActionStepComponent from '@/components/ActionStep';
 import { SIHUA_DIMENSION_NAMES, SIHUA_DIMENSION_MEANINGS } from '@/constants/sihuaRules';
+import { Sparkles, AlertTriangle, XCircle, Lightbulb } from '@/components/Icons';
 
 interface ResultCardProps {
   result: AnalysisResult;
@@ -20,11 +21,8 @@ const ResultCard: React.FC<ResultCardProps> = ({
     data: DimensionAnalysis
   ) => {
     return (
-      <View key={key} className='result-dimension'>
+      <View key={key} className={`result-dimension result-dimension--${key}`}>
         <View className='result-dimension-header'>
-          <View className='result-dimension-icon' style={{ backgroundColor: getDimensionColor(key) }}>
-            <Text className='result-dimension-icon-text'>{SIHUA_DIMENSION_NAMES[key]}</Text>
-          </View>
           <View className='result-dimension-title'>
             <Text className='result-dimension-name'>{data.star}</Text>
             <Text className='result-dimension-meaning'>{SIHUA_DIMENSION_MEANINGS[key]}</Text>
@@ -49,9 +47,6 @@ const ResultCard: React.FC<ResultCardProps> = ({
     return (
       <View className='result-dimension result-dimension--ji'>
         <View className='result-dimension-header'>
-          <View className='result-dimension-icon result-dimension-icon--ji'>
-            <Text className='result-dimension-icon-text'>忌</Text>
-          </View>
           <View className='result-dimension-title'>
             <Text className='result-dimension-name'>{data.star}</Text>
             <Text className='result-dimension-meaning'>{SIHUA_DIMENSION_MEANINGS.ji}</Text>
@@ -61,7 +56,10 @@ const ResultCard: React.FC<ResultCardProps> = ({
         
         {data.warnings.length > 0 && (
           <View className='result-dimension-section'>
-            <Text className='result-dimension-section-title'>⚠️ 注意事项</Text>
+            <View className='result-dimension-section-title'>
+              <AlertTriangle size={24} color='#C47A7A' />
+              <Text>注意事项</Text>
+            </View>
             {data.warnings.map((warning, idx) => (
               <View key={idx} className='result-dimension-warning'>
                 <Text className='result-dimension-warning-text'>{warning}</Text>
@@ -72,7 +70,10 @@ const ResultCard: React.FC<ResultCardProps> = ({
         
         {data.avoid.length > 0 && (
           <View className='result-dimension-section'>
-            <Text className='result-dimension-section-title'>🚫 建议避免</Text>
+            <View className='result-dimension-section-title'>
+              <XCircle size={24} color='#C47A7A' />
+              <Text>建议避免</Text>
+            </View>
             {data.avoid.map((item, idx) => (
               <View key={idx} className='result-dimension-avoid'>
                 <Text className='result-dimension-avoid-text'>{item}</Text>
@@ -82,16 +83,6 @@ const ResultCard: React.FC<ResultCardProps> = ({
         )}
       </View>
     );
-  };
-
-  const getDimensionColor = (key: string) => {
-    switch (key) {
-      case 'lu': return '#4A7C59';
-      case 'quan': return '#92703A';
-      case 'ke': return '#4A6B8A';
-      case 'ji': return '#9B4A4A';
-      default: return '#57534E';
-    }
   };
 
   return (
@@ -115,7 +106,10 @@ const ResultCard: React.FC<ResultCardProps> = ({
 
       {result.bestEntry && (
         <View className='result-best-entry'>
-          <Text className='result-best-entry-label'>💡 最佳切入点</Text>
+          <View className='result-best-entry-label'>
+            <Sparkles size={24} color='#A8A29E' />
+            <Text>最佳切入点</Text>
+          </View>
           <View className='result-best-entry-content'>
             <Text className='result-best-entry-reason'>{result.bestEntry.reason}</Text>
             <Text className='result-best-entry-suggestion'>{result.bestEntry.suggestion}</Text>
@@ -134,7 +128,10 @@ const ResultCard: React.FC<ResultCardProps> = ({
 
       {result.overallAdvice && (
         <View className='result-overall'>
-          <Text className='result-overall-label'>📌 整体建议</Text>
+          <View className='result-overall-label'>
+            <Lightbulb size={24} color='#A8A29E' />
+            <Text>整体建议</Text>
+          </View>
           <Text className='result-overall-text'>{result.overallAdvice}</Text>
         </View>
       )}

@@ -62,11 +62,11 @@ export default function History() {
   }, [records.length, clearAll]);
 
   const renderSihuaTag = (label: string, star: string) => {
-    const colors: Record<string, { bg: string; text: string }> = {
-      lu: { bg: 'rgba(74, 124, 89, 0.1)', text: '#4A7C59' },
-      quan: { bg: 'rgba(146, 112, 58, 0.1)', text: '#92703A' },
-      ke: { bg: 'rgba(74, 107, 138, 0.1)', text: '#4A6B8A' },
-      ji: { bg: 'rgba(155, 74, 74, 0.1)', text: '#9B4A4A' },
+    const colors: Record<string, string> = {
+      lu: '#6B9E7A',
+      quan: '#C49A5C',
+      ke: '#7BA3C4',
+      ji: '#C47A7A',
     };
 
     const labels: Record<string, string> = {
@@ -76,14 +76,13 @@ export default function History() {
       ji: '忌',
     };
 
-    const color = colors[label] || colors.lu;
+    const color = colors[label] || '#A8A29E';
 
     return (
       <View 
-        className='history-sihua-tag'
-        style={{ backgroundColor: color.bg }}
+        className={`history-sihua-tag history-sihua-tag--${label}`}
       >
-        <Text className='history-sihua-tag-label' style={{ color: color.text }}>
+        <Text className='history-sihua-tag-label' style={{ color }}>
           {labels[label]}
         </Text>
         <Text className='history-sihua-tag-star'>{star}</Text>

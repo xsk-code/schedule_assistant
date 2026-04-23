@@ -102,18 +102,8 @@ export default function Mine() {
 
       <View className='mine-stats'>
         <View className='mine-stat-item'>
-          <Text className='mine-stat-value'>{records.length}</Text>
-          <Text className='mine-stat-label'>历史记录</Text>
-        </View>
-        <View className='mine-stat-divider' />
-        <View className='mine-stat-item'>
-          <Text className='mine-stat-value'>{new Date().getMonth() + 1}</Text>
-          <Text className='mine-stat-label'>当前月份</Text>
-        </View>
-        <View className='mine-stat-divider' />
-        <View className='mine-stat-item'>
-          <Text className='mine-stat-value'>v1.0.0</Text>
-          <Text className='mine-stat-label'>版本</Text>
+          <Text className='mine-stat-label'>已分析</Text>
+          <Text className='mine-stat-value'>{records.length} 个任务</Text>
         </View>
       </View>
 

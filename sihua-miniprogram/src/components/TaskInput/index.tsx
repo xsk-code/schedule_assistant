@@ -1,6 +1,7 @@
 import { View, Text, Textarea, Button } from '@tarojs/components';
 import './index.scss';
 import type { TaskMode } from '@/types';
+import { Zap, Brain } from '@/components/Icons';
 
 interface TaskInputProps {
   value: string;
@@ -41,14 +42,22 @@ const TaskInput: React.FC<TaskInputProps> = ({
           className={`task-input-mode-item ${mode === 'simple' ? 'task-input-mode-item--active' : ''}`}
           onClick={() => !disabled && onModeChange('simple')}
         >
-          <Text className='task-input-mode-icon'>⚡</Text>
+          <Zap 
+            size={32} 
+            color={mode === 'simple' ? '#FFFFFF' : '#78716C'} 
+            className='task-input-mode-icon'
+          />
           <Text className='task-input-mode-text'>简单</Text>
         </View>
         <View 
           className={`task-input-mode-item ${mode === 'thinking' ? 'task-input-mode-item--active' : ''}`}
           onClick={() => !disabled && onModeChange('thinking')}
         >
-          <Text className='task-input-mode-icon'>💭</Text>
+          <Brain 
+            size={32} 
+            color={mode === 'thinking' ? '#FFFFFF' : '#78716C'} 
+            className='task-input-mode-icon'
+          />
           <Text className='task-input-mode-text'>思考</Text>
         </View>
       </View>

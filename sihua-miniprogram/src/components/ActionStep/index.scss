@@ -1,10 +1,8 @@
 .action-step {
   display: flex;
   gap: 16rpx;
-  padding: 24rpx;
-  background-color: #FAFAF9;
-  border-radius: 12rpx;
-  margin-bottom: 16rpx;
+  padding: 0;
+  margin-bottom: 32rpx;
 }
 
 .action-step--completed {
@@ -34,8 +32,8 @@
 }
 
 .action-step--completed .action-step-checkbox {
-  background-color: #1C1917;
-  border-color: #1C1917;
+  background-color: #D97757;
+  border-color: #D97757;
 }
 
 .action-step-content {
@@ -57,6 +55,7 @@
   flex: 1;
   margin-right: 16rpx;
   line-height: 1.4;
+  font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
 }
 
 .action-step-meta {
@@ -69,22 +68,23 @@
 .action-step-tag {
   display: flex;
   align-items: center;
-  padding: 4rpx 12rpx;
-  border-radius: 8rpx;
-  background-color: #E7E5E4;
+  padding: 0;
+  background-color: transparent;
 }
 
 .action-step-tag-text {
-  font-size: 20rpx;
-  color: #57534E;
+  font-size: 22rpx;
+  color: #A8A29E;
+  font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .action-step-tag--dimension {
-  background-color: #FAFAF9;
+  background-color: transparent;
 }
 
 .action-step-description {
   font-size: 24rpx;
-  color: #57534E;
-  line-height: 1.5;
+  color: #78716C;
+  line-height: 1.75;
+  font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
