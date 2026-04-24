@@ -257,7 +257,7 @@ export function ResultDisplay({ result, onCopy, onSave, onReanalyze }: ResultDis
         )}
         {onSave && (
           <Button variant="secondary" onClick={onSave}>
-            保存记录
+            归档案卷
           </Button>
         )}
         {onCopy && (
