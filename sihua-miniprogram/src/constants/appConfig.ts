@@ -1,6 +1,6 @@
 export const APP_CONFIG = {
   API_BASE_URL: 'https://api.siliconflow.cn/v1',
-  API_KEY: 'sk-your-api-key-here',
+  API_KEY: process.env.TARO_APP_API_KEY || '',
   DEFAULT_MODEL: 'deepseek-ai/DeepSeek-V3.2',
   MAX_TOKENS: 4000,
   TEMPERATURE: 0.7,

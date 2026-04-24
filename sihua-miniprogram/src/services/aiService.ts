@@ -186,8 +186,8 @@ export async function analyzeTask(
   const apiKey = APP_CONFIG.API_KEY;
   const model = APP_CONFIG.DEFAULT_MODEL;
 
-  if (!apiKey || apiKey === 'sk-your-api-key-here') {
-    throw createAPIError('auth', 'API Key 未配置。请在 src/constants/appConfig.ts 中配置您的 API Key。');
+  if (!apiKey) {
+    throw createAPIError('auth', 'API Key 未配置。请通过环境变量 TARO_APP_API_KEY 配置您的 API Key。');
   }
 
   const prompt = buildAnalysisPrompt(task, sihuaInfo, collectedInfo);
