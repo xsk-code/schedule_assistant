@@ -159,9 +159,6 @@ export default function History() {
         </View>
       )}
 
-      <View className='history-footer'>
-        <Text className='history-footer-text'>基于紫微斗数四化理论</Text>
-      </View>
     </ScrollView>
   );
 }

@@ -150,10 +150,6 @@ export default function Index() {
 
       {renderContent()}
 
-      <View className='home-footer'>
-        <Text className='home-footer-text'>基于紫微斗数四化理论</Text>
-        <Text className='home-footer-text'>AI 驱动的任务分析引擎</Text>
-      </View>
     </ScrollView>
   );
 }
