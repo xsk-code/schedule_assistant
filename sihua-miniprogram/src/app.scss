@@ -21,6 +21,8 @@
 }
 
 page {
+  height: 100vh;
+  overflow-y: auto;
   background-color: var(--color-bg);
   font-family: "PingFang SC", -apple-system, sans-serif;
   font-size: 28rpx;
