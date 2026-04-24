@@ -1,6 +1,6 @@
 .sihua-bar {
-  padding: 0 32rpx;
-  margin-bottom: 48rpx;
+  padding: 0 40rpx;
+  margin-bottom: 80rpx;
 }
 
 .sihua-bar-loading {
@@ -12,62 +12,92 @@
 
 .sihua-bar-date {
   display: flex;
-  align-items: baseline;
-  margin-bottom: 24rpx;
-}
-
-.sihua-bar-date-title {
-  font-size: 28rpx;
-  font-weight: 600;
-  color: #1C1917;
-  margin-right: 12rpx;
-  font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32rpx;
 }
 
 .sihua-bar-date-ganzhi {
-  font-size: 24rpx;
-  color: #A8A29E;
+  font-size: 36rpx;
+  font-weight: 600;
+  color: var(--color-ink-2);
+  font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
+  margin-bottom: 8rpx;
+}
+
+.sihua-bar-date-lunar {
+  font-size: 22rpx;
+  color: var(--color-ink-4);
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .sihua-bar-items {
   display: flex;
   flex-wrap: wrap;
-  gap: 32rpx;
+  justify-content: center;
+  gap: 24rpx;
+  margin-bottom: 40rpx;
 }
 
 .sihua-item {
   display: flex;
   align-items: center;
-  padding-left: 12rpx;
-  padding-right: 8rpx;
-  padding-top: 8rpx;
-  padding-bottom: 8rpx;
-  border-left: 2rpx solid transparent;
-}
-
-.sihua-item--lu {
-  border-left-color: #6B9E7A;
-}
-
-.sihua-item--quan {
-  border-left-color: #C49A5C;
-}
-
-.sihua-item--ke {
-  border-left-color: #7BA3C4;
-}
-
-.sihua-item--ji {
-  border-left-color: #C47A7A;
+  gap: 8rpx;
+  padding: 8rpx 12rpx;
 }
 
 .sihua-item-dot {
-  display: none;
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 2rpx;
+  transform: rotate(45deg);
+}
+
+.sihua-item-dot--lu {
+  background-color: var(--color-lu);
+}
+
+.sihua-item-dot--quan {
+  background-color: var(--color-quan);
+}
+
+.sihua-item-dot--ke {
+  background-color: var(--color-ke);
+}
+
+.sihua-item-dot--ji {
+  background-color: var(--color-ji);
 }
 
 .sihua-item-name {
   font-size: 26rpx;
-  color: #78716C;
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
+}
+
+.sihua-item-name--lu {
+  color: var(--color-lu);
+}
+
+.sihua-item-name--quan {
+  color: var(--color-quan);
+}
+
+.sihua-item-name--ke {
+  color: var(--color-ke);
+}
+
+.sihua-item-name--ji {
+  color: var(--color-ji);
+}
+
+.sihua-bar-divider {
+  width: 100%;
+  height: 2rpx;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-ink-5) 0rpx,
+    var(--color-ink-5) 8rpx,
+    transparent 8rpx,
+    transparent 16rpx
+  );
 }

@@ -1,40 +1,41 @@
 .history-container {
   min-height: 100vh;
-  background-color: #FAFAF9;
+  background-color: var(--color-bg);
   padding-bottom: 40rpx;
 }
 
 .history-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 64rpx 32rpx 40rpx;
+  align-items: flex-start;
+  padding: 64rpx 40rpx 40rpx;
 }
 
 .history-header-left {
   display: flex;
-  align-items: baseline;
-  gap: 16rpx;
+  flex-direction: column;
+  gap: 8rpx;
 }
 
 .history-title {
-  font-size: 48rpx;
+  font-size: 52rpx;
   font-weight: 700;
-  color: #1C1917;
-  font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
-  letter-spacing: -0.03em;
+  color: var(--color-ink-1);
+  font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
+  letter-spacing: 0.02em;
 }
 
 .history-count {
   font-size: 24rpx;
-  color: #A8A29E;
+  color: var(--color-ink-4);
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .history-clear {
   font-size: 26rpx;
-  color: #C47A7A;
-  font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
+  color: var(--color-ji);
+  font-family: "PingFang SC", -apple-system, sans-serif;
+  margin-top: 8rpx;
 }
 
 .history-loading {
@@ -46,16 +47,16 @@
 
 .history-loading-text {
   font-size: 28rpx;
-  color: #A8A29E;
+  color: var(--color-ink-4);
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .history-empty {
-  padding: 80rpx 32rpx;
+  padding: 80rpx 40rpx;
 }
 
 .history-list {
-  padding: 0 32rpx;
+  padding: 0 40rpx;
   gap: 0;
   display: flex;
   flex-direction: column;
@@ -63,7 +64,7 @@
 
 .history-item {
   padding: 32rpx 0;
-  border-bottom: 0.5rpx solid rgba(0, 0, 0, 0.06);
+  border-bottom: 2rpx dashed var(--color-ink-5);
 }
 
 .history-item:last-child {
@@ -80,11 +81,11 @@
 .history-item-task {
   font-size: 28rpx;
   font-weight: 600;
-  color: #1C1917;
+  color: var(--color-ink-1);
   flex: 1;
   margin-right: 16rpx;
-  line-height: 1.4;
-  font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
+  line-height: 1.5;
+  font-family: "PingFang SC", -apple-system, sans-serif;
 }
 
 .history-item-delete {
@@ -98,7 +99,7 @@
 
 .history-item-delete-icon {
   font-size: 32rpx;
-  color: #A8A29E;
+  color: var(--color-ink-4);
   line-height: 1;
 }
 
@@ -110,13 +111,13 @@
 
 .history-item-date {
   font-size: 24rpx;
-  color: #A8A29E;
+  color: var(--color-ink-4);
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .history-item-ganzhi {
   font-size: 24rpx;
-  color: #78716C;
+  color: var(--color-ink-3);
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
@@ -130,35 +131,55 @@
 .history-sihua-tag {
   display: flex;
   align-items: center;
-  padding-left: 6rpx;
-  border-left: 2rpx solid transparent;
+  gap: 6rpx;
 }
 
-.history-sihua-tag--lu {
-  border-left-color: #6B9E7A;
+.history-sihua-tag-dot {
+  width: 6rpx;
+  height: 6rpx;
+  border-radius: 50%;
 }
 
-.history-sihua-tag--quan {
-  border-left-color: #C49A5C;
+.history-sihua-tag-dot--lu {
+  background-color: var(--color-lu);
 }
 
-.history-sihua-tag--ke {
-  border-left-color: #7BA3C4;
+.history-sihua-tag-dot--quan {
+  background-color: var(--color-quan);
 }
 
-.history-sihua-tag--ji {
-  border-left-color: #C47A7A;
+.history-sihua-tag-dot--ke {
+  background-color: var(--color-ke);
+}
+
+.history-sihua-tag-dot--ji {
+  background-color: var(--color-ji);
 }
 
 .history-sihua-tag-label {
   font-size: 24rpx;
   font-weight: 500;
-  margin-right: 6rpx;
+}
+
+.history-sihua-tag-label--lu {
+  color: var(--color-lu);
+}
+
+.history-sihua-tag-label--quan {
+  color: var(--color-quan);
+}
+
+.history-sihua-tag-label--ke {
+  color: var(--color-ke);
+}
+
+.history-sihua-tag-label--ji {
+  color: var(--color-ji);
 }
 
 .history-sihua-tag-star {
   font-size: 24rpx;
-  color: #78716C;
+  color: var(--color-ink-3);
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
@@ -168,15 +189,15 @@
 
 .history-item-summary-label {
   font-size: 22rpx;
-  color: #A8A29E;
+  color: var(--color-ink-4);
   margin-bottom: 8rpx;
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .history-item-summary-text {
   font-size: 24rpx;
-  color: #78716C;
-  line-height: 1.75;
+  color: var(--color-ink-3);
+  line-height: 1.8;
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
@@ -189,6 +210,6 @@
 
 .history-footer-text {
   font-size: 22rpx;
-  color: #A8A29E;
+  color: var(--color-ink-4);
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }

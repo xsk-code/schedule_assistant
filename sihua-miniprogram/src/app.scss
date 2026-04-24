@@ -2,48 +2,67 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+:root {
+  --color-bg: #F5F0E8;
+  --color-bg-warm: #EDE7DB;
+  --color-ink-1: #2C2420;
+  --color-ink-2: #5C4F45;
+  --color-ink-3: #8C7E72;
+  --color-ink-4: #B5A99A;
+  --color-ink-5: #D8CFC3;
+  --color-vermilion: #C4463A;
+  --color-vermilion-light: #F2E0DC;
+  --color-vermilion-dark: #9E352C;
+  --color-seal: #B83A2E;
+  --color-lu: #5E8B6A;
+  --color-quan: #B8944C;
+  --color-ke: #6B8FAB;
+  --color-ji: #B46A5E;
+}
+
 page {
-  background-color: #FAFAF9;
-  font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
+  background-color: var(--color-bg);
+  font-family: "PingFang SC", -apple-system, sans-serif;
   font-size: 28rpx;
-  line-height: 1.75;
-  color: #1C1917;
+  line-height: 1.8;
+  color: var(--color-ink-1);
 }
 
 .container {
-  padding: 32rpx;
+  padding: 40rpx;
 }
 
 .btn-primary {
-  background-color: #D97757;
-  color: #FFFFFF;
+  background-color: var(--color-vermilion);
+  color: var(--color-bg);
   border-radius: 24rpx;
   padding: 28rpx;
   text-align: center;
   font-weight: 500;
   font-size: 32rpx;
-  font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
+  font-family: "PingFang SC", -apple-system, sans-serif;
+  transition: transform 0.1s ease;
 }
 
 .btn-primary:active {
-  background-color: #B85A3A;
-  opacity: 0.9;
+  background-color: var(--color-vermilion-dark);
+  transform: scale(0.97);
 }
 
 .text-primary {
-  color: #1C1917;
+  color: var(--color-ink-1);
 }
 
 .text-secondary {
-  color: #78716C;
+  color: var(--color-ink-2);
 }
 
 .text-tertiary {
-  color: #A8A29E;
+  color: var(--color-ink-4);
 }
 
 .text-brand {
-  color: #D97757;
+  color: var(--color-vermilion);
 }
 
 .flex-center {
@@ -59,7 +78,7 @@ page {
 }
 
 .font-sans {
-  font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
+  font-family: "PingFang SC", -apple-system, sans-serif;
 }
 
 .font-serif {

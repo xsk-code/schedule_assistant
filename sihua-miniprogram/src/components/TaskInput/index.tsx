@@ -1,7 +1,6 @@
 import { View, Text, Textarea, Button } from '@tarojs/components';
 import './index.scss';
 import type { TaskMode } from '@/types';
-import { Zap, Brain } from '@/components/Icons';
 
 interface TaskInputProps {
   value: string;
@@ -27,7 +26,7 @@ const TaskInput: React.FC<TaskInputProps> = ({
       <View className='task-input-area'>
         <Textarea
           className='task-input-textarea'
-          placeholder='描述你想要完成的任务...'
+          placeholder='落笔写下今日所虑…'
           placeholderClass='task-input-placeholder'
           value={value}
           onInput={(e) => onChange(e.detail.value)}
@@ -42,23 +41,15 @@ const TaskInput: React.FC<TaskInputProps> = ({
           className={`task-input-mode-item ${mode === 'simple' ? 'task-input-mode-item--active' : ''}`}
           onClick={() => !disabled && onModeChange('simple')}
         >
-          <Zap 
-            size={32} 
-            color={mode === 'simple' ? '#FFFFFF' : '#78716C'} 
-            className='task-input-mode-icon'
-          />
-          <Text className='task-input-mode-text'>简单</Text>
+          <View className='task-input-mode-dot' />
+          <Text className='task-input-mode-text'>速览</Text>
         </View>
         <View 
           className={`task-input-mode-item ${mode === 'thinking' ? 'task-input-mode-item--active' : ''}`}
           onClick={() => !disabled && onModeChange('thinking')}
         >
-          <Brain 
-            size={32} 
-            color={mode === 'thinking' ? '#FFFFFF' : '#78716C'} 
-            className='task-input-mode-icon'
-          />
-          <Text className='task-input-mode-text'>思考</Text>
+          <View className='task-input-mode-dot' />
+          <Text className='task-input-mode-text'>深思</Text>
         </View>
       </View>
       
@@ -68,7 +59,7 @@ const TaskInput: React.FC<TaskInputProps> = ({
         disabled={loading || disabled}
         loading={loading}
       >
-        {loading ? '分析中...' : '开始智能拆分'}
+        {loading ? '研读中…' : '落笔开卷'}
       </Button>
     </View>
   );
