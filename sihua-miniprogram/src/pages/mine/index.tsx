@@ -3,9 +3,11 @@ import { View, Text, ScrollView } from '@tarojs/components';
 import './index.scss';
 import Taro from '@tarojs/taro';
 import { useHistoryStore } from '@/store/useHistoryStore';
+import { useStatusBarHeight } from '@/hooks/useStatusBarHeight';
 
 export default function Mine() {
   const { records, clearAll } = useHistoryStore();
+  const statusBarHeight = useStatusBarHeight();
 
   const handleClearHistory = useCallback(() => {
     Taro.showModal({
@@ -39,7 +41,7 @@ export default function Mine() {
       enhanced
       showScrollbar={false}
     >
-      <View className='mine-header'>
+      <View className='mine-header' style={{ paddingTop: `${statusBarHeight + 8}px` }}>
         <View className='mine-avatar'>
           <Text className='mine-avatar-text'>别</Text>
         </View>

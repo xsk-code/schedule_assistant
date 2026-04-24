@@ -3,16 +3,19 @@ import { View, Text, ScrollView } from '@tarojs/components';
 import './index.scss';
 import Taro from '@tarojs/taro';
 import { useHistoryStore } from '@/store/useHistoryStore';
+import { useStatusBarHeight } from '@/hooks/useStatusBarHeight';
 import type { HistoryRecord } from '@/types';
 import Loading from '@/components/Loading';
 import SihuaBar from '@/components/SihuaBar';
 import ResultCard from '@/components/ResultCard';
 import Empty from '@/components/Empty';
+import ArrowLeft from '@/components/Icons/ArrowLeft';
 
 export default function Detail() {
   const { records, getRecordById, deleteRecord } = useHistoryStore();
   const [record, setRecord] = useState<HistoryRecord | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const statusBarHeight = useStatusBarHeight();
 
   useEffect(() => {
     const currentPages = Taro.getCurrentPages();
@@ -133,6 +136,14 @@ export default function Detail() {
       enhanced
       showScrollbar={false}
     >
+      <View className='detail-nav' style={{ paddingTop: `${statusBarHeight}px` }}>
+        <View className='detail-nav-back' onClick={() => Taro.navigateBack()}>
+          <ArrowLeft size={36} color='#2C2420' />
+        </View>
+        <Text className='detail-nav-title'>深度解析</Text>
+        <View className='detail-nav-placeholder' />
+      </View>
+
       <View className='detail-header'>
         <View className='detail-task-card'>
           <Text className='detail-task-label'>原始任务</Text>

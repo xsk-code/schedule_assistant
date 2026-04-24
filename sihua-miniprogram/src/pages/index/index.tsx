@@ -3,6 +3,7 @@ import { View, Text, ScrollView } from '@tarojs/components';
 import './index.scss';
 import Taro from '@tarojs/taro';
 import { useTaskStore } from '@/store/useTaskStore';
+import { useStatusBarHeight } from '@/hooks/useStatusBarHeight';
 import SihuaBar from '@/components/SihuaBar';
 import TaskInput from '@/components/TaskInput';
 import Loading from '@/components/Loading';
@@ -11,6 +12,7 @@ import ConversationPanel from '@/components/ConversationPanel';
 import ResultCard from '@/components/ResultCard';
 
 export default function Index() {
+  const statusBarHeight = useStatusBarHeight();
   const {
     sihuaInfo,
     task,
@@ -131,7 +133,7 @@ export default function Index() {
       enhanced
       showScrollbar={false}
     >
-      <View className='home-header'>
+      <View className='home-header' style={{ paddingTop: `${statusBarHeight + 24}px` }}>
         <Text className='home-title'>别蛮干</Text>
         <Text className='home-subtitle'>找对方向再出手</Text>
       </View>

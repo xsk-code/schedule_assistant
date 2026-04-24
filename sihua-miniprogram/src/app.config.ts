@@ -10,7 +10,8 @@ export default defineAppConfig({
     backgroundColor: '#F5F0E8',
     navigationBarBackgroundColor: '#2C2420',
     navigationBarTitleText: '别蛮干',
-    navigationBarTextStyle: 'white'
+    navigationBarTextStyle: 'white',
+    navigationStyle: 'custom'
   },
   tabBar: {
     color: '#8C7E72',

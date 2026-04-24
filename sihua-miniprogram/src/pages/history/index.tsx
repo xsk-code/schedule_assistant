@@ -3,11 +3,13 @@ import { View, Text, ScrollView } from '@tarojs/components';
 import './index.scss';
 import Taro from '@tarojs/taro';
 import { useHistoryStore } from '@/store/useHistoryStore';
+import { useStatusBarHeight } from '@/hooks/useStatusBarHeight';
 import Empty from '@/components/Empty';
 import type { HistoryRecord } from '@/types';
 
 export default function History() {
   const { records, isLoaded, loadHistory, deleteRecord, clearAll } = useHistoryStore();
+  const statusBarHeight = useStatusBarHeight();
 
   useEffect(() => {
     loadHistory();
@@ -89,7 +91,7 @@ export default function History() {
       enhanced
       showScrollbar={false}
     >
-      <View className='history-header'>
+      <View className='history-header' style={{ paddingTop: `${statusBarHeight + 8}px` }}>
         <View className='history-header-left'>
           <Text className='history-title'>案卷</Text>
           <Text className='history-count'>共 {records.length} 条</Text>
