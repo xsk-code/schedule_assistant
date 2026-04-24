@@ -3,7 +3,6 @@ import type { CollectedItem, AIResponse } from '@/types';
 import { APP_CONFIG } from '@/constants/appConfig';
 import { buildConversationPrompt } from '@/utils/promptBuilder';
 import { createAPIError } from './aiService';
-import { storageService } from './storageService';
 
 function validateAIResponse(data: unknown): AIResponse {
   if (typeof data !== 'object' || data === null) {
@@ -49,12 +48,11 @@ export async function clarifyTask(
   maxRounds: number = APP_CONFIG.CONVERSATION.MAX_ROUNDS
 ): Promise<AIResponse> {
   const url = `${APP_CONFIG.API_BASE_URL}/chat/completions`;
-  const savedSettings = storageService.getSettings();
-  const apiKey = APP_CONFIG.API_KEY || savedSettings.apiKey || '';
+  const apiKey = APP_CONFIG.API_KEY;
   const model = APP_CONFIG.DEFAULT_MODEL;
 
-  if (!apiKey) {
-    throw createAPIError('auth', 'API Key 未配置。请在「我的」页面中设置 API Key，或在开发环境中配置 TARO_APP_API_KEY 环境变量。');
+  if (!apiKey || apiKey === 'sk-your-api-key-here') {
+    throw createAPIError('auth', 'API Key 未配置。请在 src/constants/appConfig.ts 中配置您的 API Key。');
   }
 
   const prompt = buildConversationPrompt(task, collectedInfo, currentRound, maxRounds);

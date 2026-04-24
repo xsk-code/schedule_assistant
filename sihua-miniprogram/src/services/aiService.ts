@@ -2,7 +2,6 @@ import Taro from '@tarojs/taro';
 import type { SihuaInfo, AnalysisResult, ActionStep, DimensionAnalysis, JiDimensionAnalysis, CollectedItem } from '@/types';
 import { buildAnalysisPrompt } from '@/utils/promptBuilder';
 import { APP_CONFIG } from '@/constants/appConfig';
-import { storageService } from './storageService';
 
 export interface APIError {
   type: 'network' | 'timeout' | 'auth' | 'rate_limit' | 'server' | 'invalid_response' | 'unknown';
@@ -184,12 +183,11 @@ export async function analyzeTask(
   collectedInfo: CollectedItem[] = []
 ): Promise<AnalysisResult> {
   const url = `${APP_CONFIG.API_BASE_URL}/chat/completions`;
-  const savedSettings = storageService.getSettings();
-  const apiKey = APP_CONFIG.API_KEY || savedSettings.apiKey || '';
+  const apiKey = APP_CONFIG.API_KEY;
   const model = APP_CONFIG.DEFAULT_MODEL;
 
-  if (!apiKey) {
-    throw createAPIError('auth', 'API Key 未配置。请在「我的」页面中设置 API Key，或在开发环境中配置 TARO_APP_API_KEY 环境变量。');
+  if (!apiKey || apiKey === 'sk-your-api-key-here') {
+    throw createAPIError('auth', 'API Key 未配置。请在 src/constants/appConfig.ts 中配置您的 API Key。');
   }
 
   const prompt = buildAnalysisPrompt(task, sihuaInfo, collectedInfo);
