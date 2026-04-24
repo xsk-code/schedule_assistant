@@ -59,7 +59,7 @@ export default function Index() {
     const record = saveToHistory();
     if (record) {
       Taro.showToast({
-        title: '已保存到历史记录',
+        title: '案卷已归档',
         icon: 'success',
       });
     }
@@ -104,7 +104,7 @@ export default function Index() {
           
           <View className='home-actions'>
             <View className='home-action-btn home-action-btn--primary' onClick={handleSaveToHistory}>
-              <Text className='home-action-btn-text'>保存记录</Text>
+              <Text className='home-action-btn-text'>归档案卷</Text>
             </View>
             <View className='home-action-btn' onClick={handleNewAnalysis}>
               <Text className='home-action-btn-text home-action-btn-text--secondary'>新的分析</Text>

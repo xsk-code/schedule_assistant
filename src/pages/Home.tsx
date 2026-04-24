@@ -76,7 +76,7 @@ export function HomePage({ apiKey, model, onSaveHistory, initialTask, onClearReu
     };
 
     onSaveHistory(record);
-    alert('已保存到历史记录');
+    alert('案卷已归档');
   };
 
   const handleCopy = () => {
