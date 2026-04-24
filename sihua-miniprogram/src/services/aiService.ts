@@ -31,6 +31,22 @@ export function logError(type: string, details: Record<string, unknown>) {
   console.groupEnd();
 }
 
+export function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  if (error && typeof error === 'object') {
+    const errObj = error as Record<string, unknown>;
+    if (typeof errObj.errMsg === 'string') {
+      return errObj.errMsg;
+    }
+    if (typeof errObj.message === 'string') {
+      return errObj.message;
+    }
+  }
+  return String(error);
+}
+
 function snakeToCamel(str: string): string {
   return str.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
 }
@@ -327,22 +343,24 @@ export async function analyzeTask(
       throw error;
     }
     
-    const errorMsg = error instanceof Error ? error.message : String(error);
+    const errorMsg = getErrorMessage(error);
     
     if (errorMsg.includes('timeout') || errorMsg.includes('超时')) {
       logError('Timeout', {
         url,
         model,
         timeout: `${APP_CONFIG.API_TIMEOUT / 1000}秒`,
+        rawError: error,
       });
       throw createAPIError('timeout', 
-        `API 调用超时 (${APP_CONFIG.API_TIMEOUT / 1000}秒)。\n可能的原因：\n1. 网络连接不稳定\n2. 模型响应较慢\n\n建议：请检查网络连接或稍后重试。`,
+        `API 调用超时 (${APP_CONFIG.API_TIMEOUT / 1000}秒)。\n可能的原因：\n1. 网络连接不稳定\n2. 模型响应较慢（分析任务需要生成更多内容）\n\n建议：请检查网络连接或稍后重试。`,
         undefined, error);
     }
     
-    if (errorMsg.includes('request') || errorMsg.includes('网络')) {
+    if (errorMsg.includes('request') || errorMsg.includes('网络') || errorMsg.includes('fail')) {
       logError('Network Error', {
         error: errorMsg,
+        rawError: error,
         url: APP_CONFIG.API_BASE_URL,
       });
       throw createAPIError('network', 
@@ -351,7 +369,8 @@ export async function analyzeTask(
     }
     
     logError('Unknown Error', {
-      error: error instanceof Error ? error.message : error,
+      error: errorMsg,
+      rawError: error,
       stack: error instanceof Error ? error.stack : undefined,
     });
     
