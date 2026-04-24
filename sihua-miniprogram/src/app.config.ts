@@ -8,7 +8,7 @@ export default defineAppConfig({
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#1C1917',
-    navigationBarTitleText: '四化节奏师',
+    navigationBarTitleText: '别蛮干',
     navigationBarTextStyle: 'white'
   },
   tabBar: {

@@ -118,7 +118,7 @@ export default function Index() {
       <View className='home-content'>
         <Empty
           title='输入您的任务'
-          description='四化节奏师将根据今日四化能量，为您提供最佳行动策略'
+          description='别蛮干将根据今日四化能量，帮你找到最省力的行动路径'
         />
       </View>
     );
@@ -132,8 +132,8 @@ export default function Index() {
       showScrollbar={false}
     >
       <View className='home-header'>
-        <Text className='home-title'>四化节奏师</Text>
-        <Text className='home-subtitle'>让每日任务与四化能量同步</Text>
+        <Text className='home-title'>别蛮干</Text>
+        <Text className='home-subtitle'>等对时机再出手</Text>
       </View>
 
       {sihuaInfo && <SihuaBar sihuaInfo={sihuaInfo} />}

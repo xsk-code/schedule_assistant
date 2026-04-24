@@ -76,8 +76,8 @@ export default function Mine() {
 
   const handleAbout = useCallback(() => {
     Taro.showModal({
-      title: '关于四化节奏师',
-      content: `版本：1.0.0\n\n四化节奏师是一款基于紫微斗数四化理论的任务分析工具。\n\n通过 AI 驱动的深度分析，帮助您在对的时间做对的事。\n\n核心功能：\n• 每日四化能量显示\n• 任务四化能量匹配分析\n• 四维深度分析（禄权科忌）\n• 智能行动路径规划\n\n技术栈：\n• Taro + React + TypeScript\n• Tailwind CSS\n• Zustand\n• lunar-javascript\n• SiliconFlow API`,
+      title: '关于别蛮干',
+      content: `版本：1.0.0\n\n别蛮干是一款基于紫微斗数四化理论的任务分析工具。\n\n等对时机再出手——通过 AI 驱动的深度分析，帮你在对的时间做对的事。\n\n核心功能：\n• 每日四化能量显示\n• 任务四化能量匹配分析\n• 四维深度分析（禄权科忌）\n• 智能行动路径规划\n\n技术栈：\n• Taro + React + TypeScript\n• Tailwind CSS\n• Zustand\n• lunar-javascript\n• SiliconFlow API`,
       showCancel: false,
       confirmText: '知道了',
     });
@@ -92,11 +92,11 @@ export default function Mine() {
     >
       <View className='mine-header'>
         <View className='mine-avatar'>
-          <Text className='mine-avatar-text'>四</Text>
+          <Text className='mine-avatar-text'>别</Text>
         </View>
         <View className='mine-info'>
-          <Text className='mine-name'>四化节奏师</Text>
-          <Text className='mine-desc'>让每日任务与四化能量同步</Text>
+          <Text className='mine-name'>别蛮干</Text>
+          <Text className='mine-desc'>借助天时行动</Text>
         </View>
       </View>
 
@@ -171,7 +171,7 @@ export default function Mine() {
           className='mine-setting-item mine-setting-item--clickable'
           onClick={handleAbout}
         >
-          <Text className='mine-setting-label'>关于四化节奏师</Text>
+          <Text className='mine-setting-label'>关于别蛮干</Text>
           <View className='mine-setting-arrow'>
             <Text className='mine-setting-arrow-text'>›</Text>
           </View>
