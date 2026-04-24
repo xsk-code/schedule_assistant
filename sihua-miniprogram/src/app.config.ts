@@ -15,7 +15,7 @@ export default defineAppConfig({
     color: '#8C7E72',
     selectedColor: '#C4463A',
     backgroundColor: '#F5F0E8',
-    borderStyle: 'none',
+    borderStyle: 'white',
     list: [
       {
         pagePath: 'pages/index/index',
