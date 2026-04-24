@@ -1,8 +1,7 @@
-import { View, Text, Button } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import './index.scss';
 import type { AIResponse } from '@/types';
 import Loading from '@/components/Loading';
-import { ArrowRight } from '@/components/Icons';
 
 interface ConversationPanelProps {
   question: AIResponse | null;
@@ -24,7 +23,7 @@ const ConversationPanel: React.FC<ConversationPanelProps> = ({
   if (isGenerating) {
     return (
       <View className='conversation-panel'>
-        <Loading message='思考中...' />
+        <Loading message='正在研读天机…' />
       </View>
     );
   }
@@ -51,8 +50,7 @@ const ConversationPanel: React.FC<ConversationPanelProps> = ({
         </View>
         
         <View className='conversation-skip' onClick={onSkip}>
-          <Text className='conversation-skip-text'>跳过</Text>
-          <ArrowRight size={20} color='#78716C' />
+          <Text className='conversation-skip-text'>跳过 →</Text>
         </View>
       </View>
 
@@ -61,7 +59,7 @@ const ConversationPanel: React.FC<ConversationPanelProps> = ({
           <Text className='conversation-bubble-text'>{question.question}</Text>
         </View>
         {question.reasoning && (
-          <Text className='conversation-hint'>{question.reasoning}</Text>
+          <Text className='conversation-hint'>命理师想了解…</Text>
         )}
       </View>
 
@@ -72,6 +70,7 @@ const ConversationPanel: React.FC<ConversationPanelProps> = ({
             className='conversation-option'
             onClick={() => onSelectOption(option)}
           >
+            <View className='conversation-option-dot' />
             <Text className='conversation-option-text'>{option}</Text>
           </View>
         ))}

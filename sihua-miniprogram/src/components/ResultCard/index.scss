@@ -1,6 +1,6 @@
 .result-card {
-  padding: 0 32rpx;
-  margin-bottom: 48rpx;
+  padding: 0 40rpx;
+  margin-bottom: 56rpx;
 }
 
 .result-summary {
@@ -8,37 +8,51 @@
 }
 
 .result-summary-label {
-  font-size: 26rpx;
-  color: #A8A29E;
-  margin-bottom: 12rpx;
+  font-size: 36rpx;
+  color: var(--color-ink-1);
+  font-weight: 600;
+  margin-bottom: 16rpx;
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
+.result-summary-decoration {
+  width: 80rpx;
+  height: 4rpx;
+  background-color: var(--color-vermilion);
+  margin-bottom: 24rpx;
+}
+
 .result-summary-text {
-  font-size: 36rpx;
-  font-weight: 600;
-  color: #1C1917;
-  line-height: 1.5;
-  font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
+  font-size: 28rpx;
+  color: var(--color-ink-1);
+  line-height: 1.8;
+  font-family: "PingFang SC", -apple-system, sans-serif;
 }
 
 .result-actions {
-  margin-bottom: 40rpx;
+  margin-bottom: 48rpx;
 }
 
 .result-best-entry {
   padding: 0;
-  margin-bottom: 48rpx;
+  margin-bottom: 56rpx;
 }
 
 .result-best-entry-label {
-  font-size: 26rpx;
-  color: #A8A29E;
+  font-size: 28rpx;
+  color: var(--color-ink-3);
   margin-bottom: 20rpx;
   display: flex;
   align-items: center;
   gap: 12rpx;
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
+}
+
+.result-best-entry-seal {
+  width: 20rpx;
+  height: 20rpx;
+  border: 2rpx solid var(--color-vermilion);
+  transform: rotate(45deg);
 }
 
 .result-best-entry-content {
@@ -47,16 +61,16 @@
 
 .result-best-entry-reason {
   font-size: 30rpx;
-  color: #1C1917;
-  line-height: 1.75;
+  color: var(--color-ink-1);
+  line-height: 1.8;
   margin-bottom: 12rpx;
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .result-best-entry-suggestion {
   font-size: 28rpx;
-  color: #78716C;
-  line-height: 1.75;
+  color: var(--color-ink-3);
+  line-height: 1.8;
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
@@ -65,33 +79,33 @@
 }
 
 .result-dimensions-title {
-  font-size: 32rpx;
+  font-size: 30rpx;
   font-weight: 600;
-  color: #1C1917;
-  margin-bottom: 40rpx;
-  font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
+  color: var(--color-ink-1);
+  margin-bottom: 32rpx;
+  font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .result-dimension {
   padding: 0 0 0 16rpx;
   margin-bottom: 40rpx;
-  border-left: 2rpx solid transparent;
+  border-left: 4rpx solid transparent;
 }
 
 .result-dimension--lu {
-  border-left-color: #6B9E7A;
+  border-left-color: var(--color-lu);
 }
 
 .result-dimension--quan {
-  border-left-color: #C49A5C;
+  border-left-color: var(--color-quan);
 }
 
 .result-dimension--ke {
-  border-left-color: #7BA3C4;
+  border-left-color: var(--color-ke);
 }
 
 .result-dimension--ji {
-  border-left-color: #C47A7A;
+  border-left-color: var(--color-ji);
 }
 
 .result-dimension-header {
@@ -118,23 +132,23 @@
 }
 
 .result-dimension-name {
-  font-size: 32rpx;
+  font-size: 28rpx;
   font-weight: 600;
-  color: #1C1917;
-  font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
+  color: var(--color-ink-1);
+  font-family: "PingFang SC", -apple-system, sans-serif;
 }
 
 .result-dimension-meaning {
   font-size: 24rpx;
-  color: #A8A29E;
+  color: var(--color-ink-4);
   margin-top: 8rpx;
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .result-dimension-analysis {
   font-size: 28rpx;
-  color: #78716C;
-  line-height: 1.75;
+  color: var(--color-ink-3);
+  line-height: 1.8;
   margin-bottom: 20rpx;
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
@@ -152,36 +166,36 @@
 }
 
 .result-dimension-action-dot {
-  width: 8rpx;
-  height: 8rpx;
+  width: 6rpx;
+  height: 6rpx;
   border-radius: 50%;
-  background-color: #A8A29E;
-  margin-top: 12rpx;
+  background-color: var(--color-ink-4);
+  margin-top: 16rpx;
   flex-shrink: 0;
 }
 
 .result-dimension-action-text {
   font-size: 26rpx;
-  color: #78716C;
-  line-height: 1.75;
+  color: var(--color-ink-3);
+  line-height: 1.8;
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .result-dimension-section {
   margin-top: 20rpx;
   padding-top: 20rpx;
-  border-top: 0.5rpx solid rgba(0, 0, 0, 0.06);
+  border-top: 1rpx solid var(--color-ink-5);
 }
 
 .result-dimension-section-title {
   font-size: 26rpx;
   font-weight: 500;
-  color: #C47A7A;
+  color: var(--color-ji);
   margin-bottom: 16rpx;
   display: flex;
   align-items: center;
   gap: 12rpx;
-  font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
+  font-family: "PingFang SC", -apple-system, sans-serif;
 }
 
 .result-dimension-warning,
@@ -193,20 +207,20 @@
 .result-dimension-warning-text,
 .result-dimension-avoid-text {
   font-size: 26rpx;
-  color: #78716C;
-  line-height: 1.75;
+  color: var(--color-ink-3);
+  line-height: 1.8;
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .result-overall {
   padding: 0;
-  border-left: 2rpx solid #D97757;
+  border-left: 4rpx solid var(--color-vermilion);
   padding-left: 16rpx;
 }
 
 .result-overall-label {
   font-size: 26rpx;
-  color: #A8A29E;
+  color: var(--color-ink-3);
   margin-bottom: 16rpx;
   display: flex;
   align-items: center;
@@ -216,7 +230,7 @@
 
 .result-overall-text {
   font-size: 28rpx;
-  color: #1C1917;
-  line-height: 1.75;
+  color: var(--color-ink-1);
+  line-height: 1.8;
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }

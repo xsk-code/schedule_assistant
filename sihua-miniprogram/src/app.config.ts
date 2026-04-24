@@ -7,33 +7,27 @@ export default defineAppConfig({
   ],
   window: {
     backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#1C1917',
+    navigationBarBackgroundColor: '#2C2420',
     navigationBarTitleText: '别蛮干',
     navigationBarTextStyle: 'white'
   },
   tabBar: {
-    color: '#A8A29E',
-    selectedColor: '#1C1917',
-    backgroundColor: '#FFFFFF',
-    borderStyle: 'black',
+    color: '#8C7E72',
+    selectedColor: '#C4463A',
+    backgroundColor: '#F5F0E8',
+    borderStyle: 'none',
     list: [
       {
         pagePath: 'pages/index/index',
-        text: '首页',
+        text: '开卷',
         iconPath: 'assets/tabbar/home.png',
         selectedIconPath: 'assets/tabbar/home-active.png'
       },
       {
         pagePath: 'pages/history/index',
-        text: '历史',
+        text: '案卷',
         iconPath: 'assets/tabbar/history.png',
         selectedIconPath: 'assets/tabbar/history-active.png'
-      },
-      {
-        pagePath: 'pages/mine/index',
-        text: '我的',
-        iconPath: 'assets/tabbar/mine.png',
-        selectedIconPath: 'assets/tabbar/mine-active.png'
       }
     ]
   }

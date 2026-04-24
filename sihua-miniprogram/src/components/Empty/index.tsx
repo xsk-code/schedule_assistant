@@ -8,13 +8,42 @@ interface EmptyProps {
 }
 
 const Empty: React.FC<EmptyProps> = ({
-  icon = '📭',
-  title = '暂无数据',
-  description = '',
+  title = '落笔写下所虑',
+  description = '四化能量将为你指引方向',
 }) => {
   return (
     <View className='empty'>
-      <Text className='empty-icon'>{icon}</Text>
+      <View className='empty-icon'>
+        <View className='empty-mountain'>
+          <View className='empty-mountain-row'>
+            <View className='empty-mountain-dot--tiny' />
+            <View className='empty-mountain-dot--tiny' />
+            <View className='empty-mountain-dot--tiny' />
+            <View className='empty-mountain-dot--small' />
+            <View className='empty-mountain-dot' />
+            <View className='empty-mountain-dot--small' />
+            <View className='empty-mountain-dot--tiny' />
+            <View className='empty-mountain-dot--tiny' />
+            <View className='empty-mountain-dot--tiny' />
+          </View>
+          <View className='empty-mountain-row'>
+            <View className='empty-mountain-dot--tiny' />
+            <View className='empty-mountain-dot--tiny' />
+            <View className='empty-mountain-dot--small' />
+            <View className='empty-mountain-dot' />
+            <View className='empty-mountain-dot--small' />
+            <View className='empty-mountain-dot--tiny' />
+            <View className='empty-mountain-dot--tiny' />
+          </View>
+          <View className='empty-mountain-row'>
+            <View className='empty-mountain-dot--tiny' />
+            <View className='empty-mountain-dot--small' />
+            <View className='empty-mountain-dot' />
+            <View className='empty-mountain-dot--small' />
+            <View className='empty-mountain-dot--tiny' />
+          </View>
+        </View>
+      </View>
       <Text className='empty-title'>{title}</Text>
       {description && (
         <Text className='empty-description'>{description}</Text>

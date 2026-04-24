@@ -47,7 +47,7 @@ export default function History() {
 
   const handleClearAll = useCallback(() => {
     Taro.showModal({
-      title: '清空历史',
+      title: '清空案卷',
       content: `确定要清空所有 ${records.length} 条历史记录吗？此操作无法撤销。`,
       success: (res: { confirm: boolean; cancel: boolean }) => {
         if (res.confirm) {
@@ -62,13 +62,6 @@ export default function History() {
   }, [records.length, clearAll]);
 
   const renderSihuaTag = (label: string, star: string) => {
-    const colors: Record<string, string> = {
-      lu: '#6B9E7A',
-      quan: '#C49A5C',
-      ke: '#7BA3C4',
-      ji: '#C47A7A',
-    };
-
     const labels: Record<string, string> = {
       lu: '禄',
       quan: '权',
@@ -76,13 +69,12 @@ export default function History() {
       ji: '忌',
     };
 
-    const color = colors[label] || '#A8A29E';
-
     return (
       <View 
-        className={`history-sihua-tag history-sihua-tag--${label}`}
+        className={`history-sihua-tag`}
       >
-        <Text className='history-sihua-tag-label' style={{ color }}>
+        <View className={`history-sihua-tag-dot history-sihua-tag-dot--${label}`} />
+        <Text className={`history-sihua-tag-label history-sihua-tag-label--${label}`}>
           {labels[label]}
         </Text>
         <Text className='history-sihua-tag-star'>{star}</Text>
@@ -99,7 +91,7 @@ export default function History() {
     >
       <View className='history-header'>
         <View className='history-header-left'>
-          <Text className='history-title'>历史记录</Text>
+          <Text className='history-title'>案卷</Text>
           <Text className='history-count'>共 {records.length} 条</Text>
         </View>
         {records.length > 0 && (
@@ -111,12 +103,12 @@ export default function History() {
 
       {!isLoaded ? (
         <View className='history-loading'>
-          <Text className='history-loading-text'>加载中...</Text>
+          <Text className='history-loading-text'>正在研读天机…</Text>
         </View>
       ) : records.length === 0 ? (
         <View className='history-empty'>
           <Empty
-            title='暂无历史记录'
+            title='暂无案卷'
             description='您的任务分析记录将显示在这里'
           />
         </View>

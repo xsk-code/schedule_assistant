@@ -1,11 +1,11 @@
 .detail-container {
   min-height: 100vh;
-  background-color: #FAFAF9;
+  background-color: var(--color-bg);
   padding-bottom: 40rpx;
 }
 
 .detail-header {
-  padding: 64rpx 32rpx 40rpx;
+  padding: 64rpx 40rpx 40rpx;
 }
 
 .detail-task-card {
@@ -14,7 +14,7 @@
 
 .detail-task-label {
   font-size: 24rpx;
-  color: #A8A29E;
+  color: var(--color-ink-4);
   margin-bottom: 12rpx;
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
@@ -22,9 +22,9 @@
 .detail-task-text {
   font-size: 32rpx;
   font-weight: 600;
-  color: #1C1917;
-  line-height: 1.4;
-  font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
+  color: var(--color-ink-1);
+  line-height: 1.5;
+  font-family: "PingFang SC", -apple-system, sans-serif;
 }
 
 .detail-meta {
@@ -35,20 +35,20 @@
 
 .detail-meta-text {
   font-size: 24rpx;
-  color: #A8A29E;
+  color: var(--color-ink-4);
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
 .detail-delete {
   padding: 8rpx 16rpx;
   border-radius: 8rpx;
-  background-color: rgba(196, 122, 122, 0.1);
+  background-color: var(--color-vermilion-light);
 }
 
 .detail-delete-text {
   font-size: 24rpx;
-  color: #C47A7A;
-  font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif;
+  color: var(--color-ji);
+  font-family: "PingFang SC", -apple-system, sans-serif;
 }
 
 .detail-content {
@@ -65,6 +65,6 @@
 
 .detail-footer-text {
   font-size: 22rpx;
-  color: #A8A29E;
+  color: var(--color-ink-4);
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }

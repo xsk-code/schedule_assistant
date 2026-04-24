@@ -16,11 +16,11 @@ const ActionStepComponent: React.FC<ActionStepProps> = ({
 }) => {
   const getDimensionColor = (dimension: string) => {
     switch (dimension) {
-      case 'lu': return '#6B9E7A';
-      case 'quan': return '#C49A5C';
-      case 'ke': return '#7BA3C4';
-      case 'ji': return '#C47A7A';
-      default: return '#A8A29E';
+      case 'lu': return '#5E8B6A';
+      case 'quan': return '#B8944C';
+      case 'ke': return '#6B8FAB';
+      case 'ji': return '#B46A5E';
+      default: return '#B5A99A';
     }
   };
 
@@ -31,7 +31,9 @@ const ActionStepComponent: React.FC<ActionStepProps> = ({
     >
       <View 
         className='action-step-checkbox'
-        style={{ borderColor: getDimensionColor(step.dimension) }}
+        style={{ 
+          borderColor: step.completed ? undefined : getDimensionColor(step.dimension) 
+        }}
       >
         {step.completed && (
           <Text className='action-step-checkbox-icon'>✓</Text>
