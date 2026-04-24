@@ -26,7 +26,7 @@ const TaskInput: React.FC<TaskInputProps> = ({
       <View className='task-input-area'>
         <Textarea
           className='task-input-textarea'
-          placeholder='落笔写下今日所虑…'
+          placeholder='落笔写下今日所虑(描述越详细，分析越准确)…'
           placeholderClass='task-input-placeholder'
           value={value}
           onInput={(e) => onChange(e.detail.value)}
