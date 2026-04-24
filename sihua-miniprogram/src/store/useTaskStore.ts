@@ -233,7 +233,14 @@ export const useTaskStore = create<TaskState>((set, get) => ({
       });
     } catch (error) {
       const errorMsg = error instanceof Error ? error.message : '分析失败';
-      set({ status: 'error', error: errorMsg });
+      set({ 
+        status: 'error', 
+        error: errorMsg,
+        conversation: {
+          ...get().conversation,
+          isGenerating: false,
+        }
+      });
     }
   },
 
