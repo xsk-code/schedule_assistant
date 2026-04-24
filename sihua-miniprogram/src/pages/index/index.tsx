@@ -133,7 +133,7 @@ export default function Index() {
     >
       <View className='home-header'>
         <Text className='home-title'>别蛮干</Text>
-        <Text className='home-subtitle'>等对时机再出手</Text>
+        <Text className='home-subtitle'>找对方向再出手</Text>
       </View>
 
       {sihuaInfo && <SihuaBar sihuaInfo={sihuaInfo} />}

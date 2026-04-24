@@ -26,7 +26,7 @@ export default function Mine() {
   const handleAbout = useCallback(() => {
     Taro.showModal({
       title: '关于别蛮干',
-      content: `版本：1.0.0\n\n别蛮干是一款基于四化能量理论的任务分析工具。\n\n等对时机再出手——通过 AI 驱动的深度分析，帮你在对的时间做对的事。\n\n核心功能：\n• 每日四化能量显示\n• 任务四化能量匹配分析\n• 四维深度分析（禄权科忌）\n• 智能行动路径规划\n\n技术栈：\n• Taro + React + TypeScript\n• Tailwind CSS\n• Zustand\n• lunar-javascript\n• SiliconFlow API`,
+      content: `版本：1.0.0\n\n别蛮干是一款基于四化能量理论的任务分析工具。\n\n找对方向再出手——通过 AI 驱动的深度分析，帮你在对的时间做对的事。\n\n核心功能：\n• 每日四化能量显示\n• 任务四化能量匹配分析\n• 四维深度分析（禄权科忌）\n• 智能行动路径规划\n\n技术栈：\n• Taro + React + TypeScript\n• Tailwind CSS\n• Zustand\n• lunar-javascript\n• SiliconFlow API`,
       showCancel: false,
       confirmText: '知道了',
     });
