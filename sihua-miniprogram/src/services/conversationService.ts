@@ -2,7 +2,7 @@ import Taro from '@tarojs/taro';
 import type { CollectedItem, AIResponse } from '@/types';
 import { APP_CONFIG } from '@/constants/appConfig';
 import { buildConversationPrompt } from '@/utils/promptBuilder';
-import { createAPIError, logError } from './aiService';
+import { createAPIError, logError, getErrorMessage } from './aiService';
 
 function validateAIResponse(data: unknown): AIResponse {
   console.group('🔍 [Conversation Validation] 开始验证 AI 响应格式');
@@ -177,22 +177,24 @@ export async function clarifyTask(
       throw error;
     }
     
-    const errorMsg = error instanceof Error ? error.message : String(error);
+    const errorMsg = getErrorMessage(error);
     
     if (errorMsg.includes('timeout') || errorMsg.includes('超时')) {
       logError('Timeout', {
         url,
         model,
         timeout: `${APP_CONFIG.API_TIMEOUT / 1000}秒`,
+        rawError: error,
       });
       throw createAPIError('timeout', 
         `API 调用超时 (${APP_CONFIG.API_TIMEOUT / 1000}秒)。`,
         undefined, error);
     }
     
-    if (errorMsg.includes('request') || errorMsg.includes('网络')) {
+    if (errorMsg.includes('request') || errorMsg.includes('网络') || errorMsg.includes('fail')) {
       logError('Network Error', {
         error: errorMsg,
+        rawError: error,
         url: APP_CONFIG.API_BASE_URL,
       });
       throw createAPIError('network', 
@@ -201,7 +203,8 @@ export async function clarifyTask(
     }
     
     logError('Unknown Error', {
-      error: error instanceof Error ? error.message : error,
+      error: errorMsg,
+      rawError: error,
       stack: error instanceof Error ? error.stack : undefined,
     });
     
