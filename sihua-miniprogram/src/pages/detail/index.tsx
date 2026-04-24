@@ -158,7 +158,7 @@ export default function Detail() {
       </View>
 
       <View className='detail-footer'>
-        <Text className='detail-footer-text'>基于紫微斗数四化理论</Text>
+        <Text className='detail-footer-text'>基于四化能量理论</Text>
       </View>
     </ScrollView>
   );

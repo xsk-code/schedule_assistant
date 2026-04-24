@@ -1,3 +1,3 @@
 export default definePageConfig({
-  navigationBarTitleText: '命理笺注'
+  navigationBarTitleText: '深度解析'
 });

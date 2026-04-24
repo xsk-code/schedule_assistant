@@ -59,7 +59,7 @@ const ConversationPanel: React.FC<ConversationPanelProps> = ({
           <Text className='conversation-bubble-text'>{question.question}</Text>
         </View>
         {question.reasoning && (
-          <Text className='conversation-hint'>命理师想了解…</Text>
+          <Text className='conversation-hint'>想进一步了解…</Text>
         )}
       </View>
 
