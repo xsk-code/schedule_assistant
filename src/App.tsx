@@ -11,13 +11,13 @@ function App() {
   const [currentPage, setCurrentPage] = useState<'home' | 'history' | 'settings'>('home');
   const [reuseTask, setReuseTask] = useState<string | null>(null);
   const [globalLoading, setGlobalLoading] = useState(false);
-  const { 
-    apiKey, 
-    saveApiKey, 
-    removeApiKey, 
-    saveHistory, 
-    history, 
-    deleteHistory, 
+  const {
+    apiKey,
+    saveApiKey,
+    removeApiKey,
+    saveHistory,
+    history,
+    deleteHistory,
     clearAllHistory,
     config,
     updateConfig
@@ -39,9 +39,26 @@ function App() {
   return (
     <>
       {globalLoading && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[100]">
-          <div className="bg-white rounded-2xl p-8 shadow-xl max-w-sm w-full mx-4 animate-scale-in">
-            <Loading size="lg" text="AI 正在分析您的任务..." />
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          backgroundColor: 'rgba(44, 36, 32, 0.4)',
+          backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(4px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 100,
+        }}>
+          <div style={{
+            backgroundColor: 'var(--color-bg)',
+            borderRadius: 16,
+            padding: 32,
+            maxWidth: 280,
+            width: 'calc(100% - 48px)',
+            boxShadow: '0 8px 32px rgba(44, 36, 32, 0.15)',
+          }}>
+            <Loading message="AI 正在分析您的任务..." />
           </div>
         </div>
       )}
@@ -56,24 +73,26 @@ function App() {
             onLoadingChange={setGlobalLoading}
           />
         )}
-      {currentPage === 'history' && (
-        <HistoryPage
-          history={history}
-          onDelete={deleteHistory}
-          onClearAll={clearAllHistory}
-          onReuse={handleReuseTask}
-        />
-      )}
-      {currentPage === 'settings' && (
-        <SettingsPage
-          apiKey={apiKey}
-          model={config.model}
-          onSaveApiKey={saveApiKey}
-          onClearApiKey={removeApiKey}
-          onSaveModel={handleSaveModel}
-        />
-      )}
-    </Layout>
+        {currentPage === 'history' && (
+          <HistoryPage
+            history={history}
+            onDelete={deleteHistory}
+            onClearAll={clearAllHistory}
+            onReuse={handleReuseTask}
+          />
+        )}
+        {currentPage === 'settings' && (
+          <SettingsPage
+            apiKey={apiKey}
+            model={config.model}
+            onSaveApiKey={saveApiKey}
+            onClearApiKey={removeApiKey}
+            onSaveModel={handleSaveModel}
+            historyCount={history.length}
+            onClearHistory={clearAllHistory}
+          />
+        )}
+      </Layout>
     </>
   );
 }

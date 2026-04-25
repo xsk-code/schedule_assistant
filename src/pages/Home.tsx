@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { SihuaCard } from '../components/features/SihuaCard/SihuaCard';
+import { SihuaBar } from '../components/features/SihuaCard/SihuaBar';
 import { TaskInput } from '../components/features/TaskInput/TaskInput';
-import { ResultDisplay } from '../components/features/ResultDisplay/ResultDisplay';
+import { ResultCard } from '../components/features/ResultDisplay/ResultCard';
+import { Loading } from '../components/common/Loading';
+import { Empty } from '../components/common/Empty';
 import { useSihua } from '../hooks/useSihua';
 import { useAIAnalysis } from '../hooks/useAIAnalysis';
 import type { HistoryRecord, CollectedItem } from '../types';
@@ -16,11 +18,10 @@ interface HomePageProps {
 }
 
 export function HomePage({ apiKey, model, onSaveHistory, initialTask, onClearReuseTask, onLoadingChange }: HomePageProps) {
-  const { sihuaInfo, loading: sihuaLoading, error: sihuaError } = useSihua();
+  const { sihuaInfo, loading: sihuaLoading } = useSihua();
   const { result, loading: analysisLoading, error: analysisError, analyze, clearResult } = useAIAnalysis();
   const [currentTask, setCurrentTask] = useState('');
   const [, setCollectedInfo] = useState<CollectedItem[]>([]);
-  const [showSihua, setShowSihua] = useState(false);
 
   useEffect(() => {
     if (initialTask) {
@@ -79,16 +80,6 @@ export function HomePage({ apiKey, model, onSaveHistory, initialTask, onClearReu
     alert('案卷已归档');
   };
 
-  const handleCopy = () => {
-    if (!result) return;
-    const text = JSON.stringify(result, null, 2);
-    navigator.clipboard.writeText(text).then(() => {
-      alert('已复制到剪贴板');
-    }).catch(() => {
-      alert('复制失败，请手动复制');
-    });
-  };
-
   const handleReanalyze = () => {
     clearResult();
     if (onClearReuseTask) {
@@ -96,82 +87,122 @@ export function HomePage({ apiKey, model, onSaveHistory, initialTask, onClearReu
     }
   };
 
-  return (
-    <div className="space-y-8">
-      <div className="animate-slide-up">
-        <TaskInput
-          onSubmit={(task) => handleAnalyze(task)}
-          onThinkingComplete={handleThinkingComplete}
-          loading={analysisLoading}
-          disabled={!sihuaInfo}
-          initialValue={initialTask || undefined}
-          apiKey={apiKey}
-          model={model}
-        />
-      </div>
-
-      {!apiKey.trim() && sihuaInfo && (
-        <div className="animate-slide-up stagger-1 bg-amber-50 border border-amber-200 rounded-xl p-4">
-          <p className="text-amber-700 text-sm">
-            ⚠️ 请先在 <strong>设置</strong> 中配置 API Key 才能开始分析
-          </p>
+  const renderContent = () => {
+    if (analysisLoading) {
+      return (
+        <div style={{ padding: '0 20px', marginBottom: 20 }}>
+          <Loading message="正在分析任务..." />
         </div>
-      )}
+      );
+    }
 
-      {analysisError && (
-        <div className="animate-slide-up bg-red-50 border border-red-200 rounded-xl p-4">
-          <p className="text-red-700 text-sm">分析失败：{analysisError}</p>
-        </div>
-      )}
-
-      {!result && !analysisLoading && (
-        <div className="animate-fade-in">
-          <button
-            onClick={() => setShowSihua(!showSihua)}
-            className="w-full flex items-center justify-between px-4 py-3 bg-stone-100 hover:bg-stone-150 rounded-xl transition-colors group"
-          >
-            <div className="flex items-center gap-2">
-              <span className="text-stone-600 text-sm">今日四化能量</span>
-              <span className="text-xs text-stone-400">
-                {sihuaInfo?.dayGanZhi || '加载中...'}
-              </span>
-            </div>
-            <span className={`text-stone-400 text-sm transition-transform duration-300 ${showSihua ? 'rotate-180' : ''}`}>
-              ▾
-            </span>
-          </button>
-          
-          {showSihua && (
-            <div className="mt-3 animate-slide-up">
-              <SihuaCard
-                sihuaInfo={sihuaInfo}
-                loading={sihuaLoading}
-                error={sihuaError}
-              />
-            </div>
-          )}
-        </div>
-      )}
-
-      {result && (
-        <>
-          <div className="text-center mb-4">
-            <h2 className="text-display text-xl font-semibold text-stone-800">
-              分析结果
-            </h2>
-            <p className="text-sm text-stone-500 mt-1 truncate max-w-lg mx-auto">
-              {currentTask}
+    if (analysisError) {
+      return (
+        <div style={{ padding: '0 20px', marginBottom: 20 }}>
+          <div style={{
+            backgroundColor: 'var(--color-vermilion-light)',
+            border: '1px solid var(--color-ji)',
+            borderRadius: 10,
+            padding: 16,
+          }}>
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-ji)', marginBottom: 6, fontFamily: '"PingFang SC", sans-serif' }}>
+              分析失败
+            </p>
+            <p style={{ fontSize: 13, color: 'var(--color-ink-2)', lineHeight: 1.8, fontFamily: '"Noto Serif SC", Georgia, serif' }}>
+              {analysisError}
             </p>
           </div>
+        </div>
+      );
+    }
 
-          <ResultDisplay
+    if (result) {
+      return (
+        <div>
+          <ResultCard
             result={result}
-            onCopy={handleCopy}
-            onSave={handleSave}
-            onReanalyze={handleReanalyze}
+            showActions={true}
           />
-        </>
+
+          <div className="home-actions">
+            <button className="btn-secondary btn-secondary--primary" onClick={handleSave}>
+              归档案卷
+            </button>
+            <button className="btn-secondary" onClick={handleReanalyze}>
+              新的分析
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div style={{ padding: '0 20px', marginBottom: 20 }}>
+        <Empty
+          title="输入您的任务"
+          description="别蛮干将根据今日四化能量，帮你找到最省力的行动路径"
+        />
+      </div>
+    );
+  };
+
+  return (
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--color-bg)', paddingBottom: 20 }}>
+      <div style={{ padding: '48px 20px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+        <span style={{
+          fontSize: 26,
+          fontWeight: 700,
+          color: 'var(--color-ink-1)',
+          marginBottom: 8,
+          fontFamily: '"Noto Serif SC", Georgia, "PingFang SC", serif',
+          letterSpacing: '0.02em',
+          display: 'block',
+        }}>
+          别蛮干
+        </span>
+        <span style={{
+          fontSize: 12,
+          color: 'var(--color-ink-4)',
+          lineHeight: 1.6,
+          fontFamily: '"PingFang SC", sans-serif',
+        }}>
+          找对方向再出手
+        </span>
+      </div>
+
+      {sihuaInfo && <SihuaBar sihuaInfo={sihuaInfo} />}
+      {sihuaLoading && (
+        <div style={{ padding: '0 20px', marginBottom: 20 }}>
+          <Loading message="正在加载四化信息…" />
+        </div>
       )}
+
+      {!apiKey.trim() && sihuaInfo && (
+        <div style={{ padding: '0 20px', marginBottom: 12 }}>
+          <div style={{
+            backgroundColor: 'var(--color-vermilion-light)',
+            border: '1px dashed var(--color-ji)',
+            borderRadius: 10,
+            padding: 12,
+          }}>
+            <span style={{ fontSize: 13, color: 'var(--color-ji)', fontFamily: '"PingFang SC", sans-serif' }}>
+              请先在「我的」中配置 API Key 才能开始分析
+            </span>
+          </div>
+        </div>
+      )}
+
+      <TaskInput
+        onSubmit={(task) => handleAnalyze(task)}
+        onThinkingComplete={handleThinkingComplete}
+        loading={analysisLoading}
+        disabled={!sihuaInfo}
+        initialValue={initialTask || undefined}
+        apiKey={apiKey}
+        model={model}
+      />
+
+      {renderContent()}
     </div>
   );
 }

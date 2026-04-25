@@ -49,7 +49,7 @@ export function SihuaCard({ sihuaInfo, loading = false, error = null }: SihuaCar
     return (
       <Card className="animate-fade-in">
         <div className="py-12 flex flex-col items-center gap-4">
-          <Loading text="正在计算今日四化..." />
+          <Loading message="正在计算今日四化..." />
         </div>
       </Card>
     );

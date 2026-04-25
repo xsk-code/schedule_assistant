@@ -1,19 +1,16 @@
 interface LoadingProps {
-  size?: 'sm' | 'md' | 'lg';
-  text?: string;
+  message?: string;
 }
 
-export function Loading({ size = 'md', text }: LoadingProps) {
-  const sizeClasses = {
-    sm: 'h-6 w-6',
-    md: 'h-10 w-10',
-    lg: 'h-16 w-16',
-  };
-
+export function Loading({ message = '正在研读天机…' }: LoadingProps) {
   return (
-    <div className="flex flex-col items-center justify-center py-8">
-      <div className={`animate-spin rounded-full border-4 border-gray-200 border-t-indigo-600 ${sizeClasses[size]}`} />
-      {text && <p className="mt-4 text-gray-600">{text}</p>}
+    <div className="loading">
+      <div className="loading-dots">
+        <div className="loading-dot loading-dot--1" />
+        <div className="loading-dot loading-dot--2" />
+        <div className="loading-dot loading-dot--3" />
+      </div>
+      <span className="loading-text">{message}</span>
     </div>
   );
 }

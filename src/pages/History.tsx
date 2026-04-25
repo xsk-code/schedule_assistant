@@ -10,14 +10,11 @@ interface HistoryPageProps {
 
 export function HistoryPage({ history, onDelete, onClearAll, onReuse }: HistoryPageProps) {
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-800 mb-8">历史记录</h1>
-      <HistoryList
-        history={history}
-        onDelete={onDelete}
-        onClearAll={onClearAll}
-        onReuse={onReuse}
-      />
-    </div>
+    <HistoryList
+      history={history}
+      onDelete={onDelete}
+      onClearAll={onClearAll}
+      onReuse={onReuse}
+    />
   );
 }

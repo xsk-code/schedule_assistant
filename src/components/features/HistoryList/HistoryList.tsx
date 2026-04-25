@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { Card } from '../../common/Card';
-import { Button } from '../../common/Button';
-import { ResultDisplay } from '../ResultDisplay/ResultDisplay';
+import { Empty } from '../../common/Empty';
+import { ResultCard } from '../ResultDisplay/ResultCard';
 import type { HistoryRecord } from '../../../types';
-import { SIHUA_DIMENSION_NAMES } from '../../../constants/sihuaRules';
 
 interface HistoryListProps {
   history: HistoryRecord[];
@@ -12,39 +10,154 @@ interface HistoryListProps {
   onReuse: (task: string) => void;
 }
 
-const DIMENSION_COLORS = {
-  lu: { bg: 'bg-emerald-50', border: 'border-emerald-200', text: 'text-emerald-700', label: 'bg-emerald-500' },
-  quan: { bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-700', label: 'bg-amber-500' },
-  ke: { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-700', label: 'bg-blue-500' },
-  ji: { bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-700', label: 'bg-red-500' },
-};
+function SihuaTag({ label, star }: { label: string; star: string }) {
+  const labels: Record<string, string> = {
+    lu: '禄',
+    quan: '权',
+    ke: '科',
+    ji: '忌',
+  };
+
+  return (
+    <div className="history-sihua-tag">
+      <div className={`history-sihua-tag-dot history-sihua-tag-dot--${label}`} />
+      <span className={`history-sihua-tag-label history-sihua-tag-label--${label}`}>
+        {labels[label]}
+      </span>
+      <span className="history-sihua-tag-star">{star}</span>
+    </div>
+  );
+}
+
+function HistoryDetail({
+  record,
+  onBack,
+  onDelete,
+  onReuse,
+}: {
+  record: HistoryRecord;
+  onBack: () => void;
+  onDelete: (id: string) => void;
+  onReuse: (task: string) => void;
+}) {
+  const toggleStep = (_index: number) => {
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${year}年${month}月${day}日 ${hours}:${minutes}`;
+  };
+
+  return (
+    <div>
+      <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 12 }}>
+        <button
+          onClick={onBack}
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            color: 'var(--color-ink-2)',
+            fontSize: 14,
+            fontFamily: '"PingFang SC", sans-serif',
+            padding: '4px 0',
+          }}
+        >
+          ← 返回
+        </button>
+        <span style={{
+          flex: 1,
+          textAlign: 'center',
+          fontSize: 16,
+          fontWeight: 600,
+          color: 'var(--color-ink-1)',
+          fontFamily: '"Noto Serif SC", Georgia, serif',
+        }}>
+          深度解析
+        </span>
+        <button
+          onClick={() => onDelete(record.id)}
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            color: 'var(--color-ji)',
+            fontSize: 13,
+            fontFamily: '"PingFang SC", sans-serif',
+            padding: '4px 0',
+          }}
+        >
+          删除
+        </button>
+      </div>
+
+      <div style={{ padding: '0 20px 20px' }}>
+        <div style={{ marginBottom: 16 }}>
+          <span style={{ fontSize: 11, color: 'var(--color-ink-4)', fontFamily: '"Noto Serif SC", Georgia, serif', display: 'block', marginBottom: 4 }}>
+            原始任务
+          </span>
+          <p style={{ fontSize: 16, fontWeight: 600, color: 'var(--color-ink-1)', lineHeight: 1.5, fontFamily: '"PingFang SC", sans-serif' }}>
+            {record.task}
+          </p>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+          <span style={{ fontSize: 12, color: 'var(--color-ink-4)', fontFamily: '"Noto Serif SC", Georgia, serif' }}>
+            {formatDate(record.createdAt)}
+          </span>
+          <div style={{ display: 'flex', gap: 12 }}>
+            {(['lu', 'quan', 'ke', 'ji'] as const).map((dim) => (
+              <SihuaTag key={dim} label={dim} star={record.sihua[dim]} />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <ResultCard
+        result={record.result}
+        onToggleStep={toggleStep}
+        showActions={true}
+      />
+
+      <div style={{ padding: '0 20px', marginTop: 20 }}>
+        <div className="home-actions">
+          <button
+            className="btn-secondary btn-secondary--primary"
+            onClick={() => onReuse(record.task)}
+          >
+            重新分析
+          </button>
+          <button className="btn-secondary" onClick={onBack}>
+            返回列表
+          </button>
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'center', padding: '16px 20px', marginTop: 20 }}>
+        <span style={{ fontSize: 11, color: 'var(--color-ink-4)', fontFamily: '"Noto Serif SC", Georgia, serif' }}>
+          基于四化能量理论
+        </span>
+      </div>
+    </div>
+  );
+}
 
 export function HistoryList({ history, onDelete, onClearAll, onReuse }: HistoryListProps) {
   const [selectedRecord, setSelectedRecord] = useState<HistoryRecord | null>(null);
-  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [clearConfirm, setClearConfirm] = useState(false);
 
-  const formatDate = (isoString: string) => {
-    const date = new Date(isoString);
-    return date.toLocaleDateString('zh-CN', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
-
-  const handleDelete = (id: string) => {
-    setDeleteConfirmId(id);
-  };
-
-  const confirmDelete = (id: string) => {
-    onDelete(id);
-    setDeleteConfirmId(null);
-    if (selectedRecord?.id === id) {
-      setSelectedRecord(null);
-    }
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${month}月${day}日 ${hours}:${minutes}`;
   };
 
   const confirmClearAll = () => {
@@ -53,183 +166,103 @@ export function HistoryList({ history, onDelete, onClearAll, onReuse }: HistoryL
     setSelectedRecord(null);
   };
 
-  const handleViewDetail = (record: HistoryRecord) => {
-    setSelectedRecord(record);
-  };
-
-  const handleReuse = (record: HistoryRecord) => {
-    onReuse(record.task);
-    setSelectedRecord(null);
-  };
+  if (selectedRecord) {
+    return (
+      <HistoryDetail
+        record={selectedRecord}
+        onBack={() => setSelectedRecord(null)}
+        onDelete={(id) => {
+          onDelete(id);
+          setSelectedRecord(null);
+        }}
+        onReuse={(task) => {
+          onReuse(task);
+          setSelectedRecord(null);
+        }}
+      />
+    );
+  }
 
   if (history.length === 0) {
     return (
-      <Card className="w-full">
-        <div className="text-center py-12">
-          <p className="text-4xl mb-4">📭</p>
-          <p className="text-gray-600 text-lg mb-2">暂无历史记录</p>
-          <p className="text-gray-400 text-sm">分析任务后，记录会自动保存到这里</p>
-        </div>
-      </Card>
+      <div style={{ padding: '40px 20px' }}>
+        <Empty
+          title="暂无案卷"
+          description="您的任务分析记录将显示在这里"
+        />
+      </div>
     );
   }
 
   return (
-    <div className="space-y-6 w-full">
-      {selectedRecord ? (
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <Button variant="secondary" onClick={() => setSelectedRecord(null)}>
-              ← 返回列表
-            </Button>
-            <div className="flex gap-2">
-              <Button variant="secondary" onClick={() => handleReuse(selectedRecord)}>
-                🔄 重新分析
-              </Button>
-              <Button variant="danger" onClick={() => confirmDelete(selectedRecord.id)}>
-                🗑️ 删除
-              </Button>
-            </div>
-          </div>
-
-          <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-            <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-3">
-              <span>📅 {formatDate(selectedRecord.createdAt)}</span>
-              <span>🌙 {selectedRecord.dateInfo.lunarDate}</span>
-              <span>📜 {selectedRecord.dateInfo.dayGan}日</span>
-            </div>
-            <div className="flex flex-wrap gap-2 mb-3">
-              {(['lu', 'quan', 'ke', 'ji'] as const).map((dim) => {
-                const colors = DIMENSION_COLORS[dim];
-                const star = selectedRecord.sihua[dim];
-                const name = SIHUA_DIMENSION_NAMES[dim];
-                return (
-                  <span
-                    key={dim}
-                    className={`${colors.bg} ${colors.border} border ${colors.text} text-xs px-2 py-1 rounded-full`}
-                  >
-                    {name}: {star}
-                  </span>
-                );
-              })}
-            </div>
-            <p className="text-gray-800 font-medium">
-              任务：{selectedRecord.task}
-            </p>
-          </div>
-
-          <ResultDisplay
-            result={selectedRecord.result}
-            onCopy={() => {
-              const text = JSON.stringify(selectedRecord.result, null, 2);
-              navigator.clipboard.writeText(text).then(() => {
-                alert('已复制到剪贴板');
-              }).catch(() => {
-                alert('复制失败，请手动复制');
-              });
-            }}
-          />
+    <div>
+      <div className="history-header">
+        <div className="history-header-left">
+          <span className="history-title">案卷</span>
+          <span className="history-count">共 {history.length} 条</span>
         </div>
-      ) : (
-        <>
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-800">
-              历史记录 ({history.length}/50)
-            </h2>
+        {history.length > 0 && (
+          <div>
             {clearConfirm ? (
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-red-600">确认清空？</span>
-                <Button variant="danger" size="sm" onClick={confirmClearAll}>
-                  确认
-                </Button>
-                <Button variant="secondary" size="sm" onClick={() => setClearConfirm(false)}>
-                  取消
-                </Button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ fontSize: 12, color: 'var(--color-ji)' }}>确认清空？</span>
+                <button className="history-clear" onClick={confirmClearAll}>确认</button>
+                <button className="history-clear" onClick={() => setClearConfirm(false)} style={{ color: 'var(--color-ink-4)' }}>取消</button>
               </div>
             ) : (
-              <Button variant="danger" size="sm" onClick={() => setClearConfirm(true)}>
-                清空全部
-              </Button>
+              <button className="history-clear" onClick={() => setClearConfirm(true)}>
+                清空
+              </button>
             )}
           </div>
+        )}
+      </div>
 
-          <div className="space-y-3">
-            {history.map((record) => (
-              <Card key={record.id} className="w-full">
-                <div className="flex flex-col sm:flex-row sm:items-start gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex flex-wrap gap-3 text-xs text-gray-500 mb-2">
-                      <span>📅 {formatDate(record.createdAt)}</span>
-                      <span>🌙 {record.dateInfo.lunarDate}</span>
-                    </div>
-                    <p className="text-gray-800 font-medium mb-2 line-clamp-2">
-                      {record.task}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {(['lu', 'quan', 'ke', 'ji'] as const).map((dim) => {
-                        const colors = DIMENSION_COLORS[dim];
-                        const star = record.sihua[dim];
-                        const name = SIHUA_DIMENSION_NAMES[dim];
-                        return (
-                          <span
-                            key={dim}
-                            className={`${colors.bg} ${colors.border} border ${colors.text} text-xs px-2 py-0.5 rounded-full`}
-                          >
-                            {name}: {star}
-                          </span>
-                        );
-                      })}
-                    </div>
-                  </div>
+      <div className="history-list">
+        {history.map((record) => (
+          <div
+            key={record.id}
+            className="history-item"
+            onClick={() => setSelectedRecord(record)}
+          >
+            <div className="history-item-header">
+              <span className="history-item-task">{record.task}</span>
+              <button
+                className="history-item-delete"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete(record.id);
+                }}
+              >
+                <span style={{ fontSize: 16, color: 'var(--color-ink-4)', lineHeight: 1 }}>×</span>
+              </button>
+            </div>
 
-                  <div className="flex sm:flex-col gap-2">
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      onClick={() => handleViewDetail(record)}
-                    >
-                      查看详情
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      onClick={() => handleReuse(record)}
-                    >
-                      重新分析
-                    </Button>
-                    {deleteConfirmId === record.id ? (
-                      <div className="flex gap-1">
-                        <Button
-                          variant="danger"
-                          size="sm"
-                          onClick={() => confirmDelete(record.id)}
-                        >
-                          确认
-                        </Button>
-                        <Button
-                          variant="secondary"
-                          size="sm"
-                          onClick={() => setDeleteConfirmId(null)}
-                        >
-                          取消
-                        </Button>
-                      </div>
-                    ) : (
-                      <Button
-                        variant="danger"
-                        size="sm"
-                        onClick={() => handleDelete(record.id)}
-                      >
-                        删除
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              </Card>
-            ))}
+            <div className="history-item-meta">
+              <span className="history-item-date">
+                {formatDate(record.createdAt)}
+              </span>
+              <span className="history-item-ganzhi">
+                {record.dateInfo.dayGan}{record.dateInfo.dayZhi}日
+              </span>
+            </div>
+
+            <div className="history-item-sihua">
+              <SihuaTag label="lu" star={record.sihua.lu} />
+              <SihuaTag label="quan" star={record.sihua.quan} />
+              <SihuaTag label="ke" star={record.sihua.ke} />
+              <SihuaTag label="ji" star={record.sihua.ji} />
+            </div>
+
+            <div className="history-item-summary">
+              <span className="history-item-summary-label">今日待办</span>
+              <span className="history-item-summary-text">
+                {record.result.summary}
+              </span>
+            </div>
           </div>
-        </>
-      )}
+        ))}
+      </div>
     </div>
   );
 }

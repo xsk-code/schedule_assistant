@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from '../../common/Button';
-import { Card } from '../../common/Card';
 import { ConversationView } from './ConversationView';
 import { useConversation } from '../../../hooks/useConversation';
 import { APP_CONFIG } from '../../../constants/appConfig';
@@ -16,13 +14,7 @@ interface TaskInputProps {
   model?: string;
 }
 
-const EXAMPLES = [
-  '规划新产品从需求调研到上线的完整 roadmap',
-  '准备高等数学、线性代数、概率论三门课程的期末考试复习',
-  '今天需要完成产品原型、回复投资人邮件、面试候选人和团队周会',
-];
-
-export function TaskInput({
+const TaskInput: React.FC<TaskInputProps> = ({
   onSubmit,
   onThinkingComplete,
   disabled = false,
@@ -30,9 +22,8 @@ export function TaskInput({
   initialValue,
   apiKey = '',
   model,
-}: TaskInputProps) {
+}) => {
   const [task, setTask] = useState('');
-  const [isFocused, setIsFocused] = useState(false);
   const [mode, setMode] = useState<TaskMode>('simple');
   const [isInConversation, setIsInConversation] = useState(false);
 
@@ -58,10 +49,6 @@ export function TaskInput({
         conversation.startConversation(task.trim(), apiKey, model);
       }
     }
-  };
-
-  const handleExampleClick = (example: string) => {
-    setTask(example);
   };
 
   const handleModeChange = (newMode: TaskMode) => {
@@ -98,11 +85,6 @@ export function TaskInput({
     conversation.reset();
   };
 
-  const isTooShort = task.length > 0 && task.length < APP_CONFIG.MIN_TASK_LENGTH;
-  const isTooLong = task.length > APP_CONFIG.MAX_TASK_LENGTH;
-  const charCount = task.length;
-  const charProgress = Math.min(charCount / APP_CONFIG.MAX_TASK_LENGTH, 1);
-
   if (isInConversation) {
     return (
       <ConversationView
@@ -119,160 +101,46 @@ export function TaskInput({
   }
 
   return (
-    <div className="relative">
-      <div className="absolute -top-4 -left-4 -right-4 h-32 bg-gradient-to-b from-stone-100/50 to-transparent pointer-events-none" />
+    <div className="task-input">
+      <form onSubmit={handleSubmit}>
+        <div className="task-input-area">
+          <textarea
+            className="task-input-textarea"
+            value={task}
+            onChange={(e) => setTask(e.target.value)}
+            placeholder="落笔写下今日所虑(描述越详细，分析越准确)…"
+            disabled={disabled || loading}
+            rows={4}
+          />
+        </div>
 
-      <Card className="relative" padding="lg">
-        <form onSubmit={handleSubmit}>
-          <div className="mb-8">
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 gap-4">
-              <label className="block">
-                <span className="text-display text-3xl font-bold text-stone-900 tracking-tight">
-                  任务拆分
-                </span>
-                <p className="text-base text-stone-500 mt-3 leading-relaxed max-w-md">
-                  输入你的任务，AI 将结合今日四化为你规划最优行动路径
-                </p>
-              </label>
-
-              <div className="flex items-center gap-2 p-1.5 bg-stone-100 rounded-xl">
-                <button
-                  type="button"
-                  onClick={() => handleModeChange('simple')}
-                  disabled={disabled || loading}
-                  className={`
-                    px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200
-                    ${mode === 'simple'
-                      ? 'bg-white text-stone-900 shadow-sm'
-                      : 'text-stone-500 hover:text-stone-700'
-                    }
-                    ${disabled || loading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-                  `}
-                >
-                  ⚡ 简单
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleModeChange('thinking')}
-                  disabled={disabled || loading}
-                  className={`
-                    px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200
-                    ${mode === 'thinking'
-                      ? 'bg-white text-stone-900 shadow-sm'
-                      : 'text-stone-500 hover:text-stone-700'
-                    }
-                    ${disabled || loading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-                  `}
-                >
-                  💭 思考
-                </button>
-              </div>
-            </div>
-
-            <div className="relative">
-              <textarea
-                value={task}
-                onChange={(e) => setTask(e.target.value)}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                placeholder="描述你想要完成的任务..."
-                disabled={disabled || loading}
-                rows={6}
-                className={`
-                  w-full px-5 py-4 rounded-2xl border-2 resize-none transition-all duration-300
-                  ${isFocused ? 'border-stone-900 ring-4 ring-stone-900/5' : 'border-stone-200'}
-                  ${isTooShort || isTooLong ? 'border-red-400' : ''}
-                  ${disabled || loading ? 'bg-stone-100 cursor-not-allowed' : 'bg-white'}
-                `}
-              />
-
-              <div className="absolute bottom-4 right-4 flex items-center gap-3">
-                <span className={`text-xs font-medium ${isTooLong ? 'text-red-500' : 'text-stone-400'}`}>
-                  {charCount.toLocaleString()}
-                </span>
-                <div className="w-20 h-1 bg-stone-200 rounded-full overflow-hidden">
-                  <div
-                    className={`h-full transition-all duration-300 rounded-full ${
-                      isTooLong ? 'bg-red-500' : charProgress > 0.8 ? 'bg-amber-500' : 'bg-stone-900'
-                    }`}
-                    style={{ width: `${charProgress * 100}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-3 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                {isTooShort && (
-                  <span className="text-sm text-red-500 flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                    请输入至少 {APP_CONFIG.MIN_TASK_LENGTH} 个字
-                  </span>
-                )}
-                {isTooLong && (
-                  <span className="text-sm text-red-500 flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                    已超过 {APP_CONFIG.MAX_TASK_LENGTH} 字限制
-                  </span>
-                )}
-              </div>
-              <span className="text-xs text-stone-400">
-                / {APP_CONFIG.MAX_TASK_LENGTH.toLocaleString()}
-              </span>
-            </div>
+        <div className="task-input-mode">
+          <div
+            className={`task-input-mode-item ${mode === 'simple' ? 'task-input-mode-item--active' : ''}`}
+            onClick={() => !disabled && !loading && handleModeChange('simple')}
+          >
+            <div className="task-input-mode-dot" />
+            <span className="task-input-mode-text">速览</span>
           </div>
-
-          <div className="mb-8">
-            <p className="text-sm text-stone-400 mb-4">参考示例</p>
-            <div className="flex flex-wrap gap-3">
-              {EXAMPLES.map((example, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  onClick={() => handleExampleClick(example)}
-                  disabled={disabled || loading}
-                  className={`
-                    px-4 py-3 text-sm rounded-xl border transition-all duration-200
-                    ${task === example
-                      ? 'bg-stone-900 text-white border-stone-900'
-                      : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400 hover:text-stone-800'
-                    }
-                    ${disabled || loading ? 'opacity-50 cursor-not-allowed' : ''}
-                  `}
-                >
-                  {example.length > 25 ? example.slice(0, 25) + '...' : example}
-                </button>
-              ))}
-            </div>
+          <div
+            className={`task-input-mode-item ${mode === 'thinking' ? 'task-input-mode-item--active' : ''}`}
+            onClick={() => !disabled && !loading && handleModeChange('thinking')}
+          >
+            <div className="task-input-mode-dot" />
+            <span className="task-input-mode-text">深思</span>
           </div>
+        </div>
 
-          {mode === 'thinking' && (
-            <div className="mb-8 p-5 bg-stone-50 rounded-xl border border-stone-200">
-              <div className="flex items-start gap-4">
-                <span className="text-xl">💡</span>
-                <div>
-                  <p className="text-base font-medium text-stone-900 mb-2">思考模式已启用</p>
-                  <p className="text-sm text-stone-600 leading-relaxed">
-                    AI 将通过多轮追问深入了解你的需求，生成更精准的任务拆分方案。
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          <div className="flex justify-center pt-4">
-            <Button
-              type="submit"
-              size="lg"
-              loading={loading}
-              disabled={disabled || task.trim().length < APP_CONFIG.MIN_TASK_LENGTH || task.length > APP_CONFIG.MAX_TASK_LENGTH}
-              className="min-w-64 text-base py-3.5"
-            >
-              {loading ? '分析中...' : mode === 'thinking' ? '开始深入分析' : '开始智能拆分'}
-            </Button>
-          </div>
-        </form>
-      </Card>
+        <button
+          type="submit"
+          className={`task-input-submit ${loading ? 'task-input-submit--loading' : ''}`}
+          disabled={loading || disabled || task.trim().length < APP_CONFIG.MIN_TASK_LENGTH}
+        >
+          {loading ? '研读中…' : '落笔开卷'}
+        </button>
+      </form>
     </div>
   );
-}
+};
+
+export { TaskInput };

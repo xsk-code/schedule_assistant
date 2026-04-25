@@ -7,26 +7,29 @@ export default {
   theme: {
     extend: {
       colors: {
-        sihua: {
-          lu: '#10B981',
-          quan: '#F59E0B',
-          ke: '#3B82F6',
-          ji: '#EF4444',
-        }
+        bg: 'var(--color-bg)',
+        'bg-warm': 'var(--color-bg-warm)',
+        ink: {
+          1: 'var(--color-ink-1)',
+          2: 'var(--color-ink-2)',
+          3: 'var(--color-ink-3)',
+          4: 'var(--color-ink-4)',
+          5: 'var(--color-ink-5)',
+        },
+        vermilion: {
+          DEFAULT: 'var(--color-vermilion)',
+          light: 'var(--color-vermilion-light)',
+          dark: 'var(--color-vermilion-dark)',
+        },
+        seal: 'var(--color-seal)',
+        lu: 'var(--color-lu)',
+        quan: 'var(--color-quan)',
+        ke: 'var(--color-ke)',
+        ji: 'var(--color-ji)',
       },
       fontFamily: {
-        display: ['Cormorant Garamond', 'Noto Serif SC', 'Georgia', 'serif'],
-        sans: ['Noto Sans SC', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-      },
-      borderRadius: {
-        'xl': '0.75rem',
-        '2xl': '1rem',
-      },
-      boxShadow: {
-        'sm': '0 1px 2px rgba(28, 25, 23, 0.05)',
-        'DEFAULT': '0 1px 3px rgba(28, 25, 23, 0.04), 0 1px 2px rgba(28, 25, 23, 0.03)',
-        'md': '0 4px 6px -1px rgba(28, 25, 23, 0.04), 0 2px 4px -1px rgba(28, 25, 23, 0.03)',
-        'lg': '0 10px 15px -3px rgba(28, 25, 23, 0.04), 0 4px 6px -2px rgba(28, 25, 23, 0.02)',
+        serif: ['"Noto Serif SC"', 'Georgia', '"PingFang SC"', 'serif'],
+        sans: ['"PingFang SC"', '-apple-system', 'sans-serif'],
       },
     },
   },

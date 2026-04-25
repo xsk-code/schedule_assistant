@@ -6,19 +6,20 @@ interface SettingsPageProps {
   onSaveApiKey: (key: string) => void;
   onClearApiKey: () => void;
   onSaveModel: (model: string) => void;
+  historyCount?: number;
+  onClearHistory?: () => void;
 }
 
-export function SettingsPage({ apiKey, model, onSaveApiKey, onClearApiKey, onSaveModel }: SettingsPageProps) {
+export function SettingsPage({ apiKey, model, onSaveApiKey, onClearApiKey, onSaveModel, historyCount, onClearHistory }: SettingsPageProps) {
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-800 mb-8">设置</h1>
-      <SettingsPanel
-        currentApiKey={apiKey}
-        currentModel={model}
-        onSaveApiKey={onSaveApiKey}
-        onClearApiKey={onClearApiKey}
-        onSaveModel={onSaveModel}
-      />
-    </div>
+    <SettingsPanel
+      currentApiKey={apiKey}
+      currentModel={model}
+      onSaveApiKey={onSaveApiKey}
+      onClearApiKey={onClearApiKey}
+      onSaveModel={onSaveModel}
+      historyCount={historyCount}
+      onClearHistory={onClearHistory}
+    />
   );
 }
