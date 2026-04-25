@@ -1,12 +1,11 @@
 interface TabBarProps {
-  currentPage: 'home' | 'history' | 'settings';
-  onNavigate: (page: 'home' | 'history' | 'settings') => void;
+  currentPage: 'home' | 'history';
+  onNavigate: (page: 'home' | 'history') => void;
 }
 
 const TAB_ITEMS = [
   { id: 'home' as const, label: '开卷', icon: HomeIcon },
   { id: 'history' as const, label: '案卷', icon: HistoryIcon },
-  { id: 'settings' as const, label: '我的', icon: MineIcon },
 ];
 
 function HomeIcon({ active }: { active: boolean }) {
@@ -26,15 +25,6 @@ function HistoryIcon({ active }: { active: boolean }) {
       <line x1="16" y1="13" x2="8" y2="13" />
       <line x1="16" y1="17" x2="8" y2="17" />
       <polyline points="10 9 9 9 8 9" />
-    </svg>
-  );
-}
-
-function MineIcon({ active }: { active: boolean }) {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={active ? 'var(--color-vermilion)' : 'var(--color-ink-4)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-      <circle cx="12" cy="7" r="4" />
     </svg>
   );
 }

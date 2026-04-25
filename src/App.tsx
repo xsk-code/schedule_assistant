@@ -2,13 +2,12 @@ import { useState } from 'react';
 import { Layout } from './components/layout/Layout';
 import { HomePage } from './pages/Home';
 import { HistoryPage } from './pages/History';
-import { SettingsPage } from './pages/Settings';
 import { Loading } from './components/common/Loading';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import type { HistoryRecord } from './types';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'history' | 'settings'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'history'>('home');
   const [reuseTask, setReuseTask] = useState<string | null>(null);
   const [globalLoading, setGlobalLoading] = useState(false);
   const {
@@ -67,6 +66,9 @@ function App() {
           <HomePage
             apiKey={apiKey}
             model={config.model}
+            onSaveApiKey={saveApiKey}
+            onClearApiKey={removeApiKey}
+            onSaveModel={handleSaveModel}
             onSaveHistory={handleSaveHistory}
             initialTask={reuseTask}
             onClearReuseTask={() => setReuseTask(null)}
@@ -79,17 +81,6 @@ function App() {
             onDelete={deleteHistory}
             onClearAll={clearAllHistory}
             onReuse={handleReuseTask}
-          />
-        )}
-        {currentPage === 'settings' && (
-          <SettingsPage
-            apiKey={apiKey}
-            model={config.model}
-            onSaveApiKey={saveApiKey}
-            onClearApiKey={removeApiKey}
-            onSaveModel={handleSaveModel}
-            historyCount={history.length}
-            onClearHistory={clearAllHistory}
           />
         )}
       </Layout>

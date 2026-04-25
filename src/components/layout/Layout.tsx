@@ -2,8 +2,8 @@ import { TabBar } from './TabBar';
 
 interface LayoutProps {
   children: React.ReactNode;
-  currentPage: 'home' | 'history' | 'settings';
-  onNavigate: (page: 'home' | 'history' | 'settings') => void;
+  currentPage: 'home' | 'history';
+  onNavigate: (page: 'home' | 'history') => void;
 }
 
 export function Layout({ children, currentPage, onNavigate }: LayoutProps) {
