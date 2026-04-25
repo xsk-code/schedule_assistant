@@ -11,15 +11,10 @@ function App() {
   const [reuseTask, setReuseTask] = useState<string | null>(null);
   const [globalLoading, setGlobalLoading] = useState(false);
   const {
-    apiKey,
-    saveApiKey,
-    removeApiKey,
     saveHistory,
     history,
     deleteHistory,
     clearAllHistory,
-    config,
-    updateConfig
   } = useLocalStorage();
 
   const handleSaveHistory = (record: HistoryRecord) => {
@@ -29,10 +24,6 @@ function App() {
   const handleReuseTask = (task: string) => {
     setReuseTask(task);
     setCurrentPage('home');
-  };
-
-  const handleSaveModel = (model: string) => {
-    updateConfig({ model });
   };
 
   return (
@@ -64,11 +55,6 @@ function App() {
       <Layout currentPage={currentPage} onNavigate={setCurrentPage}>
         {currentPage === 'home' && (
           <HomePage
-            apiKey={apiKey}
-            model={config.model}
-            onSaveApiKey={saveApiKey}
-            onClearApiKey={removeApiKey}
-            onSaveModel={handleSaveModel}
             onSaveHistory={handleSaveHistory}
             initialTask={reuseTask}
             onClearReuseTask={() => setReuseTask(null)}

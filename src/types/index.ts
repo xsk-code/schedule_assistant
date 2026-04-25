@@ -71,8 +71,6 @@ export interface HistoryRecord {
 }
 
 export interface AppConfig {
-  apiKey: string;
-  apiKeyValid: boolean | null;
   theme: 'light' | 'dark';
   model: string;
 }

@@ -1,5 +1,6 @@
 export const APP_CONFIG = {
   API_BASE_URL: 'https://api.siliconflow.cn/v1',
+  API_KEY: import.meta.env.VITE_API_KEY || '',
   DEFAULT_MODEL: 'deepseek-ai/DeepSeek-V3.2',
   MAX_TOKENS: 4000,
   TEMPERATURE: 0.7,
@@ -8,7 +9,6 @@ export const APP_CONFIG = {
   MIN_TASK_LENGTH: 5,
   MAX_TASK_LENGTH: 500,
   STORAGE_KEYS: {
-    API_KEY: 'sihua_api_key',
     HISTORY: 'sihua_history',
     CONFIG: 'sihua_config',
   },

@@ -1,32 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getApiKey, setApiKey, clearApiKey, getHistory, addHistory, removeHistory, clearHistory, getConfig, setConfig } from '../services/storageService';
+import { getHistory, addHistory, removeHistory, clearHistory, getConfig, setConfig } from '../services/storageService';
 import { APP_CONFIG } from '../constants/appConfig';
 import type { HistoryRecord, AppConfig } from '../types';
 
 export function useLocalStorage() {
-  const [apiKey, setApiKeyState] = useState<string>('');
   const [history, setHistoryState] = useState<HistoryRecord[]>([]);
   const [config, setConfigState] = useState<AppConfig>({
-    apiKey: '',
-    apiKeyValid: null,
     theme: 'light',
     model: APP_CONFIG.DEFAULT_MODEL,
   });
 
   useEffect(() => {
-    setApiKeyState(getApiKey());
     setHistoryState(getHistory());
     setConfigState(getConfig());
-  }, []);
-
-  const saveApiKey = useCallback((key: string) => {
-    setApiKey(key);
-    setApiKeyState(key);
-  }, []);
-
-  const removeApiKey = useCallback(() => {
-    clearApiKey();
-    setApiKeyState('');
   }, []);
 
   const saveHistory = useCallback((record: HistoryRecord) => {
@@ -53,11 +39,8 @@ export function useLocalStorage() {
   }, []);
 
   return {
-    apiKey,
     history,
     config,
-    saveApiKey,
-    removeApiKey,
     saveHistory,
     deleteHistory,
     clearAllHistory,
