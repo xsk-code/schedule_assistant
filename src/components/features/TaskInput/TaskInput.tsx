@@ -10,7 +10,6 @@ interface TaskInputProps {
   disabled?: boolean;
   loading?: boolean;
   initialValue?: string;
-  apiKey?: string;
   model?: string;
 }
 
@@ -20,7 +19,6 @@ const TaskInput: React.FC<TaskInputProps> = ({
   disabled = false,
   loading = false,
   initialValue,
-  apiKey = '',
   model,
 }) => {
   const [task, setTask] = useState('');
@@ -41,12 +39,8 @@ const TaskInput: React.FC<TaskInputProps> = ({
       if (mode === 'simple') {
         onSubmit(task.trim());
       } else {
-        if (!apiKey.trim()) {
-          alert('请先在设置中配置 API Key');
-          return;
-        }
         setIsInConversation(true);
-        conversation.startConversation(task.trim(), apiKey, model);
+        conversation.startConversation(task.trim(), model);
       }
     }
   };

@@ -10,7 +10,6 @@ export function useAIAnalysis() {
   const analyze = useCallback(async (
     task: string,
     sihuaInfo: SihuaInfo,
-    apiKey: string,
     model?: string,
     collectedInfo: CollectedItem[] = []
   ) => {
@@ -19,7 +18,7 @@ export function useAIAnalysis() {
     setResult(null);
 
     try {
-      const analysisResult = await analyzeTask(task, sihuaInfo, apiKey, model, collectedInfo);
+      const analysisResult = await analyzeTask(task, sihuaInfo, model, collectedInfo);
       setResult(analysisResult);
       return analysisResult;
     } catch (e) {

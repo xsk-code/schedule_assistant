@@ -107,11 +107,10 @@ export async function clarifyTask(
   task: string,
   collectedInfo: CollectedItem[],
   currentRound: number,
-  apiKey: string,
   model: string = APP_CONFIG.DEFAULT_MODEL,
   maxRounds: number = 5
 ): Promise<AIResponse> {
-  const url = `${APP_CONFIG.API_BASE_URL}/chat/completions`;
+  const url = '/api/chat';
 
   console.group('📤 [API Request] clarifyTask');
   console.log('  URL:', url);
@@ -136,7 +135,6 @@ export async function clarifyTask(
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model,
@@ -180,7 +178,7 @@ export async function clarifyTask(
       const errorMessage = errorObject?.message || `API调用失败: ${response.status}`;
 
       if (response.status === 401) {
-        throw createAPIError('auth', `API Key 无效或已过期。请检查您的 API Key 配置。\n详细信息: ${errorMessage}`, response.status, errorData);
+        throw createAPIError('auth', `API Key 无效或已过期。请检查服务端 API Key 配置。\n详细信息: ${errorMessage}`, response.status, errorData);
       }
 
       if (response.status === 429) {
@@ -188,7 +186,7 @@ export async function clarifyTask(
       }
 
       if (response.status >= 500) {
-        throw createAPIError('server', `服务器错误 (${response.status})。请稍后重试或联系支持。\n详细信息: ${errorMessage}`, response.status, errorData);
+        throw createAPIError('server', `服务器错误 (${response.status})。请稍后重试。\n详细信息: ${errorMessage}`, response.status, errorData);
       }
 
       throw createAPIError('server', errorMessage, response.status, errorData);
@@ -258,17 +256,16 @@ export async function clarifyTask(
 
     if (error instanceof Error && error.name === 'AbortError') {
       throw createAPIError('timeout',
-        `API 调用超时 (${APP_CONFIG.API_TIMEOUT / 1000}秒)。\n可能的原因：\n1. 网络连接不稳定\n2. 模型响应较慢\n3. 硅基流动服务暂时不可用\n\n建议：请检查网络连接或稍后重试。`,
+        `API 调用超时 (${APP_CONFIG.API_TIMEOUT / 1000}秒)。\n可能的原因：\n1. 网络连接不稳定\n2. 模型响应较慢\n3. 服务暂时不可用\n\n建议：请检查网络连接或稍后重试。`,
         undefined, error);
     }
 
     if (error instanceof TypeError && error.message.includes('fetch')) {
       logError('Network Error', {
         error: error.message,
-        url: APP_CONFIG.API_BASE_URL,
       });
       throw createAPIError('network',
-        `网络连接失败。\n可能的原因：\n1. 无法连接到硅基流动 API (${APP_CONFIG.API_BASE_URL})\n2. 网络连接中断\n3. 防火墙阻止了连接\n\n建议：请检查您的网络连接，确保可以访问 siliconflow.cn`,
+        `网络连接失败。\n可能的原因：\n1. 网络连接中断\n2. 服务暂时不可用\n\n建议：请检查您的网络连接后重试。`,
         undefined, error);
     }
 

@@ -21,7 +21,6 @@ export function HomePage({ onSaveHistory, initialTask, onClearReuseTask, onLoadi
   const { result, loading: analysisLoading, error: analysisError, analyze, clearResult } = useAIAnalysis();
   const [currentTask, setCurrentTask] = useState('');
   const [, setCollectedInfo] = useState<CollectedItem[]>([]);
-  const apiKey = APP_CONFIG.API_KEY;
   const model = APP_CONFIG.DEFAULT_MODEL;
 
   useEffect(() => {
@@ -38,15 +37,11 @@ export function HomePage({ onSaveHistory, initialTask, onClearReuseTask, onLoadi
 
   const handleAnalyze = async (task: string, info: CollectedItem[] = []) => {
     if (!sihuaInfo) return;
-    if (!apiKey.trim()) {
-      alert('API Key 未配置。请通过 .env 文件配置 VITE_API_KEY。');
-      return;
-    }
 
     setCurrentTask(task);
     setCollectedInfo(info);
     try {
-      await analyze(task, sihuaInfo, apiKey, model, info);
+      await analyze(task, sihuaInfo, model, info);
     } catch {
     }
   };
@@ -178,28 +173,12 @@ export function HomePage({ onSaveHistory, initialTask, onClearReuseTask, onLoadi
         </div>
       )}
 
-      {!apiKey.trim() && sihuaInfo && (
-        <div style={{ padding: '0 20px', marginBottom: 12 }}>
-          <div style={{
-            backgroundColor: 'var(--color-vermilion-light)',
-            border: '1px dashed var(--color-ji)',
-            borderRadius: 10,
-            padding: 12,
-          }}>
-            <span style={{ fontSize: 13, color: 'var(--color-ji)', fontFamily: '"PingFang SC", sans-serif' }}>
-              API Key 未配置，请通过 .env 文件配置 VITE_API_KEY
-            </span>
-          </div>
-        </div>
-      )}
-
       <TaskInput
         onSubmit={(task) => handleAnalyze(task)}
         onThinkingComplete={handleThinkingComplete}
         loading={analysisLoading}
         disabled={!sihuaInfo}
         initialValue={initialTask || undefined}
-        apiKey={apiKey}
         model={model}
       />
 

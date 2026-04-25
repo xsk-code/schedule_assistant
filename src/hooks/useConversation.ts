@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { clarifyTask } from '../services/conversationService';
+import { APP_CONFIG } from '../constants/appConfig';
 import type { ConversationContext, CollectedItem, AIQuestion, AIResponse } from '../types';
 
 interface UseConversationReturn {
@@ -9,7 +10,7 @@ interface UseConversationReturn {
   error: string | null;
   summary: string | null;
 
-  startConversation: (task: string, apiKey: string, model?: string) => Promise<void>;
+  startConversation: (task: string, model?: string) => Promise<void>;
   answerQuestion: (answer: string) => Promise<void>;
   skipQuestion: () => Promise<void>;
   finishConversation: () => Promise<void>;
@@ -30,8 +31,7 @@ export function useConversation(): UseConversationReturn {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [summary, setSummary] = useState<string | null>(null);
-  const [apiKey, setApiKey] = useState<string>('');
-  const [model, setModel] = useState<string | undefined>(undefined);
+  const [model, setModel] = useState<string>(APP_CONFIG.DEFAULT_MODEL);
 
   const handleAIResponse = useCallback((response: AIResponse, _questionText: string) => {
     if (response.needsMoreInfo && response.question && response.options) {
@@ -52,13 +52,11 @@ export function useConversation(): UseConversationReturn {
 
   const startConversation = useCallback(async (
     task: string,
-    key: string,
     selectedModel?: string
   ) => {
     setLoading(true);
     setError(null);
-    setApiKey(key);
-    setModel(selectedModel);
+    setModel(selectedModel || APP_CONFIG.DEFAULT_MODEL);
 
     setContext({
       originalTask: task,
@@ -74,7 +72,6 @@ export function useConversation(): UseConversationReturn {
         task,
         [],
         1,
-        key,
         selectedModel
       );
 
@@ -122,7 +119,6 @@ export function useConversation(): UseConversationReturn {
         context.originalTask,
         newCollectedInfo,
         nextRound,
-        apiKey,
         model
       );
 
@@ -152,7 +148,7 @@ export function useConversation(): UseConversationReturn {
     } finally {
       setLoading(false);
     }
-  }, [context, apiKey, model]);
+  }, [context, model]);
 
   const answerQuestion = useCallback(async (answer: string) => {
     if (!currentQuestion) return;
@@ -189,8 +185,7 @@ export function useConversation(): UseConversationReturn {
     setLoading(false);
     setError(null);
     setSummary(null);
-    setApiKey('');
-    setModel(undefined);
+    setModel(APP_CONFIG.DEFAULT_MODEL);
   }, []);
 
   return {

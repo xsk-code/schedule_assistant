@@ -201,11 +201,10 @@ function validateAnalysisResult(data: unknown): AnalysisResult {
 export async function analyzeTask(
   task: string,
   sihuaInfo: SihuaInfo,
-  apiKey: string,
   model: string = APP_CONFIG.DEFAULT_MODEL,
   collectedInfo: CollectedItem[] = []
 ): Promise<AnalysisResult> {
-  const url = `${APP_CONFIG.API_BASE_URL}/chat/completions`;
+  const url = '/api/chat';
   
   console.group('📤 [API Request] analyzeTask');
   console.log('  URL:', url);
@@ -231,7 +230,6 @@ export async function analyzeTask(
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model,
@@ -275,7 +273,7 @@ export async function analyzeTask(
       const errorMessage = errorObject?.message || `API调用失败: ${response.status}`;
       
       if (response.status === 401) {
-        throw createAPIError('auth', `API Key 无效或已过期。请检查您的 API Key 配置。\n详细信息: ${errorMessage}`, response.status, errorData);
+        throw createAPIError('auth', `API Key 无效或已过期。请检查服务端 API Key 配置。\n详细信息: ${errorMessage}`, response.status, errorData);
       }
       
       if (response.status === 429) {
@@ -283,7 +281,7 @@ export async function analyzeTask(
       }
       
       if (response.status >= 500) {
-        throw createAPIError('server', `服务器错误 (${response.status})。请稍后重试或联系支持。\n详细信息: ${errorMessage}`, response.status, errorData);
+        throw createAPIError('server', `服务器错误 (${response.status})。请稍后重试。\n详细信息: ${errorMessage}`, response.status, errorData);
       }
       
       throw createAPIError('server', errorMessage, response.status, errorData);
@@ -356,17 +354,16 @@ export async function analyzeTask(
     
     if (error instanceof Error && error.name === 'AbortError') {
       throw createAPIError('timeout', 
-        `API 调用超时 (${APP_CONFIG.API_TIMEOUT / 1000}秒)。\n可能的原因：\n1. 网络连接不稳定\n2. 模型响应较慢（大模型可能需要更长时间）\n3. 硅基流动服务暂时不可用\n\n建议：请检查网络连接或稍后重试。`,
+        `API 调用超时 (${APP_CONFIG.API_TIMEOUT / 1000}秒)。\n可能的原因：\n1. 网络连接不稳定\n2. 模型响应较慢（大模型可能需要更长时间）\n3. 服务暂时不可用\n\n建议：请检查网络连接或稍后重试。`,
         undefined, error);
     }
     
     if (error instanceof TypeError && error.message.includes('fetch')) {
       logError('Network Error', {
         error: error.message,
-        url: APP_CONFIG.API_BASE_URL,
       });
       throw createAPIError('network', 
-        `网络连接失败。\n可能的原因：\n1. 无法连接到硅基流动 API (${APP_CONFIG.API_BASE_URL})\n2. 网络连接中断\n3. 防火墙阻止了连接\n\n建议：请检查您的网络连接，确保可以访问 siliconflow.cn`,
+        `网络连接失败。\n可能的原因：\n1. 网络连接中断\n2. 服务暂时不可用\n\n建议：请检查您的网络连接后重试。`,
         undefined, error);
     }
     
@@ -378,37 +375,5 @@ export async function analyzeTask(
     throw createAPIError('unknown', 
       `发生未知错误: ${error instanceof Error ? error.message : error}`,
       undefined, error);
-  }
-}
-
-export async function testApiKey(apiKey: string): Promise<boolean> {
-  const url = `${APP_CONFIG.API_BASE_URL}/models`;
-  
-  console.group('🔍 [API Test] testApiKey');
-  console.log('  URL:', url);
-  console.groupEnd();
-  
-  try {
-    const response = await fetch(url, {
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-      },
-    });
-    
-    console.log('🔍 [API Test Response] status:', response.status);
-    
-    if (!response.ok) {
-      logError('API Test Failed', {
-        status: response.status,
-        statusText: response.statusText,
-      });
-    }
-    
-    return response.ok;
-  } catch (error) {
-    logError('API Test Network Error', {
-      error: error instanceof Error ? error.message : error,
-    });
-    return false;
   }
 }
