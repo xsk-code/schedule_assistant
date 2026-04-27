@@ -30,22 +30,22 @@ const SihuaBar: React.FC<SihuaBarProps> = ({ sihuaInfo }) => {
       <View className='sihua-bar-items'>
         <View className='sihua-item'>
           <View className='sihua-item-dot sihua-item-dot--lu' />
-          <Text className='sihua-item-name sihua-item-name--lu'>{SIHUA_DIMENSION_NAMES.lu}{sihua.lu}</Text>
+          <Text className='sihua-item-name sihua-item-name--lu'>{sihua.lu}{SIHUA_DIMENSION_NAMES.lu}</Text>
         </View>
         
         <View className='sihua-item'>
           <View className='sihua-item-dot sihua-item-dot--quan' />
-          <Text className='sihua-item-name sihua-item-name--quan'>{SIHUA_DIMENSION_NAMES.quan}{sihua.quan}</Text>
+          <Text className='sihua-item-name sihua-item-name--quan'>{sihua.quan}{SIHUA_DIMENSION_NAMES.quan}</Text>
         </View>
         
         <View className='sihua-item'>
           <View className='sihua-item-dot sihua-item-dot--ke' />
-          <Text className='sihua-item-name sihua-item-name--ke'>{SIHUA_DIMENSION_NAMES.ke}{sihua.ke}</Text>
+          <Text className='sihua-item-name sihua-item-name--ke'>{sihua.ke}{SIHUA_DIMENSION_NAMES.ke}</Text>
         </View>
         
         <View className='sihua-item'>
           <View className='sihua-item-dot sihua-item-dot--ji' />
-          <Text className='sihua-item-name sihua-item-name--ji'>{SIHUA_DIMENSION_NAMES.ji}{sihua.ji}</Text>
+          <Text className='sihua-item-name sihua-item-name--ji'>{sihua.ji}{SIHUA_DIMENSION_NAMES.ji}</Text>
         </View>
       </View>
 

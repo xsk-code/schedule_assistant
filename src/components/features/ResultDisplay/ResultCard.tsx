@@ -36,7 +36,7 @@ const ResultCard: React.FC<ResultCardProps> = ({
       <div key={key} className={`result-dimension result-dimension--${key}`}>
         <div className="result-dimension-header">
           <div className="result-dimension-title">
-            <span className="result-dimension-name">{data.star}</span>
+            <span className="result-dimension-name">{data.star}{SIHUA_DIMENSION_NAMES[key]}</span>
             <span className="result-dimension-meaning">{SIHUA_DIMENSION_MEANINGS[key]}</span>
           </div>
         </div>
@@ -60,7 +60,7 @@ const ResultCard: React.FC<ResultCardProps> = ({
       <div className="result-dimension result-dimension--ji">
         <div className="result-dimension-header">
           <div className="result-dimension-title">
-            <span className="result-dimension-name">{data.star}</span>
+            <span className="result-dimension-name">{data.star}{SIHUA_DIMENSION_NAMES.ji}</span>
             <span className="result-dimension-meaning">{SIHUA_DIMENSION_MEANINGS.ji}</span>
           </div>
         </div>

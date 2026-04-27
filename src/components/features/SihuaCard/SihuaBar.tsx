@@ -28,19 +28,19 @@ const SihuaBar: React.FC<SihuaBarProps> = ({ sihuaInfo }) => {
       <div className="sihua-bar-items">
         <div className="sihua-item">
           <div className="sihua-item-dot sihua-item-dot--lu" />
-          <span className="sihua-item-name sihua-item-name--lu">{SIHUA_DIMENSION_NAMES.lu}{sihua.lu}</span>
+          <span className="sihua-item-name sihua-item-name--lu">{sihua.lu}{SIHUA_DIMENSION_NAMES.lu}</span>
         </div>
         <div className="sihua-item">
           <div className="sihua-item-dot sihua-item-dot--quan" />
-          <span className="sihua-item-name sihua-item-name--quan">{SIHUA_DIMENSION_NAMES.quan}{sihua.quan}</span>
+          <span className="sihua-item-name sihua-item-name--quan">{sihua.quan}{SIHUA_DIMENSION_NAMES.quan}</span>
         </div>
         <div className="sihua-item">
           <div className="sihua-item-dot sihua-item-dot--ke" />
-          <span className="sihua-item-name sihua-item-name--ke">{SIHUA_DIMENSION_NAMES.ke}{sihua.ke}</span>
+          <span className="sihua-item-name sihua-item-name--ke">{sihua.ke}{SIHUA_DIMENSION_NAMES.ke}</span>
         </div>
         <div className="sihua-item">
           <div className="sihua-item-dot sihua-item-dot--ji" />
-          <span className="sihua-item-name sihua-item-name--ji">{SIHUA_DIMENSION_NAMES.ji}{sihua.ji}</span>
+          <span className="sihua-item-name sihua-item-name--ji">{sihua.ji}{SIHUA_DIMENSION_NAMES.ji}</span>
         </div>
       </div>
 

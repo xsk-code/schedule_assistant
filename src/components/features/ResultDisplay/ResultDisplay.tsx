@@ -132,7 +132,7 @@ function SihuaInsight({ result }: { result: AnalysisResult }) {
                     <span className={`w-1.5 h-1.5 rounded-full ${styles.dot} mt-1.5 flex-shrink-0`} />
                     <div className="flex-1">
                       <span className={`text-sm font-medium ${styles.text}`}>
-                        {meta.label}{data.star}
+                        {data.star}{meta.label}
                       </span>
                       <p className="text-sm text-stone-600 mt-0.5 leading-relaxed">
                         {data.analysis}

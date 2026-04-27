@@ -24,7 +24,7 @@ const ResultCard: React.FC<ResultCardProps> = ({
       <View key={key} className={`result-dimension result-dimension--${key}`}>
         <View className='result-dimension-header'>
           <View className='result-dimension-title'>
-            <Text className='result-dimension-name'>{data.star}</Text>
+            <Text className='result-dimension-name'>{data.star}{SIHUA_DIMENSION_NAMES[key]}</Text>
             <Text className='result-dimension-meaning'>{SIHUA_DIMENSION_MEANINGS[key]}</Text>
           </View>
         </View>
@@ -48,7 +48,7 @@ const ResultCard: React.FC<ResultCardProps> = ({
       <View className='result-dimension result-dimension--ji'>
         <View className='result-dimension-header'>
           <View className='result-dimension-title'>
-            <Text className='result-dimension-name'>{data.star}</Text>
+            <Text className='result-dimension-name'>{data.star}{SIHUA_DIMENSION_NAMES.ji}</Text>
             <Text className='result-dimension-meaning'>{SIHUA_DIMENSION_MEANINGS.ji}</Text>
           </View>
         </View>

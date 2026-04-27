@@ -1,7 +1,7 @@
 import { Card } from '../../common/Card';
 import { Loading } from '../../common/Loading';
 import type { SihuaInfo } from '../../../types';
-import { SIHUA_DIMENSION_NAMES } from '../../../constants/sihuaRules';
+import { SIHUA_DIMENSION_NAMES, SIHUA_DIMENSION_MEANINGS } from '../../../constants/sihuaRules';
 
 interface SihuaCardProps {
   sihuaInfo: SihuaInfo | null;
@@ -118,13 +118,13 @@ export function SihuaCard({ sihuaInfo, loading = false, error = null }: SihuaCar
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div className={`${config.label} text-white text-xs font-medium px-2 py-0.5 rounded-full`}>
-                      {config.symbol} {name}
+                      {config.symbol} {star}{name}
                     </div>
                     <span className="text-stone-400 text-xs">{config.glyph}</span>
                   </div>
                   
                   <div className={`${config.text} text-2xl font-bold text-display tracking-wide`}>
-                    {star}
+                    {SIHUA_DIMENSION_MEANINGS[dimension]}
                   </div>
                   
                   <div className="mt-3 h-1.5 rounded-full bg-white/60 overflow-hidden">
