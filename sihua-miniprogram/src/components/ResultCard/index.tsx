@@ -137,6 +137,12 @@ const ResultCard: React.FC<ResultCardProps> = ({
           </View>
         )}
       </View>
+
+      {result.overallAdvice && (
+        <View className='result-overall'>
+          <Text className='result-overall-text'>{result.overallAdvice}</Text>
+        </View>
+      )}
     </View>
   );
 };

@@ -233,4 +233,16 @@
   font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
 }
 
+.result-overall {
+  border-left: 4rpx solid var(--color-vermilion);
+  padding-left: 16rpx;
+}
+
+.result-overall-text {
+  font-size: 28rpx;
+  color: var(--color-ink-1);
+  line-height: 1.8;
+  font-family: ui-serif, Georgia, "PingFang SC", "Noto Serif SC", serif;
+}
+
 
