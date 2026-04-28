@@ -1,9 +1,10 @@
+import { useState } from 'react';
 import { View, Text } from '@tarojs/components';
 import './index.scss';
 import type { AnalysisResult, ActionStep, DimensionAnalysis, JiDimensionAnalysis } from '@/types';
 import ActionStepComponent from '@/components/ActionStep';
 import { SIHUA_DIMENSION_NAMES, SIHUA_DIMENSION_MEANINGS } from '@/constants/sihuaRules';
-import { AlertTriangle, XCircle, Lightbulb } from '@/components/Icons';
+import { AlertTriangle, XCircle } from '@/components/Icons';
 
 interface ResultCardProps {
   result: AnalysisResult;
@@ -16,6 +17,7 @@ const ResultCard: React.FC<ResultCardProps> = ({
   onToggleStep,
   showActions = true,
 }) => {
+  const [dimensionsExpanded, setDimensionsExpanded] = useState(false);
   const renderDimensionAnalysis = (
     key: 'lu' | 'quan' | 'ke',
     data: DimensionAnalysis
@@ -93,18 +95,6 @@ const ResultCard: React.FC<ResultCardProps> = ({
         <Text className='result-summary-text'>{result.summary}</Text>
       </View>
 
-      {showActions && result.actionPath.length > 0 && (
-        <View className='result-actions'>
-          {result.actionPath.map((step, index) => (
-            <ActionStepComponent
-              key={step.step}
-              step={step}
-              onToggle={() => onToggleStep?.(index)}
-            />
-          ))}
-        </View>
-      )}
-
       {result.bestEntry && (
         <View className='result-best-entry'>
           <View className='result-best-entry-label'>
@@ -118,24 +108,35 @@ const ResultCard: React.FC<ResultCardProps> = ({
         </View>
       )}
 
-      <View className='result-dimensions'>
-        <Text className='result-dimensions-title'>四化深解</Text>
-        
-        {renderDimensionAnalysis('lu', result.fourDimensions.lu)}
-        {renderDimensionAnalysis('quan', result.fourDimensions.quan)}
-        {renderDimensionAnalysis('ke', result.fourDimensions.ke)}
-        {renderJiAnalysis(result.fourDimensions.ji)}
-      </View>
-
-      {result.overallAdvice && (
-        <View className='result-overall'>
-          <View className='result-overall-label'>
-            <Lightbulb size={24} color='#8C7E72' />
-            <Text>整体建议</Text>
-          </View>
-          <Text className='result-overall-text'>{result.overallAdvice}</Text>
+      {showActions && result.actionPath.length > 0 && (
+        <View className='result-actions'>
+          {result.actionPath.map((step, index) => (
+            <ActionStepComponent
+              key={step.step}
+              step={step}
+              onToggle={() => onToggleStep?.(index)}
+            />
+          ))}
         </View>
       )}
+
+      <View className='result-dimensions'>
+        <View 
+          className='result-dimensions-header' 
+          onClick={() => setDimensionsExpanded(!dimensionsExpanded)}
+        >
+          <Text className='result-dimensions-title'>四化深解</Text>
+          <Text className={`result-dimensions-arrow ${dimensionsExpanded ? 'result-dimensions-arrow--expanded' : ''}`}>›</Text>
+        </View>
+        {dimensionsExpanded && (
+          <View className='result-dimensions-content'>
+            {renderDimensionAnalysis('lu', result.fourDimensions.lu)}
+            {renderDimensionAnalysis('quan', result.fourDimensions.quan)}
+            {renderDimensionAnalysis('ke', result.fourDimensions.ke)}
+            {renderJiAnalysis(result.fourDimensions.ji)}
+          </View>
+        )}
+      </View>
     </View>
   );
 };
