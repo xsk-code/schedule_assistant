@@ -19,11 +19,11 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
             className="group flex items-center gap-3 hover:opacity-80 transition-opacity"
           >
             <div className="w-10 h-10 rounded-xl bg-stone-900 flex items-center justify-center text-white text-xl font-bold group-hover:bg-stone-800 transition-colors">
-              四
+              别
             </div>
             <div className="text-left">
-              <h1 className="text-lg font-bold text-stone-900 tracking-tight">四化节奏师</h1>
-              <p className="text-xs text-stone-500 tracking-wider">SIHUA RHYTHM</p>
+              <h1 className="text-lg font-bold text-stone-900 tracking-tight">别蛮干</h1>
+              <p className="text-xs text-stone-500 tracking-wider">DONT BRUTE</p>
             </div>
           </button>
 
