@@ -1,4 +1,5 @@
-import { View, Text } from '@tarojs/components';
+import { useState } from 'react';
+import { View, Text, Textarea } from '@tarojs/components';
 import './index.scss';
 import type { AIResponse } from '@/types';
 import Loading from '@/components/Loading';
@@ -20,6 +21,32 @@ const ConversationPanel: React.FC<ConversationPanelProps> = ({
   onSkip,
   isGenerating,
 }) => {
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [otherInput, setOtherInput] = useState('');
+
+  const isOtherOption = selectedOption === '其他';
+  const hasValidInput = isOtherOption ? otherInput.trim().length > 0 : selectedOption !== null;
+
+  const handleOptionClick = (option: string) => {
+    setSelectedOption(option);
+    if (option !== '其他') {
+      setOtherInput('');
+    }
+  };
+
+  const handleConfirm = () => {
+    if (!hasValidInput) return;
+
+    let answer = selectedOption as string;
+    if (isOtherOption) {
+      answer = `其他：${otherInput.trim()}`;
+    }
+
+    onSelectOption(answer);
+    setSelectedOption(null);
+    setOtherInput('');
+  };
+
   if (isGenerating) {
     return (
       <View className='conversation-panel'>
@@ -65,15 +92,50 @@ const ConversationPanel: React.FC<ConversationPanelProps> = ({
 
       <View className='conversation-options'>
         {question.options?.map((option, index) => (
-          <View 
-            key={index}
-            className='conversation-option'
-            onClick={() => onSelectOption(option)}
-          >
-            <View className='conversation-option-dot' />
-            <Text className='conversation-option-text'>{option}</Text>
+          <View key={index}>
+            <View 
+              className={`conversation-option ${selectedOption === option ? 'conversation-option--selected' : ''}`}
+              onClick={() => handleOptionClick(option)}
+            >
+              <View className={`conversation-option-dot ${selectedOption === option ? 'conversation-option-dot--selected' : ''}`} />
+              <Text className='conversation-option-text'>{option}</Text>
+            </View>
+
+            {option === '其他' && selectedOption === '其他' && (
+              <View className='conversation-other-input'>
+                <Textarea
+                  className='conversation-other-textarea'
+                  value={otherInput}
+                  onInput={(e) => setOtherInput(e.detail.value)}
+                  placeholder='请输入其他内容...'
+                  placeholderClass='conversation-other-placeholder'
+                  autoHeight
+                  maxlength={200}
+                />
+              </View>
+            )}
           </View>
         ))}
+      </View>
+
+      <View className='conversation-actions'>
+        <View 
+          className={`conversation-action-btn conversation-action-btn--secondary ${!selectedOption ? 'conversation-action-btn--disabled' : ''}`}
+          onClick={() => {
+            if (selectedOption) {
+              setSelectedOption(null);
+              setOtherInput('');
+            }
+          }}
+        >
+          <Text className='conversation-action-btn-text'>取消</Text>
+        </View>
+        <View 
+          className={`conversation-action-btn conversation-action-btn--primary ${!hasValidInput ? 'conversation-action-btn--disabled' : ''}`}
+          onClick={handleConfirm}
+        >
+          <Text className='conversation-action-btn-text'>确认</Text>
+        </View>
       </View>
     </View>
   );
