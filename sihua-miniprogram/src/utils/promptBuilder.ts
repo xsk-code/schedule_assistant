@@ -58,40 +58,55 @@ ${collectedInfoText}
 【输出格式要求（严格JSON格式）】
 {
   "summary": "一句话总结这个任务的核心",
+  "bestEntry": {
+    "dimension": "lu",
+    "reason": "为什么推荐从这个维度切入（结合今日星曜特质）",
+    "suggestion": "具体的切入行动建议"
+  },
   "fourDimensions": {
     "lu": {
       "star": "${sihua.lu}",
-      "analysis": "禄星维度的详细分析",
-      "actions": ["具体行动1", "具体行动2"]
+      "analysis": "一句话概括核心要点",
+      "actions": ["简短行动短语1", "简短行动短语2"]
     },
     "quan": {
       "star": "${sihua.quan}",
-      "analysis": "权星维度的详细分析",
-      "actions": ["具体行动1", "具体行动2"]
+      "analysis": "一句话概括核心要点",
+      "actions": ["简短行动短语1", "简短行动短语2"]
     },
     "ke": {
       "star": "${sihua.ke}",
-      "analysis": "科星维度的详细分析",
-      "actions": ["具体行动1", "具体行动2"]
+      "analysis": "一句话概括核心要点",
+      "actions": ["简短行动短语1", "简短行动短语2"]
     },
     "ji": {
       "star": "${sihua.ji}",
-      "analysis": "忌星维度的详细分析",
-      "warnings": ["注意事项1", "注意事项2"],
-      "avoid": ["建议避免的行动1", "建议避免的行动2"]
+      "analysis": "一句话概括核心要点",
+      "warnings": ["简短注意事项1", "简短注意事项2"],
+      "avoid": ["简短避免行动1", "简短避免行动2"]
     }
   },
   "actionPath": [
     {
       "step": 1,
-      "title": "步骤标题",
-      "description": "具体内容",
+      "title": "步骤标题（动词开头，简短有力）",
+      "description": "一句话说明为什么对应这个维度",
       "dimension": "lu",
       "priority": "高",
       "timeEstimate": "30分钟"
     }
   ]
 }
+
+【文字精简要求——非常重要】
+1. actionPath 中每个步骤的 title 必须以动词开头，尽量简短有力，例如"列出访谈名单""预约核心用户"
+2. actionPath 中每个步骤的 description 只写一句话，说明这一步为什么对应这个维度
+3. fourDimensions 中每个维度的 analysis 用一句话概括核心要点，不要展开论述
+4. fourDimensions 中每个维度的 actions 每条尽量简短，用短语而非长句
+5. 不要生成 overallAdvice 字段
+6. bestEntry 的 reason 和 suggestion 各一句话
+7. 忌维度的 warnings 和 avoid 每条尽量简短
+8. 总原则：宁可少说一句，不要多说一句。用户需要的是行动指引，不是分析报告
 
 【重要要求】
 1. 输出必须是严格的JSON格式，不要有任何额外的文字说明
@@ -101,7 +116,8 @@ ${collectedInfoText}
 5. actionPath 的步骤顺序即推荐执行顺序，第一个步骤必须对应最佳切入点的维度（禄/权/科之一）
 6. 忌维度的步骤必须排在最后
 7. 分析要结合当日具体的能量维度，而不是泛泛而谈
-8. 最少给出3个步骤，最多不超过8个步骤`;
+8. 最少给出3个步骤，最多不超过8个步骤
+9. bestEntry 的 dimension 必须与 actionPath 第一个步骤的 dimension 一致`;
 }
 
 export function buildConversationPrompt(
