@@ -1,6 +1,7 @@
 import type { CollectedItem, AIResponse } from '../types';
 import { APP_CONFIG } from '../constants/appConfig';
 import { createAPIError, logError } from './aiService';
+import { DEBUG_LOGS_ENABLED, debugGroup, debugGroupEnd, debugLog } from '../utils/debugLogger';
 
 function buildConversationPrompt(
   task: string,
@@ -62,8 +63,10 @@ ${collectedInfoText}
 }
 
 function validateAIResponse(data: unknown): AIResponse {
-  console.group('🔍 [Conversation Validation] 开始验证 AI 响应格式');
-  console.log('原始数据:', data);
+  if (DEBUG_LOGS_ENABLED) {
+    debugGroup('🔍 [Conversation Validation] 开始验证 AI 响应格式');
+    debugLog('原始数据:', data);
+  }
 
   if (typeof data !== 'object' || data === null) {
     throw new Error('响应不是对象类型');
@@ -98,8 +101,10 @@ function validateAIResponse(data: unknown): AIResponse {
     result.summary = typeof obj.summary === 'string' ? obj.summary : undefined;
   }
 
-  console.log('✅ [Conversation Validation] 验证成功');
-  console.groupEnd();
+  if (DEBUG_LOGS_ENABLED) {
+    debugLog('✅ [Conversation Validation] 验证成功');
+    debugGroupEnd();
+  }
   return result;
 }
 
@@ -112,11 +117,13 @@ export async function clarifyTask(
 ): Promise<AIResponse> {
   const url = '/api/chat';
 
-  console.group('📤 [API Request] clarifyTask');
-  console.log('  URL:', url);
-  console.log('  Model:', model);
-  console.log('  Round:', currentRound, '/', maxRounds);
-  console.groupEnd();
+  if (DEBUG_LOGS_ENABLED) {
+    debugGroup('📤 [API Request] clarifyTask');
+    debugLog('  URL:', url);
+    debugLog('  Model:', model);
+    debugLog('  Round:', currentRound, '/', maxRounds);
+    debugGroupEnd();
+  }
 
   const prompt = buildConversationPrompt(task, collectedInfo, currentRound, maxRounds);
 
@@ -153,10 +160,12 @@ export async function clarifyTask(
 
     clearTimeout(timeoutId);
 
-    console.group('📥 [API Response]');
-    console.log('  Status:', response.status, response.statusText);
-    console.log('  OK:', response.ok);
-    console.groupEnd();
+    if (DEBUG_LOGS_ENABLED) {
+      debugGroup('📥 [API Response]');
+      debugLog('  Status:', response.status, response.statusText);
+      debugLog('  OK:', response.ok);
+      debugGroupEnd();
+    }
 
     if (!response.ok) {
       let errorData: Record<string, unknown> = {};
@@ -205,9 +214,11 @@ export async function clarifyTask(
       throw createAPIError('invalid_response', '无法解析 API 响应。响应格式不正确。', response.status, e);
     }
 
-    console.group('📥 [API Response Data]');
-    console.log('  choices:', data.choices);
-    console.groupEnd();
+    if (DEBUG_LOGS_ENABLED) {
+      debugGroup('📥 [API Response Data]');
+      debugLog('  choices:', data.choices);
+      debugGroupEnd();
+    }
 
     const content = (data as any).choices?.[0]?.message?.content;
 
@@ -220,18 +231,26 @@ export async function clarifyTask(
       throw createAPIError('invalid_response', 'API 返回内容为空。请检查模型是否可用或稍后重试。', response.status, data);
     }
 
-    console.group('📝 [AI Content]');
-    console.log('原始内容:', content);
-    console.groupEnd();
+    if (DEBUG_LOGS_ENABLED) {
+      debugGroup('📝 [AI Content]');
+      debugLog('原始内容:', content);
+      debugGroupEnd();
+    }
 
     try {
-      console.group('🔄 [JSON Parse]');
+      if (DEBUG_LOGS_ENABLED) {
+        debugGroup('🔄 [JSON Parse]');
+      }
       const rawResult = JSON.parse(content);
-      console.log('解析结果:', rawResult);
-      console.groupEnd();
+      if (DEBUG_LOGS_ENABLED) {
+        debugLog('解析结果:', rawResult);
+        debugGroupEnd();
+      }
 
       const validatedResult = validateAIResponse(rawResult);
-      console.log('✅ [API Success] 解析和验证成功');
+      if (DEBUG_LOGS_ENABLED) {
+        debugLog('✅ [API Success] 解析和验证成功');
+      }
       return validatedResult;
     } catch (e) {
       const errorMsg = e instanceof Error ? e.message : '未知错误';

@@ -1,6 +1,7 @@
 import type { SihuaInfo, AnalysisResult, ActionStep, DimensionAnalysis, JiDimensionAnalysis, CollectedItem } from '../types';
 import { buildAnalysisPrompt } from '../utils/promptBuilder';
 import { APP_CONFIG } from '../constants/appConfig';
+import { DEBUG_LOGS_ENABLED, debugGroup, debugGroupEnd, debugLog } from '../utils/debugLogger';
 
 export interface APIError {
   type: 'network' | 'timeout' | 'auth' | 'rate_limit' | 'server' | 'invalid_response' | 'unknown';
@@ -23,11 +24,15 @@ export function createAPIError(
 }
 
 export function logError(type: string, details: Record<string, unknown>) {
-  console.group(`🔴 [API Error] ${type}`);
+  if (!DEBUG_LOGS_ENABLED) {
+    return;
+  }
+
+  debugGroup(`🔴 [API Error] ${type}`);
   Object.entries(details).forEach(([key, value]) => {
-    console.log(`  ${key}:`, value);
+    debugLog(`  ${key}:`, value);
   });
-  console.groupEnd();
+  debugGroupEnd();
 }
 
 function snakeToCamel(str: string): string {
@@ -137,8 +142,10 @@ function validateActionStep(data: unknown, index: number): ActionStep {
 }
 
 function validateAnalysisResult(data: unknown): AnalysisResult {
-  console.group('🔍 [Data Validation] 开始验证 AI 响应格式');
-  console.log('原始数据:', data);
+  if (DEBUG_LOGS_ENABLED) {
+    debugGroup('🔍 [Data Validation] 开始验证 AI 响应格式');
+    debugLog('原始数据:', data);
+  }
   
   try {
     const obj = validateObject(data, 'root');
@@ -163,7 +170,9 @@ function validateAnalysisResult(data: unknown): AnalysisResult {
           };
         }
       } catch {
-        console.log('⚠️ bestEntry 验证失败，跳过（兼容旧数据）');
+        if (DEBUG_LOGS_ENABLED) {
+          debugLog('⚠️ bestEntry 验证失败，跳过（兼容旧数据）');
+        }
       }
     }
 
@@ -171,7 +180,9 @@ function validateAnalysisResult(data: unknown): AnalysisResult {
     try {
       overallAdvice = validateString(obj.overallAdvice || obj.overall_advice, 'overallAdvice');
     } catch {
-      console.log('⚠️ overallAdvice 缺失，跳过（兼容旧数据）');
+      if (DEBUG_LOGS_ENABLED) {
+        debugLog('⚠️ overallAdvice 缺失，跳过（兼容旧数据）');
+      }
     }
     
     const result: AnalysisResult = {
@@ -187,13 +198,17 @@ function validateAnalysisResult(data: unknown): AnalysisResult {
       overallAdvice,
     };
     
-    console.log('✅ [Data Validation] 验证成功');
-    console.groupEnd();
+    if (DEBUG_LOGS_ENABLED) {
+      debugLog('✅ [Data Validation] 验证成功');
+      debugGroupEnd();
+    }
     return result;
   } catch (error) {
-    console.log('❌ [Data Validation] 验证失败');
-    console.log('错误:', error);
-    console.groupEnd();
+    if (DEBUG_LOGS_ENABLED) {
+      debugLog('❌ [Data Validation] 验证失败');
+      debugLog('错误:', error);
+      debugGroupEnd();
+    }
     throw error;
   }
 }
@@ -206,12 +221,14 @@ export async function analyzeTask(
 ): Promise<AnalysisResult> {
   const url = '/api/chat';
   
-  console.group('📤 [API Request] analyzeTask');
-  console.log('  URL:', url);
-  console.log('  Model:', model);
-  console.log('  Task length:', task.length);
-  console.log('  Collected info count:', collectedInfo.length);
-  console.groupEnd();
+  if (DEBUG_LOGS_ENABLED) {
+    debugGroup('📤 [API Request] analyzeTask');
+    debugLog('  URL:', url);
+    debugLog('  Model:', model);
+    debugLog('  Task length:', task.length);
+    debugLog('  Collected info count:', collectedInfo.length);
+    debugGroupEnd();
+  }
 
   const prompt = buildAnalysisPrompt(task, sihuaInfo, collectedInfo);
   
@@ -248,10 +265,12 @@ export async function analyzeTask(
     
     clearTimeout(timeoutId);
     
-    console.group('📥 [API Response]');
-    console.log('  Status:', response.status, response.statusText);
-    console.log('  OK:', response.ok);
-    console.groupEnd();
+    if (DEBUG_LOGS_ENABLED) {
+      debugGroup('📥 [API Response]');
+      debugLog('  Status:', response.status, response.statusText);
+      debugLog('  OK:', response.ok);
+      debugGroupEnd();
+    }
     
     if (!response.ok) {
       let errorData: Record<string, unknown> = {};
@@ -300,9 +319,11 @@ export async function analyzeTask(
       throw createAPIError('invalid_response', '无法解析 API 响应。响应格式不正确。', response.status, e);
     }
 
-    console.group('📥 [API Response Data]');
-    console.log('  choices:', data.choices);
-    console.groupEnd();
+    if (DEBUG_LOGS_ENABLED) {
+      debugGroup('📥 [API Response Data]');
+      debugLog('  choices:', data.choices);
+      debugGroupEnd();
+    }
 
     const content = (data as any).choices?.[0]?.message?.content;
     
@@ -315,21 +336,31 @@ export async function analyzeTask(
       throw createAPIError('invalid_response', 'API 返回内容为空。请检查模型是否可用或稍后重试。', response.status, data);
     }
     
-    console.group('📝 [AI Content]');
-    console.log('原始内容:', content);
-    console.groupEnd();
+    if (DEBUG_LOGS_ENABLED) {
+      debugGroup('📝 [AI Content]');
+      debugLog('原始内容:', content);
+      debugGroupEnd();
+    }
     
     try {
-      console.group('🔄 [JSON Parse]');
+      if (DEBUG_LOGS_ENABLED) {
+        debugGroup('🔄 [JSON Parse]');
+      }
       const rawResult = JSON.parse(content);
-      console.log('解析结果:', rawResult);
-      console.groupEnd();
+      if (DEBUG_LOGS_ENABLED) {
+        debugLog('解析结果:', rawResult);
+        debugGroupEnd();
+      }
       
       const camelCaseResult = convertKeysToCamelCase(rawResult);
-      console.log('转换后:', camelCaseResult);
+      if (DEBUG_LOGS_ENABLED) {
+        debugLog('转换后:', camelCaseResult);
+      }
       
       const validatedResult = validateAnalysisResult(camelCaseResult);
-      console.log('✅ [API Success] 解析和验证成功');
+      if (DEBUG_LOGS_ENABLED) {
+        debugLog('✅ [API Success] 解析和验证成功');
+      }
       return validatedResult;
     } catch (e) {
       const errorMsg = e instanceof Error ? e.message : '未知错误';
